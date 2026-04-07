@@ -1,8 +1,6 @@
-import React from 'react'
-
 type Props = {
     title: string;
-    subtitle: string;
+    subtitle: string | number;
 }
 
 const Tile = ({ title, subtitle }: Props) => {

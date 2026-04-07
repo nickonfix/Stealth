@@ -31,14 +31,14 @@ const Table = ({ config, data }: Props) => {
         )
     })
     return (
-        <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+        <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 w-full" >
             <table>
-                <thead className="min-w-full divide-y divide-gray-200 m-5">
+                <thead className="min-w-full divide-y divide-gray-200 m-5 w-full">
                     <tr>
                         {renderedHeaders}
                     </tr>
                 </thead>
-                <tbody className="min-w-full divide-y divide-gray-200 m-5">
+                <tbody className="min-w-full divide-y divide-gray-200 m-5 w-full">
                     {renderrows}
                 </tbody>
             </table>
