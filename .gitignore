@@ -1,6 +1,5 @@
 node_modules/
 api/appsettings.json
-api/appsettings.Development.json
 frontend/node_modules
 
 # dependencies
