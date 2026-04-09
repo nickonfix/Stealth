@@ -24,6 +24,7 @@ namespace api.Mappers
                 Purchase = stockModel.Purchase,
                 AnnualDiv = stockModel.AnnualDiv,
                 Yield = stockModel.Yield,
+                Comments = stockModel.Comments.Select(c => c.ToCommentDto()).ToList()
             };
         }
         //CREATE POST METHOD
@@ -39,6 +40,7 @@ namespace api.Mappers
                 Purchase = StockDto.Purchase,
                 AnnualDiv = StockDto.AnnualDiv,
                 Yield = StockDto.Yield,
+
             };
         }
     }
