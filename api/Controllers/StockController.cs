@@ -80,7 +80,7 @@ namespace api.Controllers
                 return NotFound();
             }
             _context.Stocks.Remove(stockModel);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok(stockModel.ToStockDto());
         }
 
