@@ -1,27 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace api.Models
+namespace api.Dtos.Stock
 {
-    public class Stock
+    public class StockDto
     {
         public int Id { get; set; }
         public string Symbol { get; set; }
         public string CompanyName { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
         public decimal Purchase { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
         public decimal LastDiv { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
         public decimal AnnualDiv { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
         public decimal Yield { get; set; }
         public decimal MarketCap { get; set; }
         public string Industry { get; set; }
 
-        public List<Comment> Comments { get; set; } = new List<Comment>();
+        //comments
+
+
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using api.Data;
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260409075419_AddMarketCapAndRemoveSector")]
+    partial class AddMarketCapAndRemoveSector
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,8 +76,9 @@ namespace api.Migrations
                     b.Property<decimal>("LastDiv")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("MarketCap")
-                        .HasColumnType("numeric");
+                    b.Property<string>("MarketCap")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Purchase")
                         .HasColumnType("decimal(18,2)");
