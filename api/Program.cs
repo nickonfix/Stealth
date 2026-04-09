@@ -19,6 +19,6 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+// app.MapGet("/test", () => new { message = "Hello from API" });
 app.MapControllers();
-
 app.Run();
