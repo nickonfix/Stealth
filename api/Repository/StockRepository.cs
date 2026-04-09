@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
+using api.Dtos.Stock;
 using api.Interfaces;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +16,54 @@ namespace api.Repository
         {
             _context = context;
         }
-        public Task<List<Stock>> GetAllAsync()
+
+        public async Task<Stock> CreateAsync(Stock stockModel)
         {
-            return _context.Stocks.ToListAsync();
+            await _context.Stocks.AddAsync(stockModel);
+            await _context.SaveChangesAsync();
+            return stockModel;
+        }
+
+        public async Task<Stock> DeleteAsync(int Id)
+        {
+            var stockModel = await _context.Stocks.FirstOrDefaultAsync(x => x.Id == Id);
+            if (stockModel == null)
+            {
+                return null;
+            }
+            _context.Stocks.Remove(stockModel);
+            await _context.SaveChangesAsync();
+            return stockModel;
+        }
+
+        public async Task<List<Stock>> GetAllAsync()
+        {
+            return await _context.Stocks.ToListAsync();
+        }
+
+        public async Task<Stock?> GetByIdAsync(int id)
+        {
+            return await _context.Stocks.FindAsync(id);
+        }
+
+        public async Task<Stock> UpdateAsync(int id, UpdateStockRequestDto stockDto)
+        {
+            var stockModel = await _context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
+            if (stockModel == null)
+            {
+                return null;
+            }
+            stockModel.Symbol = stockDto.Symbol;
+            stockModel.CompanyName = stockDto.CompanyName;
+            stockModel.Industry = stockDto.Industry;
+            stockModel.LastDiv = stockDto.LastDiv;
+            stockModel.MarketCap = stockDto.MarketCap;
+            stockModel.Purchase = stockDto.Purchase;
+            stockModel.AnnualDiv = stockDto.AnnualDiv;
+            stockModel.Yield = stockDto.Yield;
+            await _context.SaveChangesAsync();
+            return stockModel;
+            throw new NotImplementedException();
         }
     }
 }
