@@ -43,7 +43,7 @@ namespace api.Controllers
         public async Task<IActionResult> Create([FromBody] CreateStockRequestDto stockDto)
         {
             var StockModel = stockDto.ToStockFromCreateDTO();
-            _context.Stocks.Add(StockModel);
+            await _context.Stocks.AddAsync(StockModel);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = StockModel.Id }, StockModel.ToStockDto());
         }
