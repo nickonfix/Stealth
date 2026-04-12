@@ -93,6 +93,7 @@ namespace api.Controllers
                 return NotFound("Comment Does not exist!");
             }
             return Ok(commentModel.ToCommentDto());
+
         }
     }
 }

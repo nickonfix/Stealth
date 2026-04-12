@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Stock;
+using api.Helpers;
 using api.Interfaces;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -36,10 +37,60 @@ namespace api.Repository
             return stockModel;
         }
 
-        public async Task<List<Stock>> GetAllAsync()
+        public async Task<List<Stock>> GetAllAsync(QueryObject query)
         {
-            return await _context.Stocks.Include(c => c.Comments).ToListAsync();
+            var stocks = _context.Stocks.Include(c => c.Comments).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.CompnayName))
+            {
+                stocks = stocks.Where(s => s.CompanyName.Contains(query.CompnayName));
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.Symbol))
+            {
+                stocks = stocks.Where(s => s.Symbol.Contains(query.Symbol));
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if (query.SortBy.Equals("Symbol", StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks = query.IsDescending ? stocks.OrderByDescending(s => s.Symbol) : stocks.OrderBy(s => s.Symbol);
+                }
+                else if (query.SortBy.Equals("CompanyName", StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks = query.IsDescending ? stocks.OrderByDescending(s => s.CompanyName) : stocks.OrderBy(s => s.CompanyName);
+                }
+                else if (query.SortBy.Equals("Industry", StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks = query.IsDescending ? stocks.OrderByDescending(s => s.Industry) : stocks.OrderBy(s => s.Industry);
+                }
+                else if (query.SortBy.Equals("LastDiv", StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks = query.IsDescending ? stocks.OrderByDescending(s => s.LastDiv) : stocks.OrderBy(s => s.LastDiv);
+                }
+                else if (query.SortBy.Equals("MarketCap", StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks = query.IsDescending ? stocks.OrderByDescending(s => s.MarketCap) : stocks.OrderBy(s => s.MarketCap);
+                }
+                else if (query.SortBy.Equals("Purchase", StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks = query.IsDescending ? stocks.OrderByDescending(s => s.Purchase) : stocks.OrderBy(s => s.Purchase);
+                }
+                else if (query.SortBy.Equals("AnnualDiv", StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks = query.IsDescending ? stocks.OrderByDescending(s => s.AnnualDiv) : stocks.OrderBy(s => s.AnnualDiv);
+                }
+                else if (query.SortBy.Equals("Yield", StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks = query.IsDescending ? stocks.OrderByDescending(s => s.Yield) : stocks.OrderBy(s => s.Yield);
+                }
+            }
+
+            return await stocks.ToListAsync();
         }
+
+
 
         public async Task<Stock?> GetByIdAsync(int id)
         {
