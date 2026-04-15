@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos.Stock;
-using api.Migrations;
 using api.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace api.Mappers
 {
