@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Account;
+using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ namespace api.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly ItokenService _tokenService;
         private readonly ApplicationDbContext _context;
-        public AccountController(UserManager<AppUser> userManager, ApplicationDbContext context)
+        public AccountController(UserManager<AppUser> userManager, ApplicationDbContext context, ItokenService tokenService)
         {
             _userManager = userManager;
             _context = context;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -43,7 +46,14 @@ namespace api.Controllers
                 }
                 await _userManager.AddToRoleAsync(appUser, "User");
 
-                return Ok(createdUser);
+                return Ok(
+                    new NewUserDto
+                    {
+                        UserName = appUser.UserName,
+                        Email = appUser.Email,
+                        Token = _tokenService.CreateToken(appUser)
+                    }
+                );
             }
             catch (Exception ex)
             {
