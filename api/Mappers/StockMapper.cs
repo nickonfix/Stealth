@@ -41,5 +41,22 @@ namespace api.Mappers
 
             };
         }
+
+        public static Stock ToStockFromFMP(this FMPStock fMPStock)
+        {
+            return new Stock
+            {
+                Id = fMPStock.Id,
+                Symbol = fMPStock.Symbol,
+                CompanyName = fMPStock.CompanyName,
+                Industry = fMPStock.Industry,
+                LastDiv = (decimal)fMPStock.LastDiv,
+                MarketCap = fMPStock.MarketCap,
+                Purchase = (decimal)fMPStock.Purchase,
+                AnnualDiv = fMPStock.AnnualDiv,
+                Yield = fMPStock.Yield,
+                Comments = fMPStock.Comments.Select(c => c.ToCommentDto()).ToList()
+            };
+        }
     }
 }
