@@ -31,7 +31,7 @@ namespace api.Controllers
                 return BadRequest(ModelState);
             }
             var stocks = await _stockRepository.GetAllAsync(query);
-            var StockDto = stocks.Select(s => s.ToStockDto());
+            var StockDto = stocks.Select(s => s.ToStockDto()).ToList();
             return Ok(StockDto);
         }
         [HttpGet("{id}")]
