@@ -27,7 +27,7 @@ namespace api.Service
                 //https://financialmodelingprep.com/stable/search-symbol?query=${query}&limit=10&apikey=${process.env.REACT_APP_API_KEY}
                 var url = $"https://financialmodelingprep.com/stable/search-symbol?query={symbol}&limit=10&apikey={_configuration["FMPKey"]}";
                 var response = await _httpClient.GetAsync(url);
-                if (!response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var tasks = JsonConvert.DeserializeObject<FMPStock[]>(content);
@@ -36,7 +36,6 @@ namespace api.Service
                     {
                         return stock.ToStockFromFMP();
                     }
-                    return null;
                 }
                 return null;
             }

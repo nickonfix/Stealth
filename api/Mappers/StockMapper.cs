@@ -46,16 +46,12 @@ namespace api.Mappers
         {
             return new Stock
             {
-                Id = fMPStock.Id,
-                Symbol = fMPStock.Symbol,
-                CompanyName = fMPStock.CompanyName,
-                Industry = fMPStock.Industry,
-                LastDiv = (decimal)fMPStock.LastDiv,
-                MarketCap = fMPStock.MarketCap,
-                Purchase = (decimal)fMPStock.Purchase,
-                AnnualDiv = fMPStock.AnnualDiv,
-                Yield = fMPStock.Yield,
-                Comments = fMPStock.Comments.Select(c => c.ToCommentDto()).ToList()
+                Symbol = fMPStock.symbol,
+                CompanyName = fMPStock.companyName,
+                Industry = fMPStock.industry,
+                LastDiv = (decimal)fMPStock.lastDiv,
+                MarketCap = fMPStock.mktCap,
+                Purchase = (decimal)fMPStock.price,
             };
         }
     }

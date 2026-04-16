@@ -7,17 +7,15 @@ namespace api.Dtos.Stock
 {
     public class FMPStock
     {
-        // Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(myJsonResponse);
-        public class Root
-        {
-            public string symbol { get; set; }
-            public string name { get; set; }
-            public string currency { get; set; }
-            public string exchangeFullName { get; set; }
-            public string exchange { get; set; }
-        }
-
-
-
+        public string symbol { get; set; }
+        public string companyName { get; set; }
+        public double price { get; set; }
+        public double range { get; set; }
+        public double changes { get; set; }
+        public string industry { get; set; }
+        public string description { get; set; }
+        public long mktCap { get; set; }
+        public double lastDiv { get; set; }
+        public string sector { get; set; }
     }
 }
