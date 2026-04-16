@@ -104,6 +104,14 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseCors(x => x
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowAnyOrigin()
+    .SetIsOriginAllowed(origin => true));
+//.WithOrigins("http://localhost:5173")); FOR DEPLOYING
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 
