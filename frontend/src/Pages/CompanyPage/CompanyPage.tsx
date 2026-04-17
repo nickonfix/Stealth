@@ -22,7 +22,7 @@ const CompanyPage = (props: Props) => {
             }
         }
         getProfileInit();
-    }, [])
+    }, [ticker])
 
 
     return (

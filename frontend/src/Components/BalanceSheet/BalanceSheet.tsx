@@ -3,7 +3,6 @@ import { CompanyBalanceSheet } from "../../companyd";
 import { useOutletContext } from "react-router-dom";
 import RatioList from "../RatioList/RatioList";
 import { getBalanceSheet } from "../../api";
-import Table from "../Table/Table";
 import Spinner from "../Spinner/Spinner";
 import { formatLargeMonetaryNumber } from "../../Helper/NumberFormatting";
 

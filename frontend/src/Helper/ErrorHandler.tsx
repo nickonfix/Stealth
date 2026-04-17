@@ -9,7 +9,7 @@ export const handleError = (error: any, message?: string) => {
                 toast.warning(val.description);
             }
         }
-        else if (typeof err?.data.error == 'object'){
+        else if (typeof err?.data.error === 'object'){
             for(let e in err.data.error){
                 toast.warning(err.data.error[e][0]);
             }
@@ -17,7 +17,7 @@ export const handleError = (error: any, message?: string) => {
         else if (typeof err?.data === "string") {
             toast.warning(err.data);
         }
-        else if(err?.status == 401){
+        else if(err?.status === 401){
             toast.warning("You are not authorized to perform this action");
             window.history.pushState({}, "LoginPage", "/login");
             window.location.reload();
