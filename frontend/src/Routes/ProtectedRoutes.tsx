@@ -4,13 +4,15 @@ import { Navigate, useLocation } from 'react-router-dom';
 
 type Props = { children : React.ReactNode}
 
-const ProtectedRoutes = ({children}: Props) => {
+const ProtectedRoutes = ({ children }: Props) => {
     const location = useLocation();
-    const {isLoggedIn} =  useAuth();
-    return isLoggedIn()? (
+    const { isLoggedIn } = useAuth();
+    const loggedIn = isLoggedIn();
+    console.log("ProtectedRoutes check:", loggedIn);
+    return loggedIn ? (
         <> {children} </>
     ) : (
-        <Navigate to="/login" state={{from: location}} replace />
+        <Navigate to="/login" state={{ from: location }} replace />
     )
 }
 

@@ -27,10 +27,10 @@ export const router = createBrowserRouter([
                 path: "/company/:ticker",
                 element: <ProtectedRoutes><CompanyPage /></ProtectedRoutes>,
                 children: [
-                    { path: "company-profile", element: <CompanyProfile /> },
-                    { path: "income-statement", element: <IncomeStatement /> },
-                    { path: "balance-sheet", element: <BalanceSheet /> },
-                    { path: "cashflow-statement", element: <CashFlowStatement /> },
+                    { path: "company-profile", element: <ProtectedRoutes><CompanyProfile /></ProtectedRoutes> },
+                    { path: "income-statement", element: <ProtectedRoutes><IncomeStatement /></ProtectedRoutes> },
+                    { path: "balance-sheet", element: <ProtectedRoutes><BalanceSheet /></ProtectedRoutes> },
+                    { path: "cashflow-statement", element: <ProtectedRoutes><CashFlowStatement /></ProtectedRoutes> },
                 ],
             },
 

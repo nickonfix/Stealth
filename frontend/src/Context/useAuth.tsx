@@ -28,6 +28,7 @@ export const UserProvider = ({children}: Props)=>{
     useEffect(()=>{
         const user = localStorage.getItem("user");
         const token = localStorage.getItem("token");
+        console.log("Initializing Auth Context. LocalStorage User:", user, "Token:", token);
 
         if(user && token){
             setUser(JSON.parse(user));
@@ -72,7 +73,8 @@ export const UserProvider = ({children}: Props)=>{
     }
 
     const isLoggedIn = () => {
-        return !!user;
+        console.log("Checking isLoggedIn. User:", user, "Token:", token);
+        return !!user && !!token;
     }
 
     const logout = () => {
