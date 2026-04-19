@@ -10,7 +10,7 @@ frontend/.env
 frontend/.env.*
 # testing
 frontend/coverage
-
+api\bin
 # production
 /build
 
