@@ -11,6 +11,9 @@ frontend/.env.*
 # testing
 frontend/coverage
 api\bin
+api\bin\Debug
+api\bin\Release
+
 # production
 /build
 
