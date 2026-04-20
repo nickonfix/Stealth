@@ -109,7 +109,8 @@ const PortfolioPage: React.FC = () => {
             transition: "color 0.3s",
           }}
         >
-          {user?.userName?.[0]?.toUpperCase() ?? "U"};{" "}
+          
+          {(user?.userName?.charAt(0)?.toUpperCase() ?? "") + (user?.userName?.slice(1) ?? "")}'s{" "}
           <span
             style={{
               color: "transparent",
