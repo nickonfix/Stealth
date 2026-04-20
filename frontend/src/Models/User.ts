@@ -1,5 +1,5 @@
 export type UserPorfileToken = { 
-    username: string;
+    userName: string;
     email: string;
     token: string;
     roles: string;

@@ -43,7 +43,7 @@ export const UserProvider = ({children}: Props)=>{
             if(res){
                 localStorage.setItem("token", res.data.token);
                 const userObj = {
-                    userName: res?.data.username,
+                    userName: res?.data.userName,
                     email: res?.data.email
                 }
                 localStorage.setItem("user", JSON.stringify(userObj));
@@ -60,7 +60,7 @@ export const UserProvider = ({children}: Props)=>{
             if(res){
                 localStorage.setItem("token", res.data.token);
                 const userObj = {
-                    userName: res?.data.username,
+                    userName: res?.data.userName,
                     email: res?.data.email
                 }
                 localStorage.setItem("user", JSON.stringify(userObj));
