@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 /* ─────────────────────────────────────────────────────────
-   FinEdge — Markets / News Page
+   Finarc — Markets / News Page
    Extracted from the Hero section with full dark/light support
    ───────────────────────────────────────────────────────── */
 
@@ -55,15 +55,15 @@ const t = (dark: boolean, light: string, darkVal: string) => dark ? darkVal : li
 const MarketsPage: React.FC = () => {
   const [dark, setDark] = useState<boolean>(() =>
     typeof window !== "undefined"
-      ? localStorage.getItem("finedge-theme") === "dark" ||
+      ? localStorage.getItem("Finarc-theme") === "dark" ||
         document.documentElement.classList.contains("dark")
       : false
   );
 
   useEffect(() => {
     const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
-    window.addEventListener("finedge-theme-change", handler);
-    return () => window.removeEventListener("finedge-theme-change", handler);
+    window.addEventListener("Finarc-theme-change", handler);
+    return () => window.removeEventListener("Finarc-theme-change", handler);
   }, []);
 
   useEffect(() => {

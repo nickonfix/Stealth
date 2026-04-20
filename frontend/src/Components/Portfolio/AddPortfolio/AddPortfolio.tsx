@@ -11,7 +11,7 @@ const AddPortfolio = ({ onPortfolioCreate, symbol, dark: darkProp }: Props) => {
   const [dark, setDark] = useState<boolean>(() => {
     if (darkProp !== undefined) return darkProp;
     if (typeof window !== "undefined") {
-      return localStorage.getItem("finedge-theme") === "dark" ||
+      return localStorage.getItem("Finarc-theme") === "dark" ||
         document.documentElement.classList.contains("dark");
     }
     return false;
@@ -28,8 +28,8 @@ const AddPortfolio = ({ onPortfolioCreate, symbol, dark: darkProp }: Props) => {
   useEffect(() => {
     if (darkProp !== undefined) return;
     const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
-    window.addEventListener("finedge-theme-change", handler);
-    return () => window.removeEventListener("finedge-theme-change", handler);
+    window.addEventListener("Finarc-theme-change", handler);
+    return () => window.removeEventListener("Finarc-theme-change", handler);
   }, [darkProp]);
 
   const handleSubmit = (e: SyntheticEvent) => {

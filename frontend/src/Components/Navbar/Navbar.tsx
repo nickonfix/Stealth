@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../Context/useAuth";
 
 /* ─────────────────────────────────────────────────────────
-   FinEdge Navbar — White / Dark Dual Theme
+   FinArc Navbar — White / Dark Dual Theme
    Fonts: Instrument Serif (logo) + Plus Jakarta Sans (ui)
    Accent: Emerald #10b981
    Dark mode: toggled via document.documentElement.classList + localStorage
@@ -106,7 +106,7 @@ const Navbar: React.FC = () => {
   const [avatarHover, setAvatarHover]   = useState(false);
   const [dark, setDark]                 = useState<boolean>(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("finedge-theme") === "dark" ||
+      return localStorage.getItem("finarc-theme") === "dark" ||
         document.documentElement.classList.contains("dark");
     }
     return false;
@@ -120,20 +120,20 @@ const Navbar: React.FC = () => {
     const root = document.documentElement;
     if (dark) {
       root.classList.add("dark");
-      localStorage.setItem("finedge-theme", "dark");
+      localStorage.setItem("finarc-theme", "dark");
     } else {
       root.classList.remove("dark");
-      localStorage.setItem("finedge-theme", "light");
+      localStorage.setItem("finarc-theme", "light");
     }
     // Dispatch event so Hero can listen
-    window.dispatchEvent(new CustomEvent("finedge-theme-change", { detail: { dark } }));
+    window.dispatchEvent(new CustomEvent("finarc-theme-change", { detail: { dark } }));
   }, [dark]);
 
   /* Inject Google Fonts once */
   useEffect(() => {
-    if (!document.getElementById("finedge-navbar-fonts")) {
+    if (!document.getElementById("finarc-navbar-fonts")) {
       const s = document.createElement("style");
-      s.id = "finedge-navbar-fonts";
+      s.id = "finarc-navbar-fonts";
       s.textContent = FONT_IMPORT;
       document.head.appendChild(s);
     }
@@ -296,7 +296,7 @@ const Navbar: React.FC = () => {
               </svg>
             </div>
             <span style={{ fontFamily: "'Instrument Serif', serif", fontSize: 22, color: dark ? "#f1f5f9" : "#0f172a", letterSpacing: "-0.03em", lineHeight: 1 }}>
-              Fin<span style={{ color: "#10b981" }}>Edge</span>
+              Fin<span style={{ color: "#10b981" }}>Arc</span>
             </span>
           </Link>
 

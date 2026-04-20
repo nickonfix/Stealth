@@ -1,9 +1,9 @@
 import React, { ChangeEvent, SyntheticEvent, useState, useEffect, useRef } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   FinEdge Search — Premium search page
+   Finarc Search — Premium search page
    Aceternity-inspired: spotlight cursor glow, shimmer border, animated bg
-   Dark mode: listens for "finedge-theme-change" + reads localStorage
+   Dark mode: listens for "Finarc-theme-change" + reads localStorage
 ───────────────────────────────────────────────────────────────────────────── */
 
 const KEYFRAMES = `
@@ -55,7 +55,7 @@ const SUGGESTIONS = [
   { label: "Amazon",          sym: "AMZN" },
   { label: "Alphabet",        sym: "GOOGL" },
   { label: "Meta Platforms",  sym: "META" },
-  { label: "Berkshire",       sym: "BRK.B" },
+  { label: "Berkshire",       sym: "BRK-B" },
   { label: "JPMorgan",        sym: "JPM"  },
 ];
 
@@ -83,7 +83,7 @@ interface Props {
 const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange }) => {
   const [dark, setDark] = useState<boolean>(() =>
     typeof window !== "undefined"
-      ? localStorage.getItem("finedge-theme") === "dark" ||
+      ? localStorage.getItem("Finarc-theme") === "dark" ||
         document.documentElement.classList.contains("dark")
       : false
   );
@@ -108,8 +108,8 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
   /* Listen for Navbar theme toggle */
   useEffect(() => {
     const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
-    window.addEventListener("finedge-theme-change", handler);
-    return () => window.removeEventListener("finedge-theme-change", handler);
+    window.addEventListener("Finarc-theme-change", handler);
+    return () => window.removeEventListener("Finarc-theme-change", handler);
   }, []);
 
   /* Spotlight cursor tracking */

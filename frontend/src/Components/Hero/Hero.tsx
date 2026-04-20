@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   FinEdge Hero — White / Dark Dual Theme
-   Listens for "finedge-theme-change" CustomEvent dispatched by Navbar.
+   Finarc Hero — White / Dark Dual Theme
+   Listens for "Finarc-theme-change" CustomEvent dispatched by Navbar.
    Also reads localStorage on mount.
 ───────────────────────────────────────────────────────────────────────────── */
 
@@ -44,7 +44,7 @@ const t = (dark: boolean, light: string, darkVal: string) => dark ? darkVal : li
 const Hero: React.FC = () => {
   const [dark, setDark] = useState<boolean>(() =>
     typeof window !== "undefined"
-      ? localStorage.getItem("finedge-theme") === "dark" ||
+      ? localStorage.getItem("Finarc-theme") === "dark" ||
         document.documentElement.classList.contains("dark")
       : false
   );
@@ -56,8 +56,8 @@ const Hero: React.FC = () => {
     const handler = (e: Event) => {
       setDark((e as CustomEvent).detail.dark);
     };
-    window.addEventListener("finedge-theme-change", handler);
-    return () => window.removeEventListener("finedge-theme-change", handler);
+    window.addEventListener("Finarc-theme-change", handler);
+    return () => window.removeEventListener("Finarc-theme-change", handler);
   }, []);
 
   /* Inject keyframes once */
