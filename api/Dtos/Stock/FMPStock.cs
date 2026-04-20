@@ -10,12 +10,14 @@ namespace api.Dtos.Stock
         public string symbol { get; set; }
         public string companyName { get; set; }
         public double price { get; set; }
-        public double range { get; set; }
+        public string range { get; set; }
         public double changes { get; set; }
         public string industry { get; set; }
         public string description { get; set; }
         public long mktCap { get; set; }
         public double lastDiv { get; set; }
+        public double annualDiv { get; set; }
+        public double dcf { get; set; }
         public string sector { get; set; }
     }
 }

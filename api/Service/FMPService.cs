@@ -25,7 +25,7 @@ namespace api.Service
             try
             {
                 //https://financialmodelingprep.com/stable/search-symbol?query=${query}&limit=10&apikey=${process.env.REACT_APP_API_KEY}
-                var url = $"https://financialmodelingprep.com/stable/search-symbol?query={symbol}&limit=10&apikey={_configuration["FMPKey"]}";
+                var url = $"https://financialmodelingprep.com/stable/profile?symbol={symbol.ToUpper().Trim()}&apikey={_configuration["FMPKey"]}";
                 var response = await _httpClient.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {

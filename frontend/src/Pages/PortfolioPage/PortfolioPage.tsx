@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../Context/useAuth";
 import ListPortfolio from "../../Components/Portfolio/ListPortfolio/ListPortfolio";
+import { PortfolioGet } from "../../Models/Portfolio";
+import { portfolioDeleteAPI, portfolioGetAPI } from "../../Services/PortfolioService";
+import { toast } from "react-toastify";
 
 /* ─────────────────────────────────────────────────────────
    Finarc — Portfolio Page
@@ -99,7 +102,7 @@ const PortfolioPage: React.FC = () => {
   );
 
   /* watchlist state (in real app these come from props/API) */
-  const [portfolioValues, setPortfolioValues] = useState<string[]>(["NVDA", "AAPL", "TSLA"]);
+  const [portfolioValues, setPortfolioValues] = useState<PortfolioGet[] | null>(null);
 
   const [investedAmounts, setInvestedAmounts] = useState<Record<string, number>>({
     NVDA: 5049.0, AAPL: 3882.5, MSFT: 2560.0, TSLA: 3150.0,
@@ -120,6 +123,22 @@ const PortfolioPage: React.FC = () => {
     return () => window.removeEventListener("Finarc-theme-change", handler);
   }, []);
 
+  useEffect(() => {
+    getPortfolio();
+  }, []);
+
+  const getPortfolio = () => {
+    portfolioGetAPI()
+      .then((res) => {
+        if (res?.data) {
+          setPortfolioValues(res.data);
+        }
+      })
+      .catch((e) => {
+        toast.warning("Could not get portfolio values!");
+      });
+  };
+
   /* Keyframes injection */
   useEffect(() => {
     if (!document.getElementById("portfolio-page-kf")) {
@@ -133,10 +152,17 @@ const PortfolioPage: React.FC = () => {
   /* Watchlist delete handler (demo) */
   const handlePortfolioDelete = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const form   = e.target as HTMLFormElement;
+    const form = e.target as HTMLFormElement;
     const inputs = form.querySelectorAll("input");
-    const sym    = inputs[0]?.value;
-    if (sym) setPortfolioValues((prev) => prev.filter((v) => v !== sym));
+    const sym = inputs[0]?.value;
+    if (sym) {
+      portfolioDeleteAPI(sym).then((res) => {
+        if (res?.status === 200) {
+          toast.success("Stock deleted from Portfolio!");
+          getPortfolio();
+        }
+      });
+    }
   };
 
   const totalValue = INVESTMENTS.reduce((s, i) => s + i.shares * i.current, 0);
@@ -360,7 +386,7 @@ const PortfolioPage: React.FC = () => {
             }}
           >
             <ListPortfolio
-              portfolioValues={portfolioValues}
+              portfolioValues={portfolioValues || []}
               onPortfolioDelete={handlePortfolioDelete}
               dark={dark}
             />

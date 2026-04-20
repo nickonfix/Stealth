@@ -1,8 +1,9 @@
 import React, { SyntheticEvent } from "react";
 import CardPortfolio from "../CardPortfolio/CardPortfolio";
+import { PortfolioGet } from "../../../Models/Portfolio";
 
 interface Props {
-  portfolioValues: string[];
+  portfolioValues: PortfolioGet[];
   onPortfolioDelete: (e: SyntheticEvent) => void;
   dark?: boolean;
 }
@@ -71,7 +72,7 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete, dark = false }: Pro
         >
           {portfolioValues.map((val, i) => (
             <CardPortfolio
-              key={val}
+              key={val.symbol}
               portfolioValue={val}
               onPortfolioDelete={onPortfolioDelete}
               dark={dark}

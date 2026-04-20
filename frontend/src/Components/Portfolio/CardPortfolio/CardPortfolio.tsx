@@ -1,9 +1,10 @@
 import React, { SyntheticEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import DeletePortfolio from "../DeletePortfolio/DeletePortfolio";
+import { PortfolioGet } from "../../../Models/Portfolio";
 
 interface Props {
-  portfolioValue: string;
+  portfolioValue: PortfolioGet;
   onPortfolioDelete: (e: SyntheticEvent) => void;
   dark?: boolean;
   index?: number;
@@ -82,20 +83,20 @@ const CardPortfolio = ({ portfolioValue, onPortfolioDelete, dark = false, index 
             alignItems: "center",
             justifyContent: "center",
             fontFamily: "'DM Mono', monospace",
-            fontSize: portfolioValue.length > 3 ? 9 : 11,
+            fontSize: portfolioValue.symbol.length > 3 ? 9 : 11,
             fontWeight: 500,
             color: hovered ? green : dark ? "#64748b" : "#94a3b8",
             letterSpacing: "0.03em",
             transition: "all 0.2s",
           }}
         >
-          {portfolioValue}
+          {portfolioValue.symbol}
         </div>
 
         {/* Mini sparkline */}
         <svg viewBox="0 0 48 36" style={{ width: 70, height: 32, opacity: hovered ? 1 : 0.55, transition: "opacity 0.2s" }}>
           <path
-            d={getSparkline(portfolioValue)}
+            d={getSparkline(portfolioValue.symbol)}
             fill="none"
             stroke={green}
             strokeWidth="1.5"
@@ -123,7 +124,7 @@ const CardPortfolio = ({ portfolioValue, onPortfolioDelete, dark = false, index 
           onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = green)}
           onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = textPrimary)}
         >
-          {portfolioValue}
+          {portfolioValue.symbol}
         </Link>
         <div style={{ fontSize: 11, color: textMuted, fontFamily: "'DM Mono', monospace", marginTop: 3 }}>
           View company profile →
@@ -168,7 +169,7 @@ const CardPortfolio = ({ portfolioValue, onPortfolioDelete, dark = false, index 
         </Link>
 
         <DeletePortfolio
-          portfolioValue={portfolioValue}
+          portfolioValue={portfolioValue.symbol}
           onPortfolioDelete={onPortfolioDelete}
           dark={dark}
         />

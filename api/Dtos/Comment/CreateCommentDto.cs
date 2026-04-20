@@ -15,6 +15,6 @@ namespace api.Dtos.Comment
         [MaxLength(1000, ErrorMessage = "Content cannot exceed 1000 characters")]
         public string Content { get; set; } = string.Empty;
 
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     }
 }

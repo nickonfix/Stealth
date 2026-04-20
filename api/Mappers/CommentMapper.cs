@@ -27,7 +27,7 @@ namespace api.Mappers
             {
                 Title = commentDto.Title,
                 Content = commentDto.Content,
-                CreatedOn = commentDto.CreatedOn,
+                CreatedOn = DateTime.UtcNow,
                 StockId = stockId
             };
         }

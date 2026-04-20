@@ -20,6 +20,7 @@ namespace api.Models
         public decimal AnnualDiv { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Yield { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal MarketCap { get; set; }
         public string Industry { get; set; }
 
