@@ -81,10 +81,31 @@ const SearchPage = (props: Props) => {
     return (
         <div style={{ background: dark ? "#070b0f" : "#f8fafc", minHeight: "100vh", transition: "background 0.3s" }}>
             <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange} />
-            <div className="max-w-[1280px] mx-auto px-10 pb-20">
-                <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={onPortfolioDelete} dark={dark} />
-                <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} dark={dark} />
-                {serverError && <h1 className="text-red-500 text-center mt-4">{serverError}</h1>}
+            
+            <div className="max-w-[1280px] mx-auto px-6 md:px-10 pb-24 -mt-12 relative z-10">
+                {/* Watchlist Section - Prominent at top */}
+                <div className="mb-12">
+                    <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={onPortfolioDelete} dark={dark} />
+                </div>
+
+                {/* Search Results Section */}
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between mb-4 border-b border-gray-800/10 pb-2">
+                        <h2 className={`text-xl font-bold ${dark ? "text-white" : "text-gray-900"}`}>
+                            {searchResult.length > 0 ? "Search Results" : ""}
+                        </h2>
+                        <span className="text-xs text-gray-500 font-mono uppercase tracking-widest">
+                            {searchResult.length > 0 ? `${searchResult.length} Companies Found` : ""}
+                        </span>
+                    </div>
+                    <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} dark={dark} />
+                </div>
+
+                {serverError && (
+                    <div className="mt-12 p-6 rounded-2xl bg-red-500/10 border border-red-500/20 text-center">
+                        <h1 className="text-red-500 font-semibold">{serverError}</h1>
+                    </div>
+                )}
             </div>
         </div>
     )

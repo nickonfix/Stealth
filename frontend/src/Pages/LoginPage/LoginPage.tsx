@@ -15,7 +15,7 @@ const validation = Yup.object({
 })
 
 /* ── Spotlight: mouse-tracking radial glow (Aceternity) ── */
-const Spotlight = () => {
+const Spotlight = ({ dark }: { dark: boolean }) => {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
@@ -25,11 +25,12 @@ const Spotlight = () => {
       const rect = parent.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      el.style.background = `radial-gradient(500px circle at ${x}px ${y}px, rgba(16,185,129,0.09), transparent 60%)`;
+      const opacity = dark ? '0.07' : '0.09';
+      el.style.background = `radial-gradient(500px circle at ${x}px ${y}px, rgba(16,185,129,${opacity}), transparent 60%)`;
     };
     parent.addEventListener('mousemove', move);
     return () => parent.removeEventListener('mousemove', move);
-  }, []);
+  }, [dark]);
   return (
     <div ref={ref} style={{
       position: 'absolute', inset: 0, pointerEvents: 'none',
@@ -39,7 +40,7 @@ const Spotlight = () => {
 };
 
 /* ── Moving border button (Aceternity conic gradient animation) ── */
-const MovingBorderBtn = ({ children, type }: { children: React.ReactNode; type?: "submit" | "button" }) => {
+const MovingBorderBtn = ({ children, type, dark }: { children: React.ReactNode; type?: "submit" | "button"; dark: boolean }) => {
   const [angle, setAngle] = useState(0);
   useEffect(() => {
     let frame: number;
@@ -47,22 +48,27 @@ const MovingBorderBtn = ({ children, type }: { children: React.ReactNode; type?:
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
   }, []);
+  
+  const internalBg = dark ? "#111827" : "#ffffff";
+  const hoverBg = dark ? "#1f2937" : "#f0fdf4";
+  const textColor = dark ? "#f9fafb" : "#0a0a0a";
+
   return (
     <div style={{
-      position: 'relative', padding: '2px', borderRadius: '12px',
-      background: `conic-gradient(from ${angle}deg, #10b981, #6ee7b7, #ffffff, #34d399, #10b981)`,
+      position: 'relative', padding: '2.5px', borderRadius: '12px',
+      background: `conic-gradient(from ${angle}deg, #10b981, #6ee7b7, ${dark ? '#070b0f' : '#ffffff'}, #34d399, #10b981)`,
     }}>
       <button type={type} style={{
-        width: '100%', padding: '0.82rem 1rem', background: '#ffffff',
+        width: '100%', padding: '0.82rem 1rem', background: internalBg,
         border: 'none', borderRadius: '10px',
         fontFamily: "'Geist', 'Inter', sans-serif",
-        fontSize: '0.93rem', fontWeight: 600, color: '#0a0a0a',
+        fontSize: '14px', fontWeight: 700, color: textColor,
         cursor: 'pointer', letterSpacing: '0.01em',
         transition: 'background 0.2s, transform 0.1s',
         position: 'relative', zIndex: 1,
       }}
-        onMouseEnter={e => { e.currentTarget.style.background = '#f0fdf4'; }}
-        onMouseLeave={e => { e.currentTarget.style.background = '#ffffff'; }}
+        onMouseEnter={e => { e.currentTarget.style.background = hoverBg; }}
+        onMouseLeave={e => { e.currentTarget.style.background = internalBg; }}
         onMouseDown={e => { e.currentTarget.style.transform = 'scale(0.985)'; }}
         onMouseUp={e => { e.currentTarget.style.transform = 'scale(1)'; }}
       >
@@ -73,17 +79,26 @@ const MovingBorderBtn = ({ children, type }: { children: React.ReactNode; type?:
 };
 
 /* ── Glowing input on focus ── */
-const GlowInput = ({ id, type, placeholder, hasError, reg }: {
-  id: string; type: string; placeholder: string; hasError?: boolean; reg: any;
+const GlowInput = ({ id, type, placeholder, hasError, reg, dark }: {
+  id: string; type: string; placeholder: string; hasError?: boolean; reg: any; dark: boolean;
 }) => {
   const [focused, setFocused] = useState(false);
+  
+  const bg = dark 
+    ? (focused ? "rgba(16,185,129,0.06)" : "rgba(255,255,255,0.02)") 
+    : (focused ? "#f0fdf4" : "#fafafa");
+  const border = focused 
+    ? "#10b981" 
+    : hasError ? "#fca5a5" : (dark ? "rgba(255,255,255,0.1)" : "#e5e7eb");
+  const textColor = dark ? "#f3f4f6" : "#111827";
+
   return (
     <div style={{ position: 'relative' }}>
       {focused && (
         <div style={{
           position: 'absolute', inset: -2, borderRadius: '12px', zIndex: 0,
           background: 'linear-gradient(135deg, #10b981, #34d399)',
-          filter: 'blur(6px)', opacity: 0.3,
+          filter: 'blur(6px)', opacity: dark ? 0.2 : 0.3,
         }} />
       )}
       <input
@@ -93,12 +108,12 @@ const GlowInput = ({ id, type, placeholder, hasError, reg }: {
         style={{
           position: 'relative', zIndex: 1,
           width: '100%', padding: '0.76rem 1rem',
-          border: `1.5px solid ${focused ? '#10b981' : hasError ? '#fca5a5' : '#e5e7eb'}`,
+          border: `1.5px solid ${border}`,
           borderRadius: '10px', outline: 'none',
-          background: focused ? '#f0fdf4' : '#fafafa',
+          background: bg,
           fontFamily: "'Geist', 'Inter', sans-serif",
-          fontSize: '0.92rem', color: '#111827', boxSizing: 'border-box' as const,
-          transition: 'border-color 0.2s, background 0.2s',
+          fontSize: '0.92rem', color: textColor, boxSizing: 'border-box' as const,
+          transition: 'all 0.2s',
         }}
       />
     </div>
@@ -120,6 +135,20 @@ const LoginPage = () => {
     resolver: yupResolver(validation),
     defaultValues: { userName: '', password: '' }
   });
+
+  const [dark, setDark] = useState<boolean>(() =>
+    typeof window !== "undefined"
+      ? localStorage.getItem("finarc-theme") === "dark" ||
+        document.documentElement.classList.contains("dark")
+      : false
+  );
+
+  useEffect(() => {
+    const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
+    window.addEventListener("finarc-theme-change", handler);
+    return () => window.removeEventListener("finarc-theme-change", handler);
+  }, []);
+
   const handleLogin = (form: LoginFormInputs) => loginUser(form.userName, form.password);
 
   return (
@@ -131,24 +160,25 @@ const LoginPage = () => {
 
         .lp-root {
           min-height: 100vh;
-          background: #ffffff;
+          background: ${dark ? "#070b0f" : "#ffffff"};
           font-family: 'Geist', 'Inter', sans-serif;
           display: flex; flex-direction: column;
           position: relative; overflow-x: hidden;
+          transition: background 0.3s ease;
         }
 
         /* Aceternity dot-grid background */
         .lp-bg-dots {
           position: fixed; inset: 0; z-index: 0; pointer-events: none;
-          background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+          background-image: radial-gradient(${dark ? "rgba(16,185,129,0.15)" : "#d1d5db"} 1px, transparent 1px);
           background-size: 26px 26px;
         }
         /* Radial vignette to fade dots at center */
         .lp-bg-fade {
           position: fixed; inset: 0; z-index: 1; pointer-events: none;
           background: radial-gradient(ellipse 75% 75% at 50% 55%,
-            rgba(255,255,255,0.95) 0%,
-            rgba(255,255,255,0.6) 55%,
+            ${dark ? "rgba(7,11,15,0.92)" : "rgba(255,255,255,0.95)"} 0%,
+            ${dark ? "rgba(7,11,15,0.6)" : "rgba(255,255,255,0.6)"} 55%,
             transparent 100%
           );
         }
@@ -156,16 +186,17 @@ const LoginPage = () => {
         /* ── Ticker ── */
         .ticker-outer {
           position: relative; z-index: 10;
-          border-bottom: 1px solid #f3f4f6;
-          background: #fff; padding: 7px 0; overflow: hidden;
+          border-bottom: 1px solid ${dark ? "rgba(255,255,255,0.06)" : "#f3f4f6"};
+          background: ${dark ? "rgba(0,0,0,0.3)" : "#fff"}; padding: 7px 0; overflow: hidden;
+          backdrop-filter: blur(8px);
         }
         /* left/right fade masks */
         .ticker-outer::before, .ticker-outer::after {
           content: ''; position: absolute; top: 0; bottom: 0; z-index: 2; width: 80px;
           pointer-events: none;
         }
-        .ticker-outer::before { left: 0; background: linear-gradient(to right, #fff, transparent); }
-        .ticker-outer::after  { right:0; background: linear-gradient(to left,  #fff, transparent); }
+        .ticker-outer::before { left: 0; background: linear-gradient(to right, ${dark ? "#070b0f" : "#fff"}, transparent); }
+        .ticker-outer::after  { right:0; background: linear-gradient(to left,  ${dark ? "#070b0f" : "#fff"}, transparent); }
         .ticker-track {
           display: flex; gap: 2.8rem;
           animation: ticker-scroll 28s linear infinite;
@@ -179,7 +210,7 @@ const LoginPage = () => {
           display: flex; align-items: center; gap: 5px;
           font-size: 0.73rem; font-weight: 500; letter-spacing: 0.05em; white-space: nowrap;
         }
-        .tick-sym { color: #374151; }
+        .tick-sym { color: ${dark ? "#94a3b8" : "#374151"}; }
         .tick-up  { color: #10b981; }
         .tick-dn  { color: #ef4444; }
 
@@ -194,9 +225,10 @@ const LoginPage = () => {
         /* ── Badge above card ── */
         .lp-badge {
           display: inline-flex; align-items: center; gap: 6px;
-          background: #f0fdf4; border: 1px solid #bbf7d0;
+          background: ${dark ? "rgba(16,185,129,0.1)" : "#f0fdf4"}; 
+          border: 1px solid ${dark ? "rgba(16,185,129,0.2)" : "#bbf7d0"};
           border-radius: 999px; padding: 4px 14px 4px 10px;
-          font-size: 0.73rem; font-weight: 500; color: #065f46;
+          font-size: 0.73rem; font-weight: 500; color: ${dark ? "#10b981" : "#065f46"};
           letter-spacing: 0.04em; margin-bottom: 1.2rem;
           animation: fadeDown 0.5s cubic-bezier(.22,.68,0,1.2) both;
         }
@@ -216,17 +248,17 @@ const LoginPage = () => {
         /* ── Card ── */
         .lp-card {
           width: 100%; max-width: 520px;
-          background: rgba(255,255,255,0.78);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(0,0,0,0.07);
+          background: ${dark ? "rgba(15,23,32,0.8)" : "rgba(255,255,255,0.78)"};
+          backdrop-filter: blur(28px);
+          -webkit-backdrop-filter: blur(28px);
+          border: 1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)"};
           border-radius: 22px; padding: 2.4rem 2.2rem 2rem;
-          box-shadow:
-            0 0 0 1px rgba(255,255,255,0.5) inset,
-            0 8px 32px rgba(0,0,0,0.07),
-            0 2px 8px rgba(0,0,0,0.04);
+          box-shadow: ${dark 
+            ? "0 0 0 1px rgba(255,255,255,0.05) inset, 0 16px 48px rgba(0,0,0,0.4)" 
+            : "0 0 0 1px rgba(255,255,255,0.5) inset, 0 8px 32px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04)"};
           position: relative; overflow: hidden;
           animation: fadeUp 0.55s 0.05s cubic-bezier(.22,.68,0,1.2) both;
+          transition: background 0.3s, border-color 0.3s;
         }
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(20px) scale(0.97); }
@@ -255,20 +287,20 @@ const LoginPage = () => {
         .lp-logo-icon svg { width: 18px; height: 18px; }
         .lp-logo-name {
           font-family: 'Instrument Serif', serif;
-          font-size: 1.25rem; color: #0a0a0a; letter-spacing: -0.02em;
+          font-size: 1.25rem; color: ${dark ? "#f3f4f6" : "#0a0a0a"}; letter-spacing: -0.02em;
         }
         .lp-logo-name em { font-style: italic; color: #10b981; }
 
         /* ── Headings ── */
         .lp-head {
           font-family: 'Instrument Serif', serif;
-          font-size: 2.3rem; font-weight: 400; color: #0a0a0a;
+          font-size: 2.3rem; font-weight: 400; color: ${dark ? "#fff" : "#0a0a0a"};
           letter-spacing: -0.035em; line-height: 1.12;
           margin-bottom: 0.3rem; position: relative; z-index: 1;
         }
         .lp-head em { font-style: italic; color: #10b981; }
         .lp-sub {
-          font-size: 0.95rem; color: #6b7280; font-weight: 300;
+          font-size: 0.95rem; color: ${dark ? "#64748b" : "#6b7280"}; font-weight: 300;
           margin-bottom: 1.8rem; line-height: 1.5; position: relative; z-index: 1;
         }
 
@@ -276,7 +308,7 @@ const LoginPage = () => {
         .lp-field { margin-bottom: 1rem; position: relative; z-index: 1; }
         .lp-label {
           display: block; font-size: 0.77rem; font-weight: 500;
-          color: #374151; margin-bottom: 0.4rem; letter-spacing: 0.025em;
+          color: ${dark ? "#94a3b8" : "#374151"}; margin-bottom: 0.4rem; letter-spacing: 0.025em;
         }
         .lp-error {
           font-size: 0.73rem; color: #ef4444; margin-top: 0.28rem;
@@ -289,7 +321,7 @@ const LoginPage = () => {
         }
         .lp-remember { display: flex; align-items: center; gap: 7px; cursor: pointer; }
         .lp-remember input { accent-color: #10b981; width: 14px; height: 14px; cursor: pointer; }
-        .lp-remember span { font-size: 0.8rem; color: #6b7280; }
+        .lp-remember span { font-size: 0.8rem; color: ${dark ? "#64748b" : "#6b7280"}; }
         .lp-forgot {
           font-size: 0.8rem; color: #10b981; text-decoration: none; font-weight: 500;
         }
@@ -301,12 +333,12 @@ const LoginPage = () => {
           margin: 1.2rem 0 1rem; position: relative; z-index: 1;
         }
         .lp-div::before, .lp-div::after {
-          content: ''; flex: 1; height: 1px; background: #f0f0f0;
+          content: ''; flex: 1; height: 1px; background: ${dark ? "rgba(255,255,255,0.06)" : "#f0f0f0"};
         }
-        .lp-div span { font-size: 0.7rem; color: #c4c4c4; letter-spacing: 0.07em; }
+        .lp-div span { font-size: 0.7rem; color: ${dark ? "#475569" : "#c4c4c4"}; letter-spacing: 0.07em; }
 
         .lp-signup {
-          text-align: center; font-size: 0.82rem; color: #6b7280;
+          text-align: center; font-size: 0.82rem; color: ${dark ? "#64748b" : "#6b7280"};
           margin-top: 1rem; position: relative; z-index: 1;
         }
         .lp-signup a { color: #10b981; font-weight: 500; text-decoration: none; }
@@ -320,10 +352,10 @@ const LoginPage = () => {
         .lp-stat { text-align: center; }
         .lp-stat-val {
           font-family: 'Instrument Serif', serif;
-          font-size: 1.3rem; color: #111827; letter-spacing: -0.02em;
+          font-size: 1.3rem; color: ${dark ? "#f3f4f6" : "#111827"}; letter-spacing: -0.02em;
         }
-        .lp-stat-lbl { font-size: 0.7rem; color: #9ca3af; margin-top: 2px; letter-spacing: 0.04em; }
-        .lp-stat-sep { width: 1px; background: #f0f0f0; align-self: stretch; }
+        .lp-stat-lbl { font-size: 0.7rem; color: ${dark ? "#475569" : "#9ca3af"}; margin-top: 2px; letter-spacing: 0.04em; }
+        .lp-stat-sep { width: 1px; background: ${dark ? "rgba(255,255,255,0.08)" : "#f0f0f0"}; align-self: stretch; }
       `}</style>
 
       <div className="lp-root">
@@ -334,10 +366,10 @@ const LoginPage = () => {
         {/* Ticker */}
         <div className="ticker-outer">
           <div className="ticker-track">
-            {[...TICKERS, ...TICKERS].map((t, i) => (
+            {[...TICKERS, ...TICKERS].map((tk, i) => (
               <span key={i} className="tick-item">
-                <span className="tick-sym">{t.sym}</span>
-                <span className={t.up ? 'tick-up' : 'tick-dn'}>{t.val}</span>
+                <span className="tick-sym">{tk.sym}</span>
+                <span className={tk.up ? 'tick-up' : 'tick-dn'}>{tk.val}</span>
               </span>
             ))}
           </div>
@@ -353,7 +385,7 @@ const LoginPage = () => {
 
           {/* Card */}
           <div className="lp-card">
-            <Spotlight />
+            <Spotlight dark={dark} />
             <div className="lp-glow-corner" />
 
             {/* Logo */}
@@ -376,6 +408,7 @@ const LoginPage = () => {
                 <GlowInput
                   id="userName" type="text" placeholder="your_username"
                   hasError={!!errors.userName} reg={register("userName")}
+                  dark={dark}
                 />
                 {errors.userName && (
                   <p className="lp-error">⚠ {errors.userName.message}</p>
@@ -387,6 +420,7 @@ const LoginPage = () => {
                 <GlowInput
                   id="password" type="password" placeholder="••••••••"
                   hasError={!!errors.password} reg={register("password")}
+                  dark={dark}
                 />
                 {errors.password && (
                   <p className="lp-error">⚠ {errors.password.message}</p>
@@ -396,12 +430,12 @@ const LoginPage = () => {
               <div className="lp-row">
                 <label className="lp-remember">
                   <input type="checkbox" />
-                  <span>Remember me</span>
+                  <span style={{ transition: 'color 0.3s' }}>Remember me</span>
                 </label>
                 <a href="/forgot-password" className="lp-forgot">Forgot password?</a>
               </div>
 
-              <MovingBorderBtn type="submit">
+              <MovingBorderBtn type="submit" dark={dark}>
                 Sign in to your portfolio →
               </MovingBorderBtn>
             </form>

@@ -109,7 +109,7 @@ const CardPortfolio = ({ portfolioValue, onPortfolioDelete, dark = false, index 
       {/* Company link */}
       <div>
         <Link
-          to={`/company/${portfolioValue}/company-profile`}
+          to={`/company/${portfolioValue.symbol}/company-profile`}
           style={{
             fontFamily: "'Instrument Serif', serif",
             fontSize: 20,
@@ -137,7 +137,7 @@ const CardPortfolio = ({ portfolioValue, onPortfolioDelete, dark = false, index 
       {/* Footer: actions */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Link
-          to={`/company/${portfolioValue}/company-profile`}
+          to={`/company/${portfolioValue.symbol}/company-profile`}
           style={{
             display: "inline-flex",
             alignItems: "center",
