@@ -62,10 +62,10 @@ const MovingBorderBtn = ({ children, type, dark }: { children: React.ReactNode; 
       background: `conic-gradient(from ${angle}deg, #10b981, #6ee7b7, ${dark ? '#070b0f' : '#ffffff'}, #34d399, #10b981)`,
     }}>
       <button type={type} style={{
-        width: '100%', padding: '0.82rem 1rem', background: internalBg,
+        width: '100%', padding: '1rem 1.2rem', background: internalBg,
         border: 'none', borderRadius: '10px',
         fontFamily: "'Geist', 'Inter', sans-serif",
-        fontSize: '14px', fontWeight: 700, color: textColor,
+        fontSize: '15px', fontWeight: 700, color: textColor,
         cursor: 'pointer', letterSpacing: '0.01em',
         transition: 'background 0.2s, transform 0.1s',
         position: 'relative', zIndex: 1,
@@ -110,12 +110,12 @@ const GlowInput = ({ id, type, placeholder, hasError, reg, dark }: {
         onBlur={() => setFocused(false)}
         style={{
           position: 'relative', zIndex: 1,
-          width: '100%', padding: '0.76rem 1rem',
+          width: '100%', padding: '0.9rem 1.1rem',
           border: `1.5px solid ${border}`,
           borderRadius: '10px', outline: 'none',
           background: bg,
           fontFamily: "'Geist', 'Inter', sans-serif",
-          fontSize: '0.92rem', color: textColor, boxSizing: 'border-box' as const,
+          fontSize: '1rem', color: textColor, boxSizing: 'border-box' as const,
           transition: 'all 0.2s',
         }}
       />
@@ -223,6 +223,7 @@ const RegisterPage = () => {
           align-items: center; justify-content: center;
           padding: 2.5rem 1.5rem 3rem;
           position: relative; z-index: 5;
+          margin-top: -60px;
         }
 
         /* ── Badge above card ── */
@@ -250,12 +251,12 @@ const RegisterPage = () => {
 
         /* ── Card ── */
         .lp-card {
-          width: 100%; max-width: 520px;
+          width: 100%; max-width: 580px;
           background: ${dark ? "rgba(15,23,32,0.8)" : "rgba(255,255,255,0.78)"};
           backdrop-filter: blur(28px);
           -webkit-backdrop-filter: blur(28px);
           border: 1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)"};
-          border-radius: 22px; padding: 2.4rem 2.2rem 2rem;
+          border-radius: 24px; padding: 3rem 2.8rem 2.5rem;
           box-shadow: ${dark 
             ? "0 0 0 1px rgba(255,255,255,0.05) inset, 0 16px 48px rgba(0,0,0,0.4)" 
             : "0 0 0 1px rgba(255,255,255,0.5) inset, 0 8px 32px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04)"};
@@ -297,21 +298,21 @@ const RegisterPage = () => {
         /* ── Headings ── */
         .lp-head {
           font-family: 'Instrument Serif', serif;
-          font-size: 2.3rem; font-weight: 400; color: ${dark ? "#fff" : "#0a0a0a"};
-          letter-spacing: -0.035em; line-height: 1.12;
-          margin-bottom: 0.3rem; position: relative; z-index: 1;
+          font-size: 2.8rem; font-weight: 400; color: ${dark ? "#fff" : "#0a0a0a"};
+          letter-spacing: -0.035em; line-height: 1.1;
+          margin-bottom: 0.5rem; position: relative; z-index: 1;
         }
         .lp-head em { font-style: italic; color: #10b981; }
         .lp-sub {
-          font-size: 0.95rem; color: ${dark ? "#64748b" : "#6b7280"}; font-weight: 300;
-          margin-bottom: 1.8rem; line-height: 1.5; position: relative; z-index: 1;
+          font-size: 1.05rem; color: ${dark ? "#64748b" : "#6b7280"}; font-weight: 300;
+          margin-bottom: 2.2rem; line-height: 1.5; position: relative; z-index: 1;
         }
 
         /* ── Fields ── */
         .lp-field { margin-bottom: 1rem; position: relative; z-index: 1; }
         .lp-label {
-          display: block; font-size: 0.77rem; font-weight: 500;
-          color: ${dark ? "#94a3b8" : "#374151"}; margin-bottom: 0.4rem; letter-spacing: 0.025em;
+          display: block; font-size: 0.85rem; font-weight: 500;
+          color: ${dark ? "#94a3b8" : "#374151"}; margin-bottom: 0.6rem; letter-spacing: 0.025em;
         }
         .lp-error {
           font-size: 0.73rem; color: #ef4444; margin-top: 0.28rem;
