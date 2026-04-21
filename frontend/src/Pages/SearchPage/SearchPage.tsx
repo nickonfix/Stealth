@@ -17,6 +17,19 @@ const SearchPage = (props: Props) => {
     const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
     const [serverError, setServerError] = useState<string>("");
 
+    const [dark, setDark] = useState<boolean>(() =>
+        typeof window !== "undefined"
+            ? localStorage.getItem("finarc-theme") === "dark" ||
+              document.documentElement.classList.contains("dark")
+            : false
+    );
+
+    useEffect(() => {
+        const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
+        window.addEventListener("finarc-theme-change", handler);
+        return () => window.removeEventListener("finarc-theme-change", handler);
+    }, []);
+
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setsearch(e.target.value);
         console.log(e);
@@ -63,15 +76,17 @@ const SearchPage = (props: Props) => {
                 toast.success("stock  deleted from Portfolio successfully!");
                 getPortfolio();
             }
-        }).catch(e => toast.warning("Coundn't add stock to portfolio!"))
+        }).catch(e => toast.warning("Coundn't delete stock from portfolio!"))
     };
     return (
-        <>
+        <div style={{ background: dark ? "#070b0f" : "#f8fafc", minHeight: "100vh", transition: "background 0.3s" }}>
             <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange} />
-            <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={onPortfolioDelete} />
-            <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} />
-            {serverError && <h1>{serverError}</h1>}
-        </>
+            <div className="max-w-[1280px] mx-auto px-10 pb-20">
+                <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={onPortfolioDelete} dark={dark} />
+                <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} dark={dark} />
+                {serverError && <h1 className="text-red-500 text-center mt-4">{serverError}</h1>}
+            </div>
+        </div>
     )
 }
 

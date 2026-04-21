@@ -216,7 +216,7 @@ const Navbar: React.FC = () => {
 
   /* ── derived colors ── */
   const bg = dark
-    ? scrolled ? "rgba(10,14,20,0.97)" : "rgba(10,14,20,0.85)"
+    ? scrolled ? "rgba(7,11,15,0.97)" : "rgba(7,11,15,0.85)"
     : scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.82)";
 
   const border = dark

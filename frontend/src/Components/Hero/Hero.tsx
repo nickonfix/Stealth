@@ -44,7 +44,7 @@ const t = (dark: boolean, light: string, darkVal: string) => dark ? darkVal : li
 const Hero: React.FC = () => {
   const [dark, setDark] = useState<boolean>(() =>
     typeof window !== "undefined"
-      ? localStorage.getItem("Finarc-theme") === "dark" ||
+      ? localStorage.getItem("finarc-theme") === "dark" ||
         document.documentElement.classList.contains("dark")
       : false
   );
@@ -56,8 +56,8 @@ const Hero: React.FC = () => {
     const handler = (e: Event) => {
       setDark((e as CustomEvent).detail.dark);
     };
-    window.addEventListener("Finarc-theme-change", handler);
-    return () => window.removeEventListener("Finarc-theme-change", handler);
+    window.addEventListener("finarc-theme-change", handler);
+    return () => window.removeEventListener("finarc-theme-change", handler);
   }, []);
 
   /* Inject keyframes once */

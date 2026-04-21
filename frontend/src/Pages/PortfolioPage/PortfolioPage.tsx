@@ -96,7 +96,7 @@ const PortfolioPage: React.FC = () => {
 
   const [dark, setDark] = useState<boolean>(() =>
     typeof window !== "undefined"
-      ? localStorage.getItem("Finarc-theme") === "dark" ||
+      ? localStorage.getItem("finarc-theme") === "dark" ||
         document.documentElement.classList.contains("dark")
       : false
   );
@@ -119,8 +119,8 @@ const PortfolioPage: React.FC = () => {
   /* Theme listener */
   useEffect(() => {
     const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
-    window.addEventListener("Finarc-theme-change", handler);
-    return () => window.removeEventListener("Finarc-theme-change", handler);
+    window.addEventListener("finarc-theme-change", handler);
+    return () => window.removeEventListener("finarc-theme-change", handler);
   }, []);
 
   useEffect(() => {

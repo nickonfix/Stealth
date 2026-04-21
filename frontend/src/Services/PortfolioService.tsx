@@ -16,7 +16,7 @@ export const portfolioAddAPI = async (symbol: string) => {
 
 export const portfolioDeleteAPI = async (symbol: string) => {
     try{
-        const data = await axios.delete<portfolioPost>(api + `${symbol}`);
+        const data = await axios.delete<portfolioPost>(api + `?symbol=${symbol}`);
         return data;
     }catch(error){
         handleError(error);

@@ -5,15 +5,15 @@ const t = (dark: boolean, light: string, darkVal: string) => dark ? darkVal : li
 const PlaceholderPage: React.FC<{ title: string; subtitle: string; icon: string }> = ({ title, subtitle, icon }) => {
   const [dark, setDark] = useState<boolean>(() =>
     typeof window !== "undefined"
-      ? localStorage.getItem("finedge-theme") === "dark" ||
+      ? localStorage.getItem("finarc-theme") === "dark" ||
         document.documentElement.classList.contains("dark")
       : false
   );
 
   useEffect(() => {
     const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
-    window.addEventListener("finedge-theme-change", handler);
-    return () => window.removeEventListener("finedge-theme-change", handler);
+    window.addEventListener("finarc-theme-change", handler);
+    return () => window.removeEventListener("finarc-theme-change", handler);
   }, []);
 
   const bg          = t(dark, "#f8fafc",  "#070b0f");
