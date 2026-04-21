@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from '../../Context/useAuth';
+import { Link } from 'react-router-dom';
 
 type LoginFormInputs = {
   userName: string;
@@ -432,7 +433,7 @@ const LoginPage = () => {
                   <input type="checkbox" />
                   <span style={{ transition: 'color 0.3s' }}>Remember me</span>
                 </label>
-                <a href="/forgot-password" className="lp-forgot">Forgot password?</a>
+                <Link to="/forgot-password" style={{ fontSize: '0.8rem', color: '#10b981', textDecoration: 'none', fontWeight: 500 }} onMouseEnter={e => e.currentTarget.style.textDecoration='underline'} onMouseLeave={e => e.currentTarget.style.textDecoration='none'}>Forgot password?</Link>
               </div>
 
               <MovingBorderBtn type="submit" dark={dark}>
@@ -444,7 +445,7 @@ const LoginPage = () => {
 
             <p className="lp-signup">
               New here?{' '}
-              <a href="/register">Create a free account</a>
+              <Link to="/register" style={{ color: '#10b981', fontWeight: 500, textDecoration: 'none' }} onMouseEnter={e => e.currentTarget.style.textDecoration='underline'} onMouseLeave={e => e.currentTarget.style.textDecoration='none'}>Create a free account</Link>
             </p>
           </div>
 
