@@ -180,7 +180,6 @@ const PortfolioPage: React.FC = () => {
   /* ── Derived tokens ── */
   const bg            = tk(dark, "#f8fafc",                   "#070b0f");
   const surface       = tk(dark, "#ffffff",                   "#0f1520");
-  const surface2      = tk(dark, "#f1f5f9",                   "#131c28");
   const border        = tk(dark, "rgba(15,23,42,0.09)",       "rgba(255,255,255,0.07)");
   const border2       = tk(dark, "rgba(15,23,42,0.06)",       "rgba(255,255,255,0.05)");
   const textPrimary   = tk(dark, "#0f172a",                   "#f1f5f9");

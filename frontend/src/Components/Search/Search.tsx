@@ -51,17 +51,6 @@ const SUGGESTIONS = [
   { label: "Alphabet",        sym: "GOOGL" },
 ];
 
-const TRENDING = [
-  { sym: "NVDA",  chg: "+2.52%", up: true  },
-  { sym: "AAPL",  chg: "+0.66%", up: true  },
-  { sym: "TSLA",  chg: "-1.27%", up: false },
-  { sym: "MSFT",  chg: "+0.99%", up: true  },
-  { sym: "AMZN",  chg: "+1.50%", up: true  },
-  { sym: "GOOGL", chg: "-0.52%", up: false },
-  { sym: "META",  chg: "+1.60%", up: true  },
-  { sym: "SPY",   chg: "+1.82%", up: true  },
-];
-
 const SECTORS = ["Tech", "Health", "Finance", "Energy", "Consumer", "Utilities"];
 
 interface Props {
@@ -122,7 +111,6 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
   const surface     = dark ? "#0f1520"            : "#ffffff";
   const surface2    = dark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.03)";
   const border      = dark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.09)";
-  const borderFocus = "#10b981";
   const textPrimary = dark ? "#f1f5f9"            : "#0f172a";
   const textSub     = dark ? "#64748b"            : "#64748b";
   const textMuted   = dark ? "#334155"            : "#94a3b8";
@@ -136,6 +124,8 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
     <section
       ref={sectionRef}
       onMouseMove={handleMouseMove}
+      onMouseEnter={() => setCursorVisible(true)}
+      onMouseLeave={() => setCursorVisible(false)}
       style={{
         position: "relative",
         background: bg,

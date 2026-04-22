@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import StockCommentForm from './StockCommentForm';
 import { commentGetAPI, commentPostAPI } from '../../Services/CommentService';
 import { toast } from 'react-toastify';
@@ -21,7 +21,7 @@ const StockComment = ({stockSymbol}: Props) => {
 
     useEffect(() => {
         getComments();
-    }, []);
+    }, [getComments]);
     
     const { token } = useAuth();
     const handleComment = (e: CommentFormInputs) => {
@@ -35,14 +35,14 @@ const StockComment = ({stockSymbol}: Props) => {
             toast.warning(e);
         })
     }
-const getComments = async () => {
+const getComments = useCallback(async () => {
     setLoading(true);
     commentGetAPI(stockSymbol).then((res) => {
         setLoading(false);
         setComments(res?.data!);
        
     });
-}
+}, [stockSymbol]);
   return (
     <div className="flex flex-col">
     {loading ? <Spinner /> : <StockCommentList comments={comments!}/>}

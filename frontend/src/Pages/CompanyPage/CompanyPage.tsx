@@ -14,18 +14,6 @@ const CompanyPage = (props: Props) => {
     let { ticker } = useParams();
     const [company, setCompany] = useState<CompanyProfile>();
 
-    const [dark, setDark] = useState<boolean>(() =>
-        typeof window !== "undefined"
-            ? localStorage.getItem("finarc-theme") === "dark" ||
-              document.documentElement.classList.contains("dark")
-            : false
-    );
-
-    useEffect(() => {
-        const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
-        window.addEventListener("finarc-theme-change", handler);
-        return () => window.removeEventListener("finarc-theme-change", handler);
-    }, []);
 
     useEffect(() => {
         const getProfileInit = async () => {
