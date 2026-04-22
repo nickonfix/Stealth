@@ -23,7 +23,7 @@ const StockComment = ({stockSymbol}: Props) => {
 const getComments = useCallback(async () => {
     setLoading(true);
     try {
-        const res = await commentGetAPI(stockSymbol, token);
+        const res = await commentGetAPI(stockSymbol, token ?? undefined);
         setComments(res?.data ?? []);
     } catch {
         setComments([]);
