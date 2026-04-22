@@ -1,8 +1,9 @@
 import axios from "axios";
 import { handleError } from "../Helper/ErrorHandler";
 import { UserPorfileToken } from "../Models/User"
+import { API_URL } from "../configs";
 
-const api = "http://localhost:5249/api/";
+const api = API_URL;
 
 
 export const loginAPI = async (username: string, password: string)=>{
