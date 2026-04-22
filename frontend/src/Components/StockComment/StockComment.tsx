@@ -18,22 +18,30 @@ type CommentFormInputs  ={
 const StockComment = ({stockSymbol}: Props) => {
     const [comments, setComments] = useState<CommentGet[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const { token } = useAuth();
 
 const getComments = useCallback(async () => {
     setLoading(true);
-    commentGetAPI(stockSymbol).then((res) => {
+    try {
+        const res = await commentGetAPI(stockSymbol, token);
+        setComments(res?.data ?? []);
+    } catch {
+        setComments([]);
+    } finally {
         setLoading(false);
-        setComments(res?.data!);
-       
-    });
-}, [stockSymbol]);
+    }
+}, [stockSymbol, token]);
 
 useEffect(() => {
     getComments();
 }, [getComments]);
 
-const { token } = useAuth();
 const handleComment = (e: CommentFormInputs) => {
+    if (!token) {
+        toast.warning("Please log in to add comments.");
+        return;
+    }
+
     commentPostAPI(e.title, e.content, stockSymbol, token!)
     .then((res)=>{
         if(res){

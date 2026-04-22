@@ -19,9 +19,12 @@ export const commentPostAPI = async (title: string, content: string, symbol: str
     }
 }
 
-export const commentGetAPI = async (symbol: string) => {
+export const commentGetAPI = async (symbol: string, token?: string) => {
     try{
-        const data  = await axios.get<CommentGet[]>(api + `?Symbol=${symbol}`);
+        const data  = await axios.get<CommentGet[]>(
+            api + `?Symbol=${symbol}`,
+            token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
+        );
         return data;
         
     }catch(error){
