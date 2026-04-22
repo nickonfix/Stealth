@@ -86,7 +86,9 @@ const CashFlowStatement = (props: Props) => {
         fetchCashFlow();
     }, [ticker]);
     return cashFlowData ? (
-        <Table config={config} data={cashFlowData}></Table>
+        <div className="w-full px-4 sm:px-0">
+            <Table config={config} data={cashFlowData}></Table>
+        </div>
     ) : (
         <Spinner />
     );

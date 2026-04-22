@@ -2,14 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../Context/useAuth";
 
-/* ─────────────────────────────────────────────────────────
-   FinArc Navbar — White / Dark Dual Theme
-   Fonts: Instrument Serif (logo) + Plus Jakarta Sans (ui)
-   Accent: Emerald #10b981
-   Dark mode: toggled via document.documentElement.classList + localStorage
-   ───────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   FinArc — Aceternity Premium Navbar  v2
+   Dark-first glass floating nav · Bricolage Grotesque logo
+   Clean pill with solid active-slot · zero cheap animations
+   Accent: #22d3a5 teal-emerald  ·  Surface: #0b0f1a deep navy
+   ══════════════════════════════════════════════════════════ */
 
-const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');`;
+const FONTS = `
+  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Outfit:wght@300;400;500;600&display=swap');
+`;
 
 export const NAV_LINKS = [
   { to: "/search",    label: "Search"    },
@@ -19,593 +21,535 @@ export const NAV_LINKS = [
   { to: "/screener",  label: "Screener"  },
 ];
 
-/* ─── Reusable desktop NavLink ─── */
-const NavLink = ({
-  to,
-  children,
-  dark,
-}: {
-  to: string;
-  children: React.ReactNode;
-  dark: boolean;
-}) => {
+/* ─── Palette ─── */
+const D = {
+  bg:         "#06080f",
+  bgScrolled: "rgba(6,8,15,0.96)",
+  surface:    "rgba(255,255,255,0.04)",
+  surfaceHov: "rgba(255,255,255,0.07)",
+  border:     "rgba(255,255,255,0.07)",
+  borderHov:  "rgba(34,211,165,0.3)",
+  text:       "#e2e8f0",
+  muted:      "#4b5563",
+  accent:     "#22d3a5",
+  accentDim:  "rgba(34,211,165,0.1)",
+  accentGlow: "rgba(34,211,165,0.2)",
+};
+const L = {
+  bg:         "#f8fafc",
+  bgScrolled: "rgba(248,250,252,0.96)",
+  surface:    "rgba(15,23,42,0.04)",
+  surfaceHov: "rgba(15,23,42,0.07)",
+  border:     "rgba(15,23,42,0.1)",
+  borderHov:  "rgba(16,185,129,0.35)",
+  text:       "#0f172a",
+  muted:      "#94a3b8",
+  accent:     "#059669",
+  accentDim:  "rgba(5,150,105,0.1)",
+  accentGlow: "rgba(5,150,105,0.2)",
+};
+
+/* ─── NavLink with solid active slot ─── */
+const NavLink = ({ to, label, c }: { to: string; label: string; c: typeof D }) => {
   const { pathname } = useLocation();
   const active = pathname === to;
-  const [hovered, setHovered] = useState(false);
+  const [hov, setHov] = useState(false);
+  const isDark = c === D;
 
   return (
     <Link
       to={to}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
       style={{
         position: "relative",
-        display: "inline-flex",
-        alignItems: "center",
-        padding: "7px 14px",
-        borderRadius: 8,
-        fontSize: 13.5,
-        fontWeight: active ? 600 : 500,
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-        color: active
-          ? dark ? "#f1f5f9" : "#0f172a"
-          : hovered
-          ? dark ? "#e2e8f0" : "#0f172a"
-          : dark ? "#64748b" : "#64748b",
-        textDecoration: "none",
-        background: active
-          ? dark ? "rgba(16,185,129,0.12)" : "rgba(16,185,129,0.08)"
-          : hovered
-          ? dark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.04)"
-          : "transparent",
-        transition: "all 0.18s ease",
+        display: "inline-flex", alignItems: "center",
+        padding: "6px 14px", borderRadius: 8,
+        fontFamily: "'Outfit', sans-serif",
+        fontSize: 13.5, fontWeight: active ? 600 : 400,
         letterSpacing: "-0.01em",
+        color: active ? c.text : hov ? c.text : c.muted,
+        textDecoration: "none",
+        transition: "color 0.15s",
+        zIndex: 1,
       }}
     >
-      {children}
       {active && (
-        <span
-          style={{
-            position: "absolute",
-            bottom: 5,
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: 3,
-            height: 3,
-            borderRadius: "50%",
-            background: "#10b981",
-          }}
-        />
+        <span style={{
+          position: "absolute", inset: 0, borderRadius: 8,
+          background: isDark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.07)",
+          boxShadow: isDark
+            ? "inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.2)"
+            : "inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.05)",
+          border: isDark
+            ? "1px solid rgba(255,255,255,0.1)"
+            : "1px solid rgba(15,23,42,0.12)",
+        }} />
+      )}
+      {!active && hov && (
+        <span style={{
+          position: "absolute", inset: 0, borderRadius: 8,
+          background: c.surfaceHov,
+        }} />
+      )}
+      <span style={{ position: "relative" }}>{label}</span>
+      {active && (
+        <span style={{
+          position: "absolute", bottom: -1, left: "50%",
+          transform: "translateX(-50%)",
+          width: "60%", height: 1.5, borderRadius: 99,
+          background: `linear-gradient(90deg, transparent, ${c.accent}, transparent)`,
+        }} />
       )}
     </Link>
   );
 };
 
-/* ── Sun / Moon SVG icons ── */
-const SunIcon = ({ color }: { color: string }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <circle cx="8" cy="8" r="3" stroke={color} strokeWidth="1.5" />
-    <path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.05 3.05l1.06 1.06M11.89 11.89l1.06 1.06M11.89 4.11l-1.06 1.06M4.11 11.89l-1.06 1.06"
-      stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+/* ─── Logo mark ─── */
+const LogoMark = ({ c }: { c: typeof D }) => (
+  <div style={{
+    width: 32, height: 32, borderRadius: 9, flexShrink: 0,
+    background: c.accentDim,
+    border: `1px solid ${c === D ? "rgba(34,211,165,0.2)" : "rgba(5,150,105,0.25)"}`,
+    display: "flex", alignItems: "center", justifyContent: "center",
+  }}>
+    <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
+      <polyline points="2,15 6.5,8.5 11,12.5 17,4"
+        stroke={c.accent} strokeWidth="2.2"
+        strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="17" cy="4" r="2.3"
+        fill="none" stroke={c.accent} strokeWidth="1.8"/>
+      <line x1="17" y1="6.3" x2="17" y2="16"
+        stroke={c === D ? "rgba(34,211,165,0.25)" : "rgba(5,150,105,0.3)"}
+        strokeWidth="1.4" strokeLinecap="round" strokeDasharray="1 2"/>
+    </svg>
+  </div>
+);
+
+const SunIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+  </svg>
+);
+const MoonIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
   </svg>
 );
 
-const MoonIcon = ({ color }: { color: string }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path d="M13.5 10A6.5 6.5 0 016 2.5a6.5 6.5 0 100 11 6.5 6.5 0 007.5-3.5z"
-      stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-/* ═══════════════════════ MAIN NAVBAR ═══════════════════════ */
+/* ══════════════════════ MAIN ══════════════════════ */
 const Navbar: React.FC = () => {
   const { isLoggedIn, user, logout } = useAuth();
   const [scrolled, setScrolled]         = useState(false);
   const [menuOpen, setMenuOpen]         = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [avatarHover, setAvatarHover]   = useState(false);
-  const [dark, setDark]                 = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("finarc-theme") === "dark" ||
-        document.documentElement.classList.contains("dark");
-    }
-    return false;
+  const [dark, setDark] = useState<boolean>(() => {
+    if (typeof window !== "undefined")
+      return localStorage.getItem("finarc-theme") !== "light";
+    return true;
   });
-  const [themeHover, setThemeHover] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const { pathname }                = useLocation();
 
-  /* Sync dark class on <html> */
+  const dropRef = useRef<HTMLDivElement>(null);
+  const { pathname } = useLocation();
+  const c = dark ? D : L;
+  const initial = user?.userName?.[0]?.toUpperCase() ?? "U";
+
   useEffect(() => {
     const root = document.documentElement;
-    if (dark) {
-      root.classList.add("dark");
-      localStorage.setItem("finarc-theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("finarc-theme", "light");
-    }
-    // Dispatch event so Hero can listen
+    dark ? root.classList.add("dark") : root.classList.remove("dark");
+    localStorage.setItem("finarc-theme", dark ? "dark" : "light");
     window.dispatchEvent(new CustomEvent("finarc-theme-change", { detail: { dark } }));
   }, [dark]);
 
-  /* Inject Google Fonts once */
   useEffect(() => {
-    if (!document.getElementById("finarc-navbar-fonts")) {
+    if (!document.getElementById("fn2-fonts")) {
       const s = document.createElement("style");
-      s.id = "finarc-navbar-fonts";
-      s.textContent = FONT_IMPORT;
+      s.id = "fn2-fonts"; s.textContent = FONTS;
       document.head.appendChild(s);
     }
   }, []);
 
-  /* Scroll shadow */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const fn = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  /* Close panels on route change */
-  useEffect(() => {
-    setMenuOpen(false);
-    setDropdownOpen(false);
-  }, [pathname]);
+  useEffect(() => { setMenuOpen(false); setDropdownOpen(false); }, [pathname]);
 
-  /* Close dropdown on outside click */
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+    const fn = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node))
         setDropdownOpen(false);
-      }
     };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    document.addEventListener("mousedown", fn);
+    return () => document.removeEventListener("mousedown", fn);
   }, []);
 
-  const initial = user?.userName?.[0]?.toUpperCase() ?? "U";
-
-  /* ── Dropdown menu item ── */
-  const DropItem = ({
-    to,
-    icon,
-    label,
-    danger,
-  }: {
-    to?: string;
-    icon: React.ReactNode;
-    label: string;
-    danger?: boolean;
-  }) => {
-    const [h, setH] = useState(false);
-    const base: React.CSSProperties = {
-      display: "flex",
-      alignItems: "center",
-      gap: 10,
-      padding: "9px 12px",
-      borderRadius: 8,
-      fontSize: 13,
-      fontFamily: "'Plus Jakarta Sans', sans-serif",
-      fontWeight: 500,
-      textDecoration: "none",
-      transition: "background 0.15s",
-      cursor: "pointer",
-      background: h
-        ? dark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.04)"
-        : "transparent",
-      color: danger ? "#ef4444" : dark ? "#cbd5e1" : "#334155",
-    };
-    if (to) {
-      return (
-        <Link to={to} style={base} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}>
-          {icon}{label}
-        </Link>
-      );
-    }
-    return (
-      <button
-        onClick={logout}
-        style={{ ...base, border: "none", width: "100%", textAlign: "left" }}
-        onMouseEnter={() => setH(true)}
-        onMouseLeave={() => setH(false)}
-      >
-        {icon}{label}
-      </button>
-    );
-  };
-
-  /* ── derived colors ── */
-  const bg = dark
-    ? scrolled ? "rgba(7,11,15,0.97)" : "rgba(7,11,15,0.85)"
-    : scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.82)";
-
-  const border = dark
-    ? scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(255,255,255,0.05)"
-    : scrolled ? "1px solid rgba(15,23,42,0.09)" : "1px solid rgba(15,23,42,0.05)";
-
-  const shadow = scrolled
-    ? dark
-      ? "0 1px 0 rgba(0,0,0,0.4), 0 8px 32px rgba(0,0,0,0.35)"
-      : "0 1px 0 rgba(0,0,0,0.03), 0 6px 28px rgba(15,23,42,0.07)"
-    : "none";
+  const iconBtnStyle = (extra?: React.CSSProperties): React.CSSProperties => ({
+    width: 34, height: 34, borderRadius: 8,
+    display: "flex", alignItems: "center", justifyContent: "center",
+    border: `1px solid ${c.border}`,
+    background: c.surface,
+    cursor: "pointer", outline: "none",
+    transition: "border-color 0.2s, background 0.2s, color 0.2s",
+    ...extra,
+  });
 
   return (
     <>
       <style>{`
-        ${FONT_IMPORT}
-        @keyframes dropIn { from { opacity:0; transform:translateY(-6px) scale(0.97) } to { opacity:1; transform:translateY(0) scale(1) } }
-        @keyframes toggleSlide { from { transform:scale(0.7) rotate(-30deg); opacity:0 } to { transform:scale(1) rotate(0); opacity:1 } }
-        .fe-desktop { display:flex !important; }
-        .fe-mobile-btn { display:none !important; }
+        ${FONTS}
+        @keyframes fn2-drop {
+          from { opacity:0; transform:translateY(-5px) scale(0.98) }
+          to   { opacity:1; transform:translateY(0) scale(1) }
+        }
+        @keyframes fn2-icon {
+          from { transform:scale(0.5) rotate(-30deg); opacity:0 }
+          to   { transform:scale(1) rotate(0); opacity:1 }
+        }
+        .fn2-desk { display:flex !important; }
+        .fn2-mob  { display:none  !important; }
         @media (max-width:1023px) {
-          .fe-desktop { display:none !important; }
-          .fe-mobile-btn { display:flex !important; }
+          .fn2-desk { display:none  !important; }
+          .fn2-mob  { display:flex  !important; }
+        }
+        .fn2-dropitem {
+          display:flex; align-items:center; gap:10px;
+          padding:8px 11px; border-radius:8px;
+          font-size:13px; font-weight:400;
+          font-family:'Outfit',sans-serif;
+          text-decoration:none; cursor:pointer;
+          width:100%; text-align:left; border:none; outline:none;
+          transition:background 0.15s, color 0.15s;
         }
       `}</style>
 
-      <header
-        style={{
-          position: "fixed",
-          inset: "0 0 auto 0",
-          zIndex: 100,
-          background: bg,
-          backdropFilter: "saturate(200%) blur(20px)",
-          WebkitBackdropFilter: "saturate(200%) blur(20px)",
-          borderBottom: border,
-          boxShadow: shadow,
-          transition: "all 0.3s ease",
-        }}
-      >
-        {/* Emerald gradient top rule */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0, left: 0, right: 0,
-            height: 2,
-            background: "linear-gradient(90deg, transparent 0%, #34d399 30%, #10b981 50%, #34d399 70%, transparent 100%)",
-            opacity: scrolled ? 1 : 0.55,
-            transition: "opacity 0.3s",
-          }}
-        />
+      <header style={{
+        position: "fixed", inset: "0 0 auto 0", zIndex: 100,
+        background: dark
+          ? scrolled ? D.bgScrolled : "rgba(6,8,15,0.8)"
+          : scrolled ? L.bgScrolled : "rgba(248,250,252,0.85)",
+        backdropFilter: "blur(20px) saturate(160%)",
+        WebkitBackdropFilter: "blur(20px) saturate(160%)",
+        borderBottom: `1px solid ${c.border}`,
+        boxShadow: scrolled
+          ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
+          : "none",
+        transition: "background 0.3s, box-shadow 0.3s",
+      }}>
 
-        <nav
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "0 32px",
-            height: 62,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 16,
-          }}
-        >
+        {/* Single sharp accent rule */}
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: 1,
+          background: dark
+            ? `linear-gradient(90deg,transparent 0%,${D.accent}55 25%,${D.accent}99 50%,${D.accent}55 75%,transparent 100%)`
+            : `linear-gradient(90deg,transparent 0%,${L.accent}44 25%,${L.accent}88 50%,${L.accent}44 75%,transparent 100%)`,
+          opacity: 0.85,
+        }}/>
+
+        <nav style={{
+          maxWidth: 1280, margin: "0 auto",
+          padding: "0 28px", height: 62,
+          display: "flex", alignItems: "center",
+          justifyContent: "space-between", gap: 20,
+        }}>
+
           {/* ══ LOGO ══ */}
-          <Link to="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}>
-            <div
-              style={{
-                width: 34, height: 34, borderRadius: 10,
-                background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "0 2px 10px rgba(16,185,129,0.32), inset 0 1px 0 rgba(255,255,255,0.2)",
-              }}
-            >
-              <svg width="19" height="19" viewBox="0 0 19 19" fill="none">
-                <polyline points="2,15 6,9 10,12 17,4" stroke="white" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="17" cy="4" r="2" fill="white" />
-              </svg>
-            </div>
-            <span style={{ fontFamily: "'Instrument Serif', serif", fontSize: 22, color: dark ? "#f1f5f9" : "#0f172a", letterSpacing: "-0.03em", lineHeight: 1 }}>
-              Fin<span style={{ color: "#10b981" }}>Arc</span>
+          <Link to="/" style={{ display:"flex", alignItems:"center", gap:10, textDecoration:"none", flexShrink:0 }}>
+            <LogoMark c={c} />
+            <span style={{
+              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontSize: 19, fontWeight: 700,
+              letterSpacing: "-0.04em", color: c.text, lineHeight: 1,
+            }}>
+              Fin<span style={{ color: c.accent }}>Arc</span>
             </span>
           </Link>
 
-          {/* ══ CENTER NAV LINKS ══ */}
-          <div className="fe-desktop" style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: 2 }}>
-            {NAV_LINKS.map(({ to, label }) => (
-              <NavLink key={to} to={to} dark={dark}>{label}</NavLink>
-            ))}
+          {/* ══ CENTER pill ══ */}
+          <div className="fn2-desk" style={{ flex: 1, justifyContent: "center" }}>
+            <div style={{
+              display: "flex", alignItems: "center", gap: 1,
+              padding: "3px 4px", borderRadius: 11,
+              background: dark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.7)",
+              border: `1px solid ${c.border}`,
+              boxShadow: dark
+                ? "0 1px 0 rgba(255,255,255,0.04) inset, 0 4px 16px rgba(0,0,0,0.3)"
+                : "0 1px 0 rgba(255,255,255,1) inset, 0 2px 8px rgba(15,23,42,0.06)",
+            }}>
+              {NAV_LINKS.map(({ to, label }) => (
+                <NavLink key={to} to={to} label={label} c={c} />
+              ))}
+            </div>
           </div>
 
-          {/* ══ RIGHT: Theme toggle + Auth ══ */}
-          <div className="fe-desktop" style={{ alignItems: "center", gap: 10, flexShrink: 0 }}>
+          {/* ══ RIGHT ══ */}
+          <div className="fn2-desk" style={{ alignItems:"center", gap:8, flexShrink:0 }}>
 
-            {/* ── DARK MODE TOGGLE ── */}
             <button
-              onClick={() => setDark((v) => !v)}
-              onMouseEnter={() => setThemeHover(true)}
-              onMouseLeave={() => setThemeHover(false)}
-              title={dark ? "Switch to light mode" : "Switch to dark mode"}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 36,
-                height: 36,
-                borderRadius: 10,
-                border: dark
-                  ? themeHover ? "1px solid rgba(16,185,129,0.4)" : "1px solid rgba(255,255,255,0.1)"
-                  : themeHover ? "1px solid rgba(16,185,129,0.4)" : "1px solid rgba(15,23,42,0.12)",
-                background: dark
-                  ? themeHover ? "rgba(16,185,129,0.1)" : "rgba(255,255,255,0.06)"
-                  : themeHover ? "rgba(16,185,129,0.06)" : "rgba(248,250,252,0.9)",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                outline: "none",
-                boxShadow: themeHover ? "0 0 0 3px rgba(16,185,129,0.12)" : "none",
-                flexShrink: 0,
+              onClick={() => setDark(v => !v)}
+              title={dark ? "Light mode" : "Dark mode"}
+              style={iconBtnStyle({ color: dark ? "#f59e0b" : "#64748b" })}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = c.borderHov;
+                el.style.background = c.accentDim;
+                el.style.color = c.accent;
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = c.border;
+                el.style.background = c.surface;
+                el.style.color = dark ? "#f59e0b" : "#64748b";
               }}
             >
-              <span key={dark ? "moon" : "sun"} style={{ animation: "toggleSlide 0.25s ease both", display: "flex" }}>
-                {dark
-                  ? <SunIcon color={themeHover ? "#10b981" : "#f59e0b"} />
-                  : <MoonIcon color={themeHover ? "#10b981" : "#64748b"} />
-                }
+              <span key={dark ? "sun" : "moon"}
+                style={{ animation: "fn2-icon 0.22s ease both", display:"flex" }}>
+                {dark ? <SunIcon /> : <MoonIcon />}
               </span>
             </button>
 
+            <div style={{ width:1, height:20, background:c.border }}/>
+
             {isLoggedIn() ? (
-              /* Avatar + dropdown */
-              <div style={{ position: "relative" }} ref={dropdownRef}>
+              <div style={{ position:"relative" }} ref={dropRef}>
                 <button
-                  onClick={() => setDropdownOpen((v) => !v)}
-                  onMouseEnter={() => setAvatarHover(true)}
-                  onMouseLeave={() => setAvatarHover(false)}
+                  onClick={() => setDropdownOpen(v => !v)}
                   style={{
-                    display: "flex", alignItems: "center", gap: 9,
-                    padding: "5px 12px 5px 5px", borderRadius: 999,
-                    border: avatarHover || dropdownOpen
-                      ? "1px solid rgba(16,185,129,0.4)"
-                      : dark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(15,23,42,0.1)",
-                    background: avatarHover || dropdownOpen
-                      ? "rgba(16,185,129,0.08)"
-                      : dark ? "rgba(255,255,255,0.05)" : "rgba(248,250,252,0.8)",
-                    cursor: "pointer", outline: "none", transition: "all 0.2s ease",
-                    boxShadow: avatarHover || dropdownOpen ? "0 0 0 3px rgba(16,185,129,0.1)" : "none",
+                    display:"flex", alignItems:"center", gap:8,
+                    padding:"4px 10px 4px 4px", borderRadius:99,
+                    border:`1px solid ${dropdownOpen ? c.borderHov : c.border}`,
+                    background: dropdownOpen ? c.accentDim : c.surface,
+                    cursor:"pointer", outline:"none", transition:"all 0.2s",
+                    boxShadow: dropdownOpen ? `0 0 0 3px ${c.accentGlow}` : "none",
                   }}
+                  onMouseEnter={e => { if (!dropdownOpen) (e.currentTarget as HTMLElement).style.borderColor = c.borderHov; }}
+                  onMouseLeave={e => { if (!dropdownOpen) (e.currentTarget as HTMLElement).style.borderColor = c.border; }}
                 >
-                  <span
-                    style={{
-                      width: 30, height: 30, borderRadius: "50%",
-                      background: "linear-gradient(135deg, #10b981 0%, #0891b2 100%)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 12, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', sans-serif",
-                      color: "white", boxShadow: "0 1px 6px rgba(16,185,129,0.35)", flexShrink: 0,
-                    }}
-                  >
-                    {initial}
-                  </span>
-                  <span style={{ fontSize: 13, fontWeight: 600, fontFamily: "'Plus Jakarta Sans', sans-serif", color: dark ? "#e2e8f0" : "#1e293b", maxWidth: 110, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {user?.userName}
-                  </span>
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0, transition: "transform 0.2s", transform: dropdownOpen ? "rotate(180deg)" : "rotate(0)" }}>
-                    <path d="M2 4.5l4 3 4-3" stroke={dark ? "#64748b" : "#94a3b8"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <span style={{
+                    width:28, height:28, borderRadius:"50%", flexShrink:0,
+                    background: c.accentDim,
+                    border:`1px solid ${dark ? "rgba(34,211,165,0.25)" : "rgba(5,150,105,0.3)"}`,
+                    display:"flex", alignItems:"center", justifyContent:"center",
+                    fontSize:11, fontWeight:700, color:c.accent,
+                    fontFamily:"'Outfit',sans-serif",
+                  }}>{initial}</span>
+                  <span style={{
+                    fontSize:13, fontWeight:500, fontFamily:"'Outfit',sans-serif",
+                    color:c.text, maxWidth:100, overflow:"hidden",
+                    textOverflow:"ellipsis", whiteSpace:"nowrap", letterSpacing:"-0.01em",
+                  }}>{user?.userName}</span>
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+                    style={{ transition:"transform 0.2s", transform:dropdownOpen?"rotate(180deg)":"none" }}>
+                    <path d="M2 3.5l3 3 3-3" stroke={c.muted} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
 
-                {/* Dropdown panel */}
                 {dropdownOpen && (
-                  <div
-                    style={{
-                      position: "absolute", top: "calc(100% + 10px)", right: 0, width: 220,
-                      background: dark ? "#0f172a" : "white",
-                      borderRadius: 14,
-                      border: dark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(15,23,42,0.08)",
-                      boxShadow: dark
-                        ? "0 4px 8px rgba(0,0,0,0.4), 0 24px 48px rgba(0,0,0,0.5)"
-                        : "0 4px 8px rgba(0,0,0,0.06), 0 24px 48px rgba(15,23,42,0.1)",
-                      padding: "6px",
-                      animation: "dropIn 0.16s ease both",
-                    }}
-                  >
-                    <div style={{ padding: "10px 12px 12px", marginBottom: 4, borderBottom: dark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(15,23,42,0.06)" }}>
-                      <p style={{ margin: 0, fontSize: 13, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', sans-serif", color: dark ? "#f1f5f9" : "#0f172a" }}>{user?.userName}</p>
-                      <p style={{ margin: "2px 0 0", fontSize: 11, color: "#94a3b8", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Investor Account</p>
+                  <div style={{
+                    position:"absolute", top:"calc(100% + 10px)", right:0, width:220,
+                    background: dark ? "#0b0f1a" : "#ffffff",
+                    border:`1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.08)"}`,
+                    borderRadius:14,
+                    boxShadow: dark
+                      ? "0 0 0 1px rgba(255,255,255,0.04), 0 24px 64px rgba(0,0,0,0.8)"
+                      : "0 0 0 1px rgba(0,0,0,0.03), 0 16px 48px rgba(15,23,42,0.12)",
+                    padding:6, animation:"fn2-drop 0.18s ease both", overflow:"hidden",
+                  }}>
+                    {/* Subtle top radial glow */}
+                    <div style={{
+                      position:"absolute", top:0, left:0, right:0, height:80,
+                      background:`radial-gradient(ellipse at 50% -20%, ${c.accentGlow} 0%, transparent 70%)`,
+                      pointerEvents:"none",
+                    }}/>
+
+                    <div style={{
+                      display:"flex", alignItems:"center", gap:10,
+                      padding:"10px 11px 13px",
+                      borderBottom:`1px solid ${dark?"rgba(255,255,255,0.06)":"rgba(15,23,42,0.07)"}`,
+                      marginBottom:4,
+                    }}>
+                      <span style={{
+                        width:34, height:34, borderRadius:"50%",
+                        background:c.accentDim,
+                        border:`1px solid ${dark?"rgba(34,211,165,0.2)":"rgba(5,150,105,0.25)"}`,
+                        display:"flex", alignItems:"center", justifyContent:"center",
+                        fontSize:13, fontWeight:700, fontFamily:"'Outfit',sans-serif",
+                        color:c.accent, flexShrink:0,
+                      }}>{initial}</span>
+                      <div>
+                        <p style={{ margin:0, fontSize:13, fontWeight:600, fontFamily:"'Outfit',sans-serif", color:c.text }}>{user?.userName}</p>
+                        <p style={{ margin:"2px 0 0", fontSize:11, color:c.muted, fontFamily:"'Outfit',sans-serif" }}>Investor Account</p>
+                      </div>
                     </div>
 
-                    <DropItem
-                      to="/profile"
-                      icon={<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="5" r="2.5" stroke={dark?"#94a3b8":"#64748b"} strokeWidth="1.4"/><path d="M2 13c0-2.76 2.46-5 5.5-5s5.5 2.24 5.5 5" stroke={dark?"#94a3b8":"#64748b"} strokeWidth="1.4" strokeLinecap="round"/></svg>}
-                      label="Profile"
-                    />
-                    <DropItem
-                      to="/portfolio"
-                      icon={<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1.5" y="5" width="12" height="8.5" rx="1.5" stroke={dark?"#94a3b8":"#64748b"} strokeWidth="1.4"/><path d="M5 5V3.5A2.5 2.5 0 0110 3.5V5" stroke={dark?"#94a3b8":"#64748b"} strokeWidth="1.4" strokeLinecap="round"/></svg>}
-                      label="My Portfolio"
-                    />
-                    <DropItem
-                      to="/settings"
-                      icon={<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="2" stroke={dark?"#94a3b8":"#64748b"} strokeWidth="1.4"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3 3l1 1M11 11l1 1M11 3l-1 1M4 11l-1 1" stroke={dark?"#94a3b8":"#64748b"} strokeWidth="1.4" strokeLinecap="round"/></svg>}
-                      label="Settings"
-                    />
+                    {[
+                      { to:"/profile",   label:"Profile",     d:<path d="M7.5 5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zm-5 9c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/> },
+                      { to:"/portfolio", label:"My Portfolio", d:<><rect x="1.5" y="5" width="12" height="8.5" rx="1.5" stroke="currentColor" strokeWidth="1.4"/><path d="M5 5V3.5A2.5 2.5 0 0110 3.5V5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></> },
+                      { to:"/settings",  label:"Settings",    d:<><circle cx="7.5" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.4"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></> },
+                    ].map(({ to, label, d }) => (
+                      <Link key={to} to={to} className="fn2-dropitem"
+                        style={{ color: dark?"#94a3b8":"#475569", background:"transparent" }}
+                        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background=c.surface; el.style.color=c.text; }}
+                        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background="transparent"; el.style.color=dark?"#94a3b8":"#475569"; }}>
+                        <svg width="14" height="14" viewBox="0 0 15 15" fill="none">{d}</svg>
+                        {label}
+                      </Link>
+                    ))}
 
-                    <div style={{ height: 1, background: dark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.06)", margin: "6px 0" }} />
+                    <div style={{ height:1, background:dark?"rgba(255,255,255,0.06)":"rgba(15,23,42,0.07)", margin:"5px 0" }}/>
 
-                    <DropItem
-                      danger
-                      icon={<svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M5 2H2.5A1.5 1.5 0 001 3.5v7A1.5 1.5 0 002.5 12H5M9 10l3-3-3-3M12 7H5" stroke="#ef4444" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                      label="Sign out"
-                    />
+                    <button onClick={logout} className="fn2-dropitem"
+                      style={{ color:"#f87171", background:"transparent" }}
+                      onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background="rgba(239,68,68,0.08)"; el.style.color="#ef4444"; }}
+                      onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background="transparent"; el.style.color="#f87171"; }}>
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M5 2H2.5A1.5 1.5 0 001 3.5v7A1.5 1.5 0 002.5 12H5M9 10l3-3-3-3M12 7H5"
+                          stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      Sign out
+                    </button>
                   </div>
                 )}
               </div>
             ) : (
-              <>
-                <Link
-                  to="/login"
-                  style={{
-                    padding: "7px 18px", borderRadius: 8,
-                    fontSize: 13.5, fontWeight: 500, fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    color: dark ? "#94a3b8" : "#334155",
-                    textDecoration: "none",
-                    border: dark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(15,23,42,0.11)",
-                    background: "transparent", transition: "all 0.18s",
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = dark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.04)";
-                    el.style.borderColor = dark ? "rgba(255,255,255,0.2)" : "rgba(15,23,42,0.2)";
-                    el.style.color = dark ? "#f1f5f9" : "#0f172a";
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = "transparent";
-                    el.style.borderColor = dark ? "rgba(255,255,255,0.1)" : "rgba(15,23,42,0.11)";
-                    el.style.color = dark ? "#94a3b8" : "#334155";
-                  }}
-                >
+              <div style={{ display:"flex", alignItems:"center", gap:7 }}>
+                <Link to="/login" style={{
+                  padding:"7px 17px", borderRadius:8,
+                  fontFamily:"'Outfit',sans-serif",
+                  fontSize:13.5, fontWeight:400, letterSpacing:"-0.01em",
+                  color: dark?"#94a3b8":"#475569",
+                  textDecoration:"none",
+                  border:`1px solid ${c.border}`,
+                  background:c.surface, transition:"all 0.18s",
+                }}
+                onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.borderHov; el.style.color=c.text; el.style.background=c.accentDim; }}
+                onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.border; el.style.color=dark?"#94a3b8":"#475569"; el.style.background=c.surface; }}>
                   Log in
                 </Link>
 
-                <Link
-                  to="/register"
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: 6,
-                    padding: "7px 18px", borderRadius: 8,
-                    fontSize: 13.5, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    color: "white", textDecoration: "none",
-                    background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-                    boxShadow: "0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(16,185,129,0.28)",
-                    transition: "all 0.18s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.transform = "translateY(-1px)";
-                    el.style.boxShadow = "0 2px 6px rgba(0,0,0,0.1), 0 8px 28px rgba(16,185,129,0.38)";
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.transform = "translateY(0)";
-                    el.style.boxShadow = "0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(16,185,129,0.28)";
-                  }}
-                >
+                <Link to="/register" style={{
+                  display:"inline-flex", alignItems:"center", gap:6,
+                  padding:"7px 18px", borderRadius:8,
+                  fontFamily:"'Outfit',sans-serif",
+                  fontSize:13.5, fontWeight:600, letterSpacing:"-0.01em",
+                  color: dark?"#052e16":"#ffffff",
+                  textDecoration:"none",
+                  background: dark
+                    ? "linear-gradient(135deg,#22d3a5 0%,#0ea5e9 100%)"
+                    : "linear-gradient(135deg,#059669 0%,#0284c7 100%)",
+                  boxShadow: dark
+                    ? "0 1px 0 rgba(255,255,255,0.2) inset,0 4px 20px rgba(34,211,165,0.28)"
+                    : "0 1px 0 rgba(255,255,255,0.3) inset,0 4px 16px rgba(5,150,105,0.28)",
+                  transition:"transform 0.2s, box-shadow 0.2s",
+                }}
+                onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.transform="translateY(-1px)"; el.style.boxShadow=dark?"0 1px 0 rgba(255,255,255,0.2) inset,0 8px 28px rgba(34,211,165,0.42)":"0 1px 0 rgba(255,255,255,0.3) inset,0 8px 24px rgba(5,150,105,0.38)"; }}
+                onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.transform="translateY(0)"; el.style.boxShadow=dark?"0 1px 0 rgba(255,255,255,0.2) inset,0 4px 20px rgba(34,211,165,0.28)":"0 1px 0 rgba(255,255,255,0.3) inset,0 4px 16px rgba(5,150,105,0.28)"; }}>
                   Get started
-                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                    <path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </Link>
-              </>
+              </div>
             )}
           </div>
 
-          {/* ══ MOBILE: Theme + Hamburger ══ */}
-          <div className="fe-mobile-btn" style={{ alignItems: "center", gap: 8 }}>
-            <button
-              onClick={() => setDark((v) => !v)}
-              style={{
-                width: 34, height: 34, borderRadius: 8, border: dark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(15,23,42,0.12)",
-                background: dark ? "rgba(255,255,255,0.06)" : "rgba(248,250,252,0.9)",
-                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-              }}
-            >
-              <span key={dark ? "moon" : "sun"} style={{ animation: "toggleSlide 0.25s ease both", display: "flex" }}>
-                {dark ? <SunIcon color="#f59e0b" /> : <MoonIcon color="#64748b" />}
+          {/* ══ MOBILE ══ */}
+          <div className="fn2-mob" style={{ alignItems:"center", gap:7 }}>
+            <button onClick={() => setDark(v => !v)}
+              style={iconBtnStyle({ color:dark?"#f59e0b":"#64748b" })}
+              onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.borderHov; el.style.background=c.accentDim; el.style.color=c.accent; }}
+              onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.border; el.style.background=c.surface; el.style.color=dark?"#f59e0b":"#64748b"; }}>
+              <span key={dark?"sun":"moon"} style={{ animation:"fn2-icon 0.22s ease both", display:"flex" }}>
+                {dark ? <SunIcon /> : <MoonIcon />}
               </span>
             </button>
 
-            <button
-              onClick={() => setMenuOpen((v) => !v)}
-              aria-label="Toggle navigation"
-              style={{
-                padding: "7px", borderRadius: 8,
-                border: dark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(15,23,42,0.1)",
-                background: menuOpen
-                  ? dark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.04)"
-                  : dark ? "rgba(255,255,255,0.05)" : "white",
-                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.18s",
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <button onClick={() => setMenuOpen(v => !v)}
+              style={iconBtnStyle({
+                color:c.muted,
+                background:menuOpen?c.accentDim:c.surface,
+                borderColor:menuOpen?c.borderHov:c.border,
+              })}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 {menuOpen
-                  ? <path d="M4 4l12 12M16 4L4 16" stroke={dark ? "#94a3b8" : "#334155"} strokeWidth="1.8" strokeLinecap="round" />
-                  : <path d="M3 6h14M3 10h14M3 14h14" stroke={dark ? "#94a3b8" : "#334155"} strokeWidth="1.8" strokeLinecap="round" />
-                }
+                  ? <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                  : <><path d="M2 4.5h12" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
+                     <path d="M2 8h12" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
+                     <path d="M2 11.5h7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/></>}
               </svg>
             </button>
           </div>
         </nav>
 
-        {/* ══ MOBILE MENU ══ */}
-        <div
-          style={{
-            overflow: "hidden",
-            maxHeight: menuOpen ? 560 : 0,
-            opacity: menuOpen ? 1 : 0,
-            transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.22s ease",
-            borderTop: menuOpen ? dark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(15,23,42,0.07)" : "none",
-            background: dark ? "rgba(10,14,20,0.99)" : "rgba(255,255,255,0.99)",
-          }}
-        >
-          <div style={{ padding: "14px 20px 22px", display: "flex", flexDirection: "column", gap: 2 }}>
-            <p style={{ margin: "0 0 6px 12px", fontSize: 10, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#94a3b8", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              Navigate
-            </p>
+        {/* ══ MOBILE PANEL ══ */}
+        <div style={{
+          maxHeight: menuOpen ? 560 : 0, opacity: menuOpen ? 1 : 0,
+          overflow: "hidden",
+          transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
+          borderTop: menuOpen ? `1px solid ${c.border}` : "none",
+          background: dark ? "rgba(6,8,15,0.99)" : "rgba(248,250,252,0.99)",
+        }}>
+          <div style={{ padding:"14px 18px 24px", display:"flex", flexDirection:"column", gap:2 }}>
+            <span style={{
+              fontSize:9.5, fontWeight:600, letterSpacing:"0.1em",
+              textTransform:"uppercase", fontFamily:"'Outfit',sans-serif",
+              color:c.muted, marginLeft:10, marginBottom:6,
+            }}>Navigation</span>
 
             {NAV_LINKS.map(({ to, label }) => {
               const active = pathname === to;
               return (
-                <Link
-                  key={to}
-                  to={to}
-                  style={{
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                    padding: "11px 14px", borderRadius: 10,
-                    fontSize: 14, fontWeight: active ? 700 : 500,
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    color: active ? "#059669" : dark ? "#cbd5e1" : "#334155",
-                    background: active ? "rgba(16,185,129,0.08)" : "transparent",
-                    borderLeft: active ? "3px solid #10b981" : "3px solid transparent",
-                    textDecoration: "none", marginBottom: 1,
-                  }}
-                >
+                <Link key={to} to={to} style={{
+                  display:"flex", alignItems:"center", justifyContent:"space-between",
+                  padding:"11px 14px", borderRadius:10,
+                  fontFamily:"'Outfit',sans-serif", fontSize:14,
+                  fontWeight:active?600:400,
+                  color:active?c.accent:dark?"#94a3b8":"#475569",
+                  background:active?c.accentDim:"transparent",
+                  borderLeft:`2px solid ${active?c.accent:"transparent"}`,
+                  textDecoration:"none",
+                }}>
                   {label}
-                  {active && (
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M2 7h10M8 3l4 4-4 4" stroke="#10b981" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
+                  {active && <span style={{ width:5, height:5, borderRadius:"50%", background:c.accent }}/>}
                 </Link>
               );
             })}
 
-            <div style={{ height: 1, background: dark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.07)", margin: "10px 0 12px" }} />
+            <div style={{ height:1, background:c.border, margin:"10px 0 12px" }}/>
 
             {isLoggedIn() ? (
               <>
-                <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "10px 14px", borderRadius: 10, background: dark ? "rgba(255,255,255,0.04)" : "rgba(248,250,252,0.9)", border: dark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(15,23,42,0.07)", marginBottom: 10 }}>
-                  <span style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, #10b981, #0891b2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', sans-serif", color: "white", flexShrink: 0 }}>
-                    {initial}
-                  </span>
+                <div style={{
+                  display:"flex", alignItems:"center", gap:11,
+                  padding:"10px 12px", borderRadius:11,
+                  background:c.surface, border:`1px solid ${c.border}`, marginBottom:8,
+                }}>
+                  <span style={{ width:34, height:34, borderRadius:"50%", background:c.accentDim, border:`1px solid ${dark?"rgba(34,211,165,0.2)":"rgba(5,150,105,0.25)"}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:700, color:c.accent, fontFamily:"'Outfit',sans-serif" }}>{initial}</span>
                   <div>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', sans-serif", color: dark ? "#f1f5f9" : "#0f172a" }}>{user?.userName}</p>
-                    <p style={{ margin: "1px 0 0", fontSize: 11, color: "#94a3b8", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Investor Account</p>
+                    <p style={{ margin:0, fontSize:13, fontWeight:600, fontFamily:"'Outfit',sans-serif", color:c.text }}>{user?.userName}</p>
+                    <p style={{ margin:"2px 0 0", fontSize:11, color:c.muted, fontFamily:"'Outfit',sans-serif" }}>Investor Account</p>
                   </div>
                 </div>
-                <button
-                  onClick={logout}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: "13px", borderRadius: 10, border: "1px solid rgba(239,68,68,0.25)", background: "rgba(254,242,242,0.8)", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#dc2626", cursor: "pointer" }}
-                >
-                  <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 2H2.5A1.5 1.5 0 001 3.5v7A1.5 1.5 0 002.5 12H5M9 10l3-3-3-3M12 7H5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                <button onClick={logout} style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, width:"100%", padding:"12px", borderRadius:10, border:"1px solid rgba(239,68,68,0.2)", background:"rgba(239,68,68,0.06)", fontFamily:"'Outfit',sans-serif", fontSize:14, fontWeight:600, color:"#f87171", cursor:"pointer" }}>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2H2.5A1.5 1.5 0 001 3.5v7A1.5 1.5 0 002.5 12H5M9 10l3-3-3-3M12 7H5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   Sign out
                 </button>
               </>
             ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <Link to="/login" style={{ display: "block", textAlign: "center", padding: "13px", borderRadius: 10, border: dark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(15,23,42,0.12)", fontSize: 14, fontWeight: 600, fontFamily: "'Plus Jakarta Sans', sans-serif", color: dark ? "#cbd5e1" : "#334155", textDecoration: "none", background: dark ? "rgba(255,255,255,0.04)" : "white" }}>
-                  Log in
-                </Link>
-                <Link to="/register" style={{ display: "block", textAlign: "center", padding: "13px", borderRadius: 10, fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', sans-serif", color: "white", textDecoration: "none", background: "linear-gradient(135deg, #10b981 0%, #059669 100%)", boxShadow: "0 4px 16px rgba(16,185,129,0.3)" }}>
-                  Get started — it's free
-                </Link>
+              <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                <Link to="/login" style={{ display:"block", textAlign:"center", padding:"12px", borderRadius:10, fontFamily:"'Outfit',sans-serif", border:`1px solid ${c.border}`, fontSize:14, fontWeight:500, color:dark?"#94a3b8":"#475569", textDecoration:"none", background:c.surface }}>Log in</Link>
+                <Link to="/register" style={{ display:"block", textAlign:"center", padding:"12px", borderRadius:10, fontFamily:"'Outfit',sans-serif", fontSize:14, fontWeight:600, color:dark?"#052e16":"#ffffff", textDecoration:"none", background:dark?"linear-gradient(135deg,#22d3a5 0%,#0ea5e9 100%)":"linear-gradient(135deg,#059669 0%,#0284c7 100%)", boxShadow:"0 4px 20px rgba(34,211,165,0.22)" }}>Get started — it's free</Link>
               </div>
             )}
           </div>
         </div>
       </header>
 
-      {/* Spacer */}
       <div style={{ height: 62 }} />
     </>
   );

@@ -96,7 +96,7 @@ const IncomeStatement = (props: Props) => {
         fetchIncomeStatement();
     }, [ticker]);
     return (
-        <div>
+        <div className="w-full px-4 sm:px-0">
             {incomeStatement.length > 0 ? <> <Table config={configs} data={incomeStatement} />
             </> : <> <Spinner /> </>}
 

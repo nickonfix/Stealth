@@ -8,13 +8,13 @@ type Props = {
 
 const StockCommentList = (props: Props) => {
   return (
-    <>
+    <div className="flex flex-col w-full px-4 sm:px-0">
         {props.comments.length > 0 ? props.comments.map((comment)=>{
             return(
-                <StockCommentListItem comment={comment}/>
+                <StockCommentListItem key={comment.id} comment={comment}/>
             )
-        }):<p>No comments</p>}
-    </>
+        }):<p className="text-gray-500 dark:text-gray-400 mt-4">No comments yet. Be the first to share your thoughts!</p>}
+    </div>
   )
 }
 
