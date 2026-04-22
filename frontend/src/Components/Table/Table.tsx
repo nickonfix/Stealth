@@ -31,15 +31,15 @@ const Table = ({ config, data }: Props) => {
         )
     })
     return (
-        <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 w-full dark:bg-[#0f172a] dark:border dark:border-gray-800 transition-colors duration-300" >
+        <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 w-full dark:bg-zinc-950 dark:border dark:border-zinc-800 transition-colors duration-300" >
             <div className="overflow-x-auto">
                 <table className="min-w-full">
-                    <thead className="border-b border-gray-200 dark:border-gray-800">
+                    <thead className="border-b border-gray-200 dark:border-zinc-800">
                         <tr>
                             {renderedHeaders}
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+                    <tbody className="divide-y divide-gray-100 dark:divide-zinc-900">
                         {renderrows}
                     </tbody>
                 </table>

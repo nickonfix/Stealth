@@ -42,7 +42,7 @@ const CompanyPage = (props: Props) => {
         <>
             {
                 company ? (
-                    <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden bg-gray-50 text-gray-900 dark:bg-[#070b0f] dark:text-gray-100 transition-colors duration-300">
+                    <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden bg-gray-100 text-gray-900 dark:bg-black dark:text-zinc-100 transition-colors duration-300">
                         <Sidebar />
                         <CompanyDashboard ticker={ticker!}>
                             <Tile title="Company Name" subtitle={company.companyName} />
@@ -50,7 +50,7 @@ const CompanyPage = (props: Props) => {
                             <Tile title="Exchange" subtitle={company.exchange} />
                             <Tile title="Industry" subtitle={company.industry} />
                             {/* <Tile title="Sector" subtitle={company.sector} /> */}
-                            <p className="bg-white text-gray-900 shadow rounded text-medium p-3 mt-1 m-4 text-justify text-justify-inter-word dark:bg-[#0f172a] dark:text-gray-300 dark:border dark:border-gray-800">
+                            <p className="bg-white text-gray-900 shadow rounded text-medium p-3 mt-1 m-4 text-justify text-justify-inter-word dark:bg-zinc-900/50 dark:text-zinc-300 dark:border dark:border-zinc-800 transition-colors duration-300">
                                 {company.description}
                             </p>
                         </CompanyDashboard>

@@ -6,9 +6,9 @@ interface Props { }
 
 const Sidebar = (props: Props) => {
     return (
-        <nav className="block py-4 px-6 top-0 bottom-0 w-64 bg-white shadow-xl left-0 absolute flex-row flex-nowrap md:z-10 z-9999 transition-all duration-300 ease-in-out transform md:translate-x-0 -translate-x-full dark:bg-[#0b0f1a] dark:border-r dark:border-gray-800">
+        <nav className="block py-4 px-6 top-0 bottom-0 w-64 bg-white shadow-xl left-0 absolute flex-row flex-nowrap md:z-10 z-9999 transition-all duration-300 ease-in-out transform md:translate-x-0 -translate-x-full dark:bg-black dark:border-r dark:border-zinc-800">
 
-            <button className="md:hidden flex items-center justify-center cursor-pointer text-blueGray-700 w-6 h-10 border-l-0 border-r border-t border-b border-solid border-blueGray-100 text-xl leading-none bg-white rounded-r border border-solid border-transparent absolute top-1/2 -right-24-px focus:outline-none z-9998 dark:bg-gray-800 dark:text-gray-300">
+            <button className="md:hidden flex items-center justify-center cursor-pointer text-blueGray-700 w-6 h-10 border-l-0 border-r border-t border-b border-solid border-blueGray-100 text-xl leading-none bg-white rounded-r border border-solid border-transparent absolute top-1/2 -right-24-px focus:outline-none z-9998 dark:bg-zinc-800 dark:text-zinc-300">
 
                 <i className="fas fa-ellipsis-v"></i>
 
@@ -16,12 +16,12 @@ const Sidebar = (props: Props) => {
 
             <div className="flex-col min-h-full px-0 flex flex-wrap items-center justify-between w-full mx-auto overflow-y-auto overflow-x-hidden">
 
-                <div className="flex bg-white flex-col items-stretch opacity-100 relative mt-4 overflow-y-auto overflow-x-hidden h-auto z-40 items-center flex-1 rounded w-full dark:bg-[#0b0f1a]">
+                <div className="flex bg-white flex-col items-stretch opacity-100 relative mt-4 overflow-y-auto overflow-x-hidden h-auto z-40 items-center flex-1 rounded w-full dark:bg-black">
 
                     <div className="md:flex-col md:min-w-full flex flex-col list-none">
                         <Link
                             to="company-profile"
-                            className="flex md:min-w-full text-blueGray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800/50 p-2 rounded-md text-xs uppercase font-bold pt-1 pb-4 no-underline transition-all">
+                            className="flex md:min-w-full text-blueGray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800/50 p-2 rounded-md text-xs uppercase font-bold pt-1 pb-4 no-underline transition-all">
                             <FaHome />
                             <h6 className='ml-3'> Company Profile</h6>
 
@@ -29,7 +29,7 @@ const Sidebar = (props: Props) => {
 
                         <Link
                             to="income-statement"
-                            className="flex md:min-w-full text-blueGray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800/50 p-2 rounded-md text-xs uppercase font-bold pt-1 pb-4 no-underline transition-all">
+                            className="flex md:min-w-full text-blueGray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800/50 p-2 rounded-md text-xs uppercase font-bold pt-1 pb-4 no-underline transition-all">
                             <FaHome />
                             <h6 className='ml-3'> Income Statement</h6>
 
@@ -37,14 +37,14 @@ const Sidebar = (props: Props) => {
 
                         <Link
                             to="balance-sheet"
-                            className="flex md:min-w-full text-blueGray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800/50 p-2 rounded-md text-xs uppercase font-bold pt-1 pb-4 no-underline transition-all">
+                            className="flex md:min-w-full text-blueGray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800/50 p-2 rounded-md text-xs uppercase font-bold pt-1 pb-4 no-underline transition-all">
                             <FaHome />
                             <h6 className='ml-3'> Balance Sheet</h6>
 
                         </Link>
                         <Link
                             to="cashflow-statement"
-                            className="flex md:min-w-full text-blueGray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800/50 p-2 rounded-md text-xs uppercase font-bold pt-1 pb-4 no-underline transition-all">
+                            className="flex md:min-w-full text-blueGray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800/50 p-2 rounded-md text-xs uppercase font-bold pt-1 pb-4 no-underline transition-all">
                             <FaHome />
                             <h6 className='ml-3'> Cash Flow Statement</h6>
 

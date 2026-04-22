@@ -13,7 +13,7 @@ const StockCommentList = (props: Props) => {
             return(
                 <StockCommentListItem key={comment.id} comment={comment}/>
             )
-        }):<p className="text-gray-500 dark:text-gray-400 mt-4">No comments yet. Be the first to share your thoughts!</p>}
+        }):<p className="text-gray-500 dark:text-zinc-400 mt-4">No comments yet. Be the first to share your thoughts!</p>}
     </div>
   )
 }
