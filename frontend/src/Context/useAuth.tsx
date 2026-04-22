@@ -28,7 +28,6 @@ export const UserProvider = ({children}: Props)=>{
     useEffect(()=>{
         const user = localStorage.getItem("user");
         const token = localStorage.getItem("token");
-        console.log("Initializing Auth Context. LocalStorage User:", user, "Token:", token);
 
         if(user && token){
             setUser(JSON.parse(user));
@@ -49,6 +48,7 @@ export const UserProvider = ({children}: Props)=>{
                 localStorage.setItem("user", JSON.stringify(userObj));
                 setToken(res?.data.token!);
                 setUser(res.data);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
                 toast.success("Registered Successfully");
                 navigate("/search");  
             }
@@ -66,6 +66,7 @@ export const UserProvider = ({children}: Props)=>{
                 localStorage.setItem("user", JSON.stringify(userObj));
                 setToken(res?.data.token!);
                 setUser(res.data);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
                 toast.success("Login Successfully");
                 navigate("/search");
             }
@@ -73,7 +74,6 @@ export const UserProvider = ({children}: Props)=>{
     }
 
     const isLoggedIn = () => {
-        console.log("Checking isLoggedIn. User:", user, "Token:", token);
         return !!user && !!token;
     }
 
@@ -82,6 +82,7 @@ export const UserProvider = ({children}: Props)=>{
         localStorage.removeItem("user");
         setUser(null);
         setToken(null);
+        delete axios.defaults.headers.common['Authorization'];
         navigate("/");
     }
 
