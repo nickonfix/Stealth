@@ -143,7 +143,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// ✅ FIX 4: CORS must come before HttpsRedirection and Auth
 app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
