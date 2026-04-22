@@ -231,10 +231,10 @@ const Navbar: React.FC = () => {
       <header style={{
         position: "fixed", inset: "0 0 auto 0", zIndex: 100,
         background: dark
-          ? scrolled ? D.bgScrolled : "rgba(6,8,15,0.8)"
+          ? "#000000"
           : scrolled ? L.bgScrolled : "rgba(248,250,252,0.85)",
-        backdropFilter: "blur(20px) saturate(160%)",
-        WebkitBackdropFilter: "blur(20px) saturate(160%)",
+        backdropFilter: dark ? "none" : "blur(20px) saturate(160%)",
+        WebkitBackdropFilter: dark ? "none" : "blur(20px) saturate(160%)",
         borderBottom: `1px solid ${c.border}`,
         boxShadow: scrolled
           ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
@@ -254,12 +254,13 @@ const Navbar: React.FC = () => {
         <nav style={{
           maxWidth: 1280, margin: "0 auto",
           padding: "0 28px", height: 62,
-          display: "flex", alignItems: "center",
-          justifyContent: "space-between", gap: 20,
+          display: "grid", alignItems: "center",
+          gridTemplateColumns: "1fr auto 1fr",
+          gap: 20,
         }}>
 
           {/* ══ LOGO ══ */}
-          <Link to="/" style={{ display:"flex", alignItems:"center", gap:10, textDecoration:"none", flexShrink:0 }}>
+          <Link to="/" style={{ display:"flex", alignItems:"center", gap:10, textDecoration:"none", flexShrink:0, justifySelf:"start" }}>
             <LogoMark c={c} />
             <span style={{
               fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -271,7 +272,7 @@ const Navbar: React.FC = () => {
           </Link>
 
           {/* ══ CENTER pill ══ */}
-          <div className="fn2-desk" style={{ flex: 1, justifyContent: "center" }}>
+          <div className="fn2-desk" style={{ justifyContent: "center" }}>
             <div style={{
               display: "flex", alignItems: "center", gap: 1,
               padding: "3px 4px", borderRadius: 11,
@@ -288,7 +289,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* ══ RIGHT ══ */}
-          <div className="fn2-desk" style={{ alignItems:"center", gap:8, flexShrink:0 }}>
+          <div className="fn2-desk" style={{ alignItems:"center", gap:8, flexShrink:0, justifySelf:"end" }}>
 
             <button
               onClick={() => setDark(v => !v)}
@@ -459,7 +460,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* ══ MOBILE ══ */}
-          <div className="fn2-mob" style={{ alignItems:"center", gap:7 }}>
+          <div className="fn2-mob" style={{ alignItems:"center", gap:7, justifySelf:"end" }}>
             <button onClick={() => setDark(v => !v)}
               style={iconBtnStyle({ color:dark?"#f59e0b":"#64748b" })}
               onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.borderHov; el.style.background=c.accentDim; el.style.color=c.accent; }}
@@ -492,7 +493,7 @@ const Navbar: React.FC = () => {
           overflow: "hidden",
           transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
           borderTop: menuOpen ? `1px solid ${c.border}` : "none",
-          background: dark ? "rgba(6,8,15,0.99)" : "rgba(248,250,252,0.99)",
+          background: dark ? "#000000" : "rgba(248,250,252,0.99)",
         }}>
           <div style={{ padding:"14px 18px 24px", display:"flex", flexDirection:"column", gap:2 }}>
             <span style={{
