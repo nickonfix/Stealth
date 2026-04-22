@@ -1,12 +1,16 @@
 import axios from "axios";
 import { CompanyBalanceSheet, CompanyCashFlow, CompanyIncomeStatement, CompanyKeyMetrics, CompanyProfile, CompanySearch } from "./companyd";
 
-const apiBaseUrl = process.env.REACT_APP_BACKEND_URL || "https://localhost:5246";
+const rawBackendUrl = process.env.REACT_APP_BACKEND_URL || "https://localhost:5246";
+const normalizedBackendUrl = rawBackendUrl.replace(/\/+$/, "");
+const apiBaseUrl = normalizedBackendUrl.endsWith("/api")
+    ? normalizedBackendUrl
+    : `${normalizedBackendUrl}/api`;
 
 export const searchCompaines = async (query: string) => {
     try {
         const data = await axios.get<CompanySearch[]>(
-            `${apiBaseUrl}/api/fmp/search?query=${encodeURIComponent(query)}&limit=10`
+            `${apiBaseUrl}/fmp/search-symbol?query=${encodeURIComponent(query)}&limit=10`
         )
         return data.data;
     } catch (error) {
@@ -25,7 +29,7 @@ export const searchCompaines = async (query: string) => {
 export const getCompanyProfile = async (query: string) => {
     try {
         const data = await axios.get<CompanyProfile[]>(
-            `${apiBaseUrl}/api/fmp/profile/${encodeURIComponent(query)}`
+            `${apiBaseUrl}/fmp/profile/${encodeURIComponent(query)}`
         )
         return data.data;
     } catch (error) {
@@ -46,7 +50,7 @@ export const getCompanyProfile = async (query: string) => {
 export const getKeyMetrics = async (query: string) => {
     try {
         const data = await axios.get<CompanyKeyMetrics[]>(
-            `${apiBaseUrl}/api/fmp/key-metrics/${encodeURIComponent(query)}`
+            `${apiBaseUrl}/fmp/key-metrics/${encodeURIComponent(query)}`
         )
         return data.data;
     } catch (error) {
@@ -64,7 +68,7 @@ export const getKeyMetrics = async (query: string) => {
 export const getIncomeStatement = async (query: string) => {
     try {
         const data = await axios.get<CompanyIncomeStatement[]>(
-            `${apiBaseUrl}/api/fmp/income-statement/${encodeURIComponent(query)}?limit=2`
+            `${apiBaseUrl}/fmp/income-statement/${encodeURIComponent(query)}?limit=2`
         )
         return data.data;
     } catch (error) {
@@ -82,7 +86,7 @@ export const getIncomeStatement = async (query: string) => {
 export const getBalanceSheet = async (query: string) => {
     try {
         const data = await axios.get<CompanyBalanceSheet[]>(
-            `${apiBaseUrl}/api/fmp/balance-sheet/${encodeURIComponent(query)}?limit=2`
+            `${apiBaseUrl}/fmp/balance-sheet/${encodeURIComponent(query)}?limit=2`
         )
         return data.data;
     } catch (error) {
@@ -100,7 +104,7 @@ export const getBalanceSheet = async (query: string) => {
 export const getCashFlowStatement = async (query: string) => {
     try {
         const data = await axios.get<CompanyCashFlow[]>(
-            `${apiBaseUrl}/api/fmp/cash-flow/${encodeURIComponent(query)}?limit=2`
+            `${apiBaseUrl}/fmp/cash-flow/${encodeURIComponent(query)}?limit=2`
         )
         return data.data;
     } catch (error) {

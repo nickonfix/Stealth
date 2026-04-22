@@ -17,8 +17,8 @@ namespace api.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet("search")]
-        public Task<IActionResult> Search([FromQuery] string query, [FromQuery] int limit = 10)
+        [HttpGet("search-symbol")]
+        public Task<IActionResult> SearchSymbol([FromQuery] string query, [FromQuery] int limit = 10)
         {
             return ForwardToFmpAsync("search-symbol", new Dictionary<string, string?>
             {
