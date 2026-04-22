@@ -9,7 +9,7 @@ const api = API_URL;
 export const loginAPI = async (username: string, password: string) => {
     try { 
         // We use a template literal to force the slash between the base and the route
-        const data = await axios.post<UserPorfileToken>(`${api}/account/login`, {
+        const data = await axios.post<UserPorfileToken>(`${api}account/login`, {
             username: username, 
             password: password,
         });
@@ -22,7 +22,7 @@ export const loginAPI = async (username: string, password: string) => {
 export const RegisterAPI = async (username: string, password: string, email: string) => {
     try { 
         // We use a template literal to force the slash here too
-        const data = await axios.post<UserPorfileToken>(`${api}/account/register`, {
+        const data = await axios.post<UserPorfileToken>(`${api}account/register`, {
             username: username, 
             password: password, 
             email: email,
