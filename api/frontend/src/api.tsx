@@ -1,15 +1,12 @@
 import axios from "axios";
 import { CompanyBalanceSheet, CompanyCashFlow, CompanyIncomeStatement, CompanyKeyMetrics, CompanyProfile, CompanySearch } from "./companyd";
 
-interface SearchResponse {
-    data: CompanySearch[];
-}
+const apiBaseUrl = process.env.REACT_APP_BACKEND_URL || "https://localhost:5246";
 
 export const searchCompaines = async (query: string) => {
     try {
-        const data = await axios.get<SearchResponse>(
-            `https://financialmodelingprep.com/stable/search-symbol?query=${query}&limit=10&apikey=${process.env.REACT_APP_API_KEY}`
-
+        const data = await axios.get<CompanySearch[]>(
+            `${apiBaseUrl}/api/fmp/search?query=${encodeURIComponent(query)}&limit=10`
         )
         return data.data;
     } catch (error) {
@@ -28,7 +25,7 @@ export const searchCompaines = async (query: string) => {
 export const getCompanyProfile = async (query: string) => {
     try {
         const data = await axios.get<CompanyProfile[]>(
-            `https://financialmodelingprep.com/stable/profile?symbol=${query}&apikey=${process.env.REACT_APP_API_KEY}`
+            `${apiBaseUrl}/api/fmp/profile/${encodeURIComponent(query)}`
         )
         return data.data;
     } catch (error) {
@@ -49,7 +46,7 @@ export const getCompanyProfile = async (query: string) => {
 export const getKeyMetrics = async (query: string) => {
     try {
         const data = await axios.get<CompanyKeyMetrics[]>(
-            `https://financialmodelingprep.com/stable/key-metrics-ttm?symbol=${query}&apikey=${process.env.REACT_APP_API_KEY}`
+            `${apiBaseUrl}/api/fmp/key-metrics/${encodeURIComponent(query)}`
         )
         return data.data;
     } catch (error) {
@@ -67,7 +64,7 @@ export const getKeyMetrics = async (query: string) => {
 export const getIncomeStatement = async (query: string) => {
     try {
         const data = await axios.get<CompanyIncomeStatement[]>(
-            `https://financialmodelingprep.com/stable/income-statement?symbol=${query}&limit=2&apikey=${process.env.REACT_APP_API_KEY}`
+            `${apiBaseUrl}/api/fmp/income-statement/${encodeURIComponent(query)}?limit=2`
         )
         return data.data;
     } catch (error) {
@@ -85,7 +82,7 @@ export const getIncomeStatement = async (query: string) => {
 export const getBalanceSheet = async (query: string) => {
     try {
         const data = await axios.get<CompanyBalanceSheet[]>(
-            `https://financialmodelingprep.com/stable/balance-sheet-statement?symbol=${query}&limit=2&apikey=${process.env.REACT_APP_API_KEY}`
+            `${apiBaseUrl}/api/fmp/balance-sheet/${encodeURIComponent(query)}?limit=2`
         )
         return data.data;
     } catch (error) {
@@ -103,7 +100,7 @@ export const getBalanceSheet = async (query: string) => {
 export const getCashFlowStatement = async (query: string) => {
     try {
         const data = await axios.get<CompanyCashFlow[]>(
-            `https://financialmodelingprep.com/stable/cash-flow-statement?symbol=${query}&limit=2&apikey=${process.env.REACT_APP_API_KEY}`
+            `${apiBaseUrl}/api/fmp/cash-flow/${encodeURIComponent(query)}?limit=2`
         )
         return data.data;
     } catch (error) {
