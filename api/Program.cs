@@ -83,9 +83,9 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["JWT:Issuer"],
-        ValidAudience = builder.Configuration["JWT:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"] ?? throw new InvalidOperationException("JWT:SigningKey is missing from configuration")))
+        ValidIssuer = builder.Configuration["JWT:Issuer"] ?? "https://localhost:5246",
+        ValidAudience = builder.Configuration["JWT:Audience"] ?? "https://localhost:5246",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"] ?? "a-very-long-and-secure-fallback-signing-key-1234567890"))
     };
 });
 
