@@ -10,8 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpClient<IFMPService, FMPService>();
@@ -44,14 +46,10 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-
-
-
 builder.Services.AddControllers().AddNewtonsoftJson(Options =>
 {
     Options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
-
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -100,6 +98,11 @@ builder.Services.AddScoped<IFMPService, FMPService>();
 
 var app = builder.Build();
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -109,12 +112,11 @@ app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyOrigin()
     .SetIsOriginAllowed(origin => true));
-//.WithOrigins("http://localhost:5173")); FOR DEPLOYING
 
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// app.MapGet("/test", () => new { message = "Hello from API" });
+app.MapGet("/api/health", () => new { status = "ok", time = DateTime.UtcNow });
 app.MapControllers();
 app.Run();
