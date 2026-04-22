@@ -50,7 +50,6 @@ const SUGGESTIONS = [
   { label: "Amazon",          sym: "AMZN" },
   { label: "Alphabet",        sym: "GOOGL" },
 ];
-
 const SECTORS = ["Tech", "Health", "Finance", "Energy", "Consumer", "Utilities"];
 
 interface Props {

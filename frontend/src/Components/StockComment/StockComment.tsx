@@ -19,22 +19,6 @@ const StockComment = ({stockSymbol}: Props) => {
     const [comments, setComments] = useState<CommentGet[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-        getComments();
-    }, [getComments]);
-    
-    const { token } = useAuth();
-    const handleComment = (e: CommentFormInputs) => {
-        commentPostAPI(e.title, e.content, stockSymbol, token!)
-        .then((res)=>{
-            if(res){
-                toast.success("Comment created sucessfully!")
-                getComments();
-            }   
-        }).catch((e) => {
-            toast.warning(e);
-        })
-    }
 const getComments = useCallback(async () => {
     setLoading(true);
     commentGetAPI(stockSymbol).then((res) => {
@@ -43,6 +27,23 @@ const getComments = useCallback(async () => {
        
     });
 }, [stockSymbol]);
+
+useEffect(() => {
+    getComments();
+}, [getComments]);
+
+const { token } = useAuth();
+const handleComment = (e: CommentFormInputs) => {
+    commentPostAPI(e.title, e.content, stockSymbol, token!)
+    .then((res)=>{
+        if(res){
+            toast.success("Comment created sucessfully!")
+            getComments();
+        }   
+    }).catch((e) => {
+        toast.warning(e);
+    })
+}
   return (
     <div className="flex flex-col">
     {loading ? <Spinner /> : <StockCommentList comments={comments!}/>}
