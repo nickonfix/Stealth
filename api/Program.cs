@@ -106,12 +106,14 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
 app.UseCors(x => x
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowAnyOrigin()
     .SetIsOriginAllowed(origin => true));
+
+app.UseHttpsRedirection();
+
 
 
 app.UseAuthentication();
