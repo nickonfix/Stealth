@@ -441,7 +441,7 @@ const Hero: React.FC = () => {
         <span style={{ fontSize: 13, color: textMuted, fontFamily: "'Plus Jakarta Sans', sans-serif", transition: "color 0.3s" }}>
           by
         </span>
-        
+        <a
           href="https://github.com/nickonfix"
           target="_blank"
           rel="noopener noreferrer"
