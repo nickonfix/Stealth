@@ -59,11 +59,20 @@ const MarketsPage: React.FC = () => {
         document.documentElement.classList.contains("dark")
       : false
   );
+  const [viewportWidth, setViewportWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 1280
+  );
 
   useEffect(() => {
     const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
     window.addEventListener("finarc-theme-change", handler);
     return () => window.removeEventListener("finarc-theme-change", handler);
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   useEffect(() => {
@@ -87,6 +96,8 @@ const MarketsPage: React.FC = () => {
   const greenBorder  = t(dark, "rgba(16,185,129,0.25)", "rgba(16,185,129,0.2)");
   const cardShadow   = t(dark, "0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(15,23,42,0.07)", "none");
   const cardShadowHover = t(dark, "0 4px 20px rgba(15,23,42,0.12)", "0 0 0 1px rgba(16,185,129,0.2)");
+  const isMobile = viewportWidth < 768;
+  const isTablet = viewportWidth >= 768 && viewportWidth < 1024;
 
   return (
     <section
@@ -99,7 +110,7 @@ const MarketsPage: React.FC = () => {
       }}
     >
       {/* Header */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "48px 40px 0" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "28px 14px 0" : isTablet ? "40px 22px 0" : "48px 40px 0" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
           <div
             style={{
@@ -144,11 +155,15 @@ const MarketsPage: React.FC = () => {
       </div>
 
       {/* News Grid */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px 80px" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 14px 56px" : isTablet ? "0 22px 70px" : "0 40px 80px" }}>
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+            gridTemplateColumns: isMobile
+              ? "1fr"
+              : isTablet
+                ? "repeat(2, minmax(0, 1fr))"
+                : "repeat(auto-fill, minmax(340px, 1fr))",
             gap: 20,
             animation: "fade-up-1 0.4s ease both",
           }}

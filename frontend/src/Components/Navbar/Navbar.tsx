@@ -151,6 +151,9 @@ const Navbar: React.FC = () => {
       return localStorage.getItem("finarc-theme") !== "light";
     return true;
   });
+  const [viewportWidth, setViewportWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 1280
+  );
 
   const dropRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
@@ -176,6 +179,12 @@ const Navbar: React.FC = () => {
     const fn = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   useEffect(() => { setMenuOpen(false); setDropdownOpen(false); }, [pathname]);
@@ -253,9 +262,9 @@ const Navbar: React.FC = () => {
 
         <nav style={{
           maxWidth: 1280, margin: "0 auto",
-          padding: "0 28px", height: 62,
+          padding: viewportWidth <= 1023 ? "0 14px" : "0 28px", height: 62,
           display: "grid", alignItems: "center",
-          gridTemplateColumns: "1fr auto 1fr",
+          gridTemplateColumns: viewportWidth <= 1023 ? "1fr auto" : "1fr auto 1fr",
           gap: 20,
         }}>
 
@@ -460,7 +469,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* ══ MOBILE ══ */}
-          <div className="fn2-mob" style={{ alignItems:"center", gap:7, justifySelf:"end" }}>
+          <div className="fn2-mob" style={{ alignItems:"center", gap:7, justifySelf:"end", gridColumn: viewportWidth <= 1023 ? "2" : undefined }}>
             <button onClick={() => setDark(v => !v)}
               style={iconBtnStyle({ color:dark?"#f59e0b":"#64748b" })}
               onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.borderHov; el.style.background=c.accentDim; el.style.color=c.accent; }}
