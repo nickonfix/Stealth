@@ -358,6 +358,22 @@ const LoginPage = () => {
         }
         .lp-stat-lbl { font-size: 0.7rem; color: ${dark ? "#475569" : "#9ca3af"}; margin-top: 2px; letter-spacing: 0.04em; }
         .lp-stat-sep { width: 1px; background: ${dark ? "rgba(255,255,255,0.08)" : "#f0f0f0"}; align-self: stretch; }
+
+        @media (max-width: 900px) {
+          .lp-center { margin-top: -24px; padding: 2rem 1rem 2.2rem; }
+          .lp-card { padding: 2.2rem 1.3rem 1.9rem; border-radius: 18px; }
+          .lp-head { font-size: 2.1rem; }
+          .lp-sub { font-size: 0.95rem; margin-bottom: 1.5rem; }
+          .lp-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+          .lp-stats { gap: 1rem; width: 100%; justify-content: center; flex-wrap: wrap; }
+          .lp-stat-sep { display: none; }
+        }
+
+        @media (max-width: 560px) {
+          .lp-head { font-size: 1.8rem; }
+          .lp-badge { font-size: 0.65rem; padding: 4px 10px 4px 8px; }
+          .ticker-outer::before, .ticker-outer::after { width: 36px; }
+        }
       `}</style>
 
       <div className="lp-root">

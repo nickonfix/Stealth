@@ -69,6 +69,9 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
   const [cursorPos, setCursorPos]       = useState({ x: 0, y: 0 });
   const [cursorVisible, setCursorVisible] = useState(false);
   const [activeSector, setActiveSector] = useState<string | null>(null);
+  const [viewportWidth, setViewportWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 1280
+  );
   const sectionRef  = useRef<HTMLElement>(null);
   const inputRef    = useRef<HTMLInputElement>(null);
   const styleRef    = useRef(false);
@@ -86,6 +89,12 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
     const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
     window.addEventListener("finarc-theme-change", handler);
     return () => window.removeEventListener("finarc-theme-change", handler);
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
@@ -118,6 +127,8 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
   const greenBorder = dark ? "rgba(16,185,129,0.25)" : "rgba(16,185,129,0.2)";
   const shadow      = dark ? "none" : "0 1px 3px rgba(0,0,0,0.05), 0 8px 24px rgba(15,23,42,0.06)";
   const gridColor   = dark ? "rgba(16,185,129,0.04)" : "rgba(15,23,42,0.04)";
+  const isMobile = viewportWidth < 768;
+  const isTablet = viewportWidth >= 768 && viewportWidth < 1024;
 
   return (
     <section
@@ -128,8 +139,8 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
       style={{
         position: "relative",
         background: bg,
-        minHeight: "560px",
-        paddingBottom: "80px",
+        minHeight: isMobile ? "520px" : "560px",
+        paddingBottom: isMobile ? "56px" : "80px",
         fontFamily: "'Plus Jakarta Sans', sans-serif",
         overflow: "hidden",
         transition: "background 0.3s",
@@ -153,10 +164,10 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
 
       {/* ── Background Patterns ── */}
       <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${gridColor} 1px, transparent 1px), linear-gradient(90deg, ${gridColor} 1px, transparent 1px)`, backgroundSize: "56px 56px", animation: "fe-grid-breathe 7s ease-in-out infinite", pointerEvents: "none", zIndex: 0 }} />
-      <div style={{ position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)", width: 900, height: 400, background: dark ? "radial-gradient(ellipse, rgba(16,185,129,0.09) 0%, transparent 70%)" : "radial-gradient(ellipse, rgba(16,185,129,0.1) 0%, transparent 60%)", pointerEvents: "none", zIndex: 0 }} />
+      <div style={{ position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)", width: isMobile ? 560 : 900, height: isMobile ? 280 : 400, background: dark ? "radial-gradient(ellipse, rgba(16,185,129,0.09) 0%, transparent 70%)" : "radial-gradient(ellipse, rgba(16,185,129,0.1) 0%, transparent 60%)", pointerEvents: "none", zIndex: 0 }} />
 
       {/* ── MAIN CONTENT ── */}
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 1000, margin: "0 auto", padding: "80px 32px 40px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1000, margin: "0 auto", padding: isMobile ? "56px 16px 28px" : isTablet ? "72px 24px 36px" : "80px 32px 40px", display: "flex", flexDirection: "column", alignItems: "center" }}>
         
         {/* Badge */}
         <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: greenBg, border: `1px solid ${greenBorder}`, borderRadius: 999, padding: "5px 14px", marginBottom: 20, animation: "fe-tag-in 0.5s both" }}>
@@ -170,22 +181,22 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
 
         {/* Search Input Card */}
         <div style={{ position: "relative", width: "100%", maxWidth: 680, animation: "fe-fade-up 0.6s 0.1s both", marginBottom: 40 }}>
-           <form onSubmit={onSearchSubmit} style={{ background: surface, borderRadius: 16, border: focused ? "1.5px solid #10b981" : `1.5px solid ${border}`, padding: "6px", display: "flex", alignItems: "center", gap: 8, boxShadow: shadow, transition: "all 0.3s" }}>
+           <form onSubmit={onSearchSubmit} style={{ background: surface, borderRadius: 16, border: focused ? "1.5px solid #10b981" : `1.5px solid ${border}`, padding: "6px", display: "flex", alignItems: "center", gap: 8, boxShadow: shadow, transition: "all 0.3s", flexWrap: isMobile ? "wrap" : "nowrap" }}>
               <div style={{ width: 44, height: 44, borderRadius: 11, background: focused ? greenBg : surface2, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="5.5" stroke={focused ? "#10b981" : textSub} strokeWidth="1.6"/><path d="M12.5 12.5L16 16" stroke={focused ? "#10b981" : textSub} strokeWidth="1.6" strokeLinecap="round"/></svg>
               </div>
-              <input ref={inputRef} type="text" placeholder="Search ticker or company..." value={search} onChange={handleSearchChange} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} style={{ flex: 1, background: "transparent", border: "none", outline: "none", fontSize: 16, fontWeight: 500, color: textPrimary, padding: "10px 4px" }} />
-              <button type="submit" style={{ padding: "10px 24px", borderRadius: 10, background: "linear-gradient(135deg, #10b981, #059669)", color: "white", fontWeight: 700, cursor: "pointer", border: "none" }}>Search</button>
+              <input ref={inputRef} type="text" placeholder="Search ticker or company..." value={search} onChange={handleSearchChange} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} style={{ flex: 1, minWidth: isMobile ? "calc(100% - 60px)" : "auto", background: "transparent", border: "none", outline: "none", fontSize: 16, fontWeight: 500, color: textPrimary, padding: "10px 4px" }} />
+              <button type="submit" style={{ padding: "10px 24px", width: isMobile ? "100%" : "auto", borderRadius: 10, background: "linear-gradient(135deg, #10b981, #059669)", color: "white", fontWeight: 700, cursor: "pointer", border: "none" }}>Search</button>
            </form>
         </div>
 
         {/* Compact Grid for Tickers & Sectors */}
-        <div style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, animation: "fe-fade-up-2 0.6s 0.2s both" }}>
+        <div style={{ width: "100%", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 20 : 40, animation: "fe-fade-up-2 0.6s 0.2s both" }}>
           
           {/* Left: Popular */}
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, color: textMuted, letterSpacing: "0.1em", marginBottom: 12, fontFamily: "'DM Mono', monospace" }}>POPULAR SEARCHES</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 8 }}>
               {SUGGESTIONS.map(s => (
                 <button key={s.sym} onClick={()=>handleSuggestion(s.sym)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", background: surface, border: `1px solid ${border}`, borderRadius: 10, cursor: "pointer", transition: "0.2s" }}>
                   <span style={{ fontSize: 10, fontWeight: 800, color: green, background: greenBg, padding: "2px 6px", borderRadius: 4 }}>{s.sym}</span>
@@ -208,7 +219,7 @@ const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange })
         </div>
 
         {/* Stat Row */}
-        <div style={{ display: "flex", gap: 40, marginTop: 48, animation: "fe-fade-up-2 0.6s 0.3s both" }}>
+        <div style={{ display: "flex", gap: isMobile ? 20 : 40, marginTop: 48, animation: "fe-fade-up-2 0.6s 0.3s both", flexWrap: isMobile ? "wrap" : "nowrap", justifyContent: "center" }}>
           {[{v: "12,400+", l: "Companies"}, {v: "Real-time", l: "Data"}, {v: "Free", l: "Access"}].map(st => (
             <div key={st.l}>
               <div style={{ fontSize: 16, fontWeight: 700, color: textPrimary, fontFamily: "'DM Mono', monospace" }}>{st.v}</div>

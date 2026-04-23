@@ -100,6 +100,9 @@ const PortfolioPage: React.FC = () => {
         document.documentElement.classList.contains("dark")
       : false
   );
+  const [viewportWidth, setViewportWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 1280
+  );
 
   /* watchlist state (in real app these come from props/API) */
   const [portfolioValues, setPortfolioValues] = useState<PortfolioGet[] | null>(null);
@@ -121,6 +124,12 @@ const PortfolioPage: React.FC = () => {
     const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
     window.addEventListener("finarc-theme-change", handler);
     return () => window.removeEventListener("finarc-theme-change", handler);
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   useEffect(() => {
@@ -192,6 +201,8 @@ const PortfolioPage: React.FC = () => {
   const inputBg       = tk(dark, "rgba(248,250,252,0.9)",     "rgba(255,255,255,0.04)");
   const inputBorder   = tk(dark, "rgba(15,23,42,0.12)",       "rgba(255,255,255,0.08)");
   const gridColor     = tk(dark, "rgba(15,23,42,0.035)",      "rgba(16,185,129,0.04)");
+  const isMobile = viewportWidth < 768;
+  const isTablet = viewportWidth >= 768 && viewportWidth < 1100;
 
   const displayName = user?.userName
     ? (user.userName.charAt(0).toUpperCase() + user.userName.slice(1))
@@ -237,7 +248,7 @@ const PortfolioPage: React.FC = () => {
         }}
       />
 
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 1280, margin: "0 auto", padding: "52px 40px 80px" }}>
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1280, margin: "0 auto", padding: isMobile ? "28px 14px 56px" : isTablet ? "42px 22px 64px" : "52px 40px 80px" }}>
 
         {/* ════════════════════════════════
             PAGE HEADER
@@ -294,7 +305,7 @@ const PortfolioPage: React.FC = () => {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
+            gridTemplateColumns: isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
             gap: 14,
             marginBottom: 40,
             animation: "fe-fade-up 0.5s 0.1s both",
@@ -347,7 +358,7 @@ const PortfolioPage: React.FC = () => {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "280px 1fr",
+            gridTemplateColumns: isTablet ? "1fr" : "280px 1fr",
             gap: 20,
             marginBottom: 40,
             animation: "fe-fade-up 0.5s 0.25s both",
@@ -436,11 +447,12 @@ const PortfolioPage: React.FC = () => {
                   <div
                     onClick={() => setActiveHolding(isOpen ? null : inv.sym)}
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "auto 1fr auto auto auto auto",
+                    display: isMobile ? "flex" : "grid",
+                    gridTemplateColumns: isMobile ? undefined : "auto 1fr auto auto auto auto",
+                    flexWrap: isMobile ? "wrap" : undefined,
                       gap: 20,
                       alignItems: "center",
-                      padding: "18px 24px",
+                    padding: isMobile ? "16px 14px" : "18px 24px",
                       cursor: "pointer",
                       userSelect: "none",
                     }}
@@ -460,7 +472,7 @@ const PortfolioPage: React.FC = () => {
                     </div>
 
                     {/* Name + sparkline */}
-                    <div>
+                    <div style={{ minWidth: isMobile ? "calc(100% - 68px)" : undefined }}>
                       <div style={{ fontSize: 15, color: textPrimary, fontWeight: 600, marginBottom: 2 }}>{inv.name}</div>
                       <svg viewBox="0 0 48 36" style={{ width: 72, height: 22 }}>
                         <path d={SPARKLINES[inv.sym]} fill="none" stroke={isUp ? green : "#f87171"} strokeWidth="1.5" strokeLinecap="round" />
@@ -468,25 +480,25 @@ const PortfolioPage: React.FC = () => {
                     </div>
 
                     {/* Shares */}
-                    <div style={{ textAlign: "right" }}>
+                    <div style={{ textAlign: "right", marginLeft: isMobile ? "auto" : undefined }}>
                       <div style={{ fontSize: 10, color: textMuted, marginBottom: 3, fontFamily: "'DM Mono', monospace" }}>SHARES</div>
                       <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 15, color: textSecondary }}>{inv.shares}</div>
                     </div>
 
                     {/* Avg cost */}
-                    <div style={{ textAlign: "right" }}>
+                    <div style={{ textAlign: "right", marginLeft: isMobile ? "auto" : undefined }}>
                       <div style={{ fontSize: 10, color: textMuted, marginBottom: 3, fontFamily: "'DM Mono', monospace" }}>AVG COST</div>
                       <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 15, color: textSecondary }}>${inv.avg.toFixed(2)}</div>
                     </div>
 
                     {/* Current */}
-                    <div style={{ textAlign: "right" }}>
+                    <div style={{ textAlign: "right", marginLeft: isMobile ? "auto" : undefined }}>
                       <div style={{ fontSize: 10, color: textMuted, marginBottom: 3, fontFamily: "'DM Mono', monospace" }}>PRICE</div>
                       <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 15, color: textPrimary }}>${inv.current.toFixed(2)}</div>
                     </div>
 
                     {/* P&L + chevron */}
-                    <div style={{ textAlign: "right", display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{ textAlign: "right", display: "flex", alignItems: "center", gap: 10, marginLeft: isMobile ? "auto" : undefined }}>
                       <div>
                         <div style={{ fontSize: 10, color: textMuted, marginBottom: 3, fontFamily: "'DM Mono', monospace" }}>P&L</div>
                         <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 15, color: isUp ? green : "#f87171", fontWeight: 600 }}>
