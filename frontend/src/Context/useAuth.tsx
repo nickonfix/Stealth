@@ -50,7 +50,7 @@ export const UserProvider = ({children}: Props)=>{
                 setUser(res.data);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
                 toast.success("Registered Successfully");
-                navigate("/search");  
+                navigate("/search", { replace: true });  
             }
         }).catch(e=> toast.warning("Server Error Occured!"))
     }
@@ -68,13 +68,20 @@ export const UserProvider = ({children}: Props)=>{
                 setUser(res.data);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
                 toast.success("Login Successfully");
-                navigate("/search");
+                navigate("/search", { replace: true });
             }
         }).catch(e => toast.warning("Server Error Occured!"))
     }
 
     const isLoggedIn = () => {
-        return !!user && !!token;
+        if (user && token) {
+            return true;
+        }
+
+        // Fallback prevents route-guard flicker during reload/state hydration.
+        const persistedUser = localStorage.getItem("user");
+        const persistedToken = localStorage.getItem("token");
+        return !!persistedUser && !!persistedToken;
     }
 
     const logout = () => {

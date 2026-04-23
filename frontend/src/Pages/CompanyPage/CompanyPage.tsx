@@ -30,7 +30,7 @@ const CompanyPage = (props: Props) => {
         <>
             {
                 company ? (
-                    <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden bg-gray-100 text-gray-900 dark:bg-black dark:text-zinc-100 transition-colors duration-300">
+                    <div className="w-full relative flex flex-col md:flex-row ct-docs-disable-sidebar-content overflow-x-hidden bg-gray-100 text-gray-900 dark:bg-black dark:text-zinc-100 transition-colors duration-300">
                         <Sidebar />
                         <CompanyDashboard ticker={ticker!}>
                             <Tile title="Company Name" subtitle={company.companyName} />
