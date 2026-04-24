@@ -1,14 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Finarc Hero — White / Dark Dual Theme
-   Listens for "Finarc-theme-change" CustomEvent dispatched by Navbar.
-   Also reads localStorage on mount.
-───────────────────────────────────────────────────────────────────────────── */
-
 const KEYFRAMES = `
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
 @keyframes ticker         { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
 @keyframes pulse-green    { 0%,100%{opacity:1}50%{opacity:0.4} }
 @keyframes float-up       { 0%{transform:translateY(8px);opacity:0}100%{transform:translateY(0);opacity:1} }
@@ -22,10 +16,11 @@ const KEYFRAMES = `
 @keyframes badge-pop      { 0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1} }
 `;
 
-/* ── Data ── */
+const MONO = "'DM Mono', monospace";
+
 const TICKERS = [
-  { sym: "AAPL",  price: "189.30", chg: "+1.24", pct: "+0.66%" },
-  { sym: "NVDA",  price: "875.40", chg: "+21.50", pct: "+2.52%" },
+  { sym: "AAPL",  price: "189.30", chg: "+1.24",  pct: "+0.66%" },
+  { sym: "NVDA",  price: "234.40", chg: "+21.50", pct: "+2.52%" },
   { sym: "TSLA",  price: "248.50", chg: "-3.20",  pct: "-1.27%" },
   { sym: "MSFT",  price: "415.90", chg: "+4.10",  pct: "+0.99%" },
   { sym: "AMZN",  price: "185.60", chg: "+2.75",  pct: "+1.50%" },
@@ -35,12 +30,8 @@ const TICKERS = [
   { sym: "JPM",   price: "202.50", chg: "-1.40",  pct: "-0.69%" },
 ];
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Theme token helpers — returns correct value for light / dark
-───────────────────────────────────────────────────────────────────────────── */
 const t = (dark: boolean, light: string, darkVal: string) => dark ? darkVal : light;
 
-/* ═══════════════════════ COMPONENT ═══════════════════════ */
 const Hero: React.FC = () => {
   const [dark, setDark] = useState<boolean>(() =>
     typeof window !== "undefined"
@@ -51,16 +42,12 @@ const Hero: React.FC = () => {
   const [livePrice, setLivePrice] = useState(875.4);
   const styleInjected = useRef(false);
 
-  /* Listen for Navbar theme changes */
   useEffect(() => {
-    const handler = (e: Event) => {
-      setDark((e as CustomEvent).detail.dark);
-    };
+    const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
     window.addEventListener("finarc-theme-change", handler);
     return () => window.removeEventListener("finarc-theme-change", handler);
   }, []);
 
-  /* Inject keyframes once */
   useEffect(() => {
     if (!styleInjected.current) {
       const el = document.createElement("style");
@@ -74,21 +61,20 @@ const Hero: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  /* ── Derived theme tokens ── */
-  const bg         = t(dark, "#f8fafc",          "#070b0f");
-  const surface    = t(dark, "#ffffff",           "#0f1520");
-  const surface2   = t(dark, "#f1f5f9",           "#131c28");
-  const border     = t(dark, "rgba(15,23,42,0.09)", "rgba(255,255,255,0.07)");
-  const border2    = t(dark, "rgba(15,23,42,0.06)", "rgba(255,255,255,0.05)");
-  const textPrimary   = t(dark, "#0f172a", "#f1f5f9");
-  const textSecondary = t(dark, "#475569", "#64748b");
-  const textMuted     = t(dark, "#94a3b8", "#475569");
-  const tickerBg      = t(dark, "rgba(248,250,252,0.9)",  "rgba(0,0,0,0.4)");
-  const tickerBorder  = t(dark, "rgba(15,23,42,0.09)",    "rgba(16,185,129,0.12)");
-  const green         = "#10b981";
-  const greenBg       = t(dark, "rgba(16,185,129,0.07)",  "rgba(16,185,129,0.08)");
-  const greenBorder   = t(dark, "rgba(16,185,129,0.25)",  "rgba(16,185,129,0.2)");
-  const cardShadow    = t(dark, "0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(15,23,42,0.07)", "none");
+  const bg              = t(dark, "#f8fafc",                   "#070b0f");
+  const surface         = t(dark, "#ffffff",                   "#0f1520");
+  const surface2        = t(dark, "#f1f5f9",                   "#131c28");
+  const border          = t(dark, "rgba(15,23,42,0.09)",       "rgba(255,255,255,0.07)");
+  const border2         = t(dark, "rgba(15,23,42,0.06)",       "rgba(255,255,255,0.05)");
+  const textPrimary     = t(dark, "#0f172a",                   "#f1f5f9");
+  const textSecondary   = t(dark, "#475569",                   "#64748b");
+  const textMuted       = t(dark, "#94a3b8",                   "#475569");
+  const tickerBg        = t(dark, "rgba(248,250,252,0.9)",     "rgba(0,0,0,0.4)");
+  const tickerBorder    = t(dark, "rgba(15,23,42,0.09)",       "rgba(16,185,129,0.12)");
+  const green           = "#10b981";
+  const greenBg         = t(dark, "rgba(16,185,129,0.07)",     "rgba(16,185,129,0.08)");
+  const greenBorder     = t(dark, "rgba(16,185,129,0.25)",     "rgba(16,185,129,0.2)");
+  const cardShadow      = t(dark, "0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(15,23,42,0.07)", "none");
   const cardShadowHover = t(dark, "0 4px 20px rgba(15,23,42,0.12)", "0 0 0 1px rgba(16,185,129,0.2)");
 
   return (
@@ -96,18 +82,18 @@ const Hero: React.FC = () => {
       style={{
         background: bg,
         minHeight: "100vh",
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        fontFamily: MONO,
+        fontSize: 14,
         color: textPrimary,
         position: "relative",
         overflow: "hidden",
         transition: "background 0.3s ease, color 0.3s ease",
       }}
     >
-      {/* ── Decorative background: light = soft grid, dark = green grid ── */}
+      {/* Background grid */}
       <div
         style={{
-          position: "absolute",
-          inset: 0,
+          position: "absolute", inset: 0,
           backgroundImage: dark
             ? "linear-gradient(rgba(16,185,129,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.04) 1px, transparent 1px)"
             : "linear-gradient(rgba(15,23,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px)",
@@ -117,11 +103,10 @@ const Hero: React.FC = () => {
         }}
       />
 
-      {/* ── Radial glow ── */}
+      {/* Radial glow */}
       <div
         style={{
-          position: "absolute",
-          top: "25%", left: "50%",
+          position: "absolute", top: "25%", left: "50%",
           transform: "translate(-50%,-50%)",
           width: 900, height: 600,
           background: dark
@@ -139,9 +124,7 @@ const Hero: React.FC = () => {
         </>
       )}
 
-      {/* ════════════════════════════════
-          TICKER BAR
-      ════════════════════════════════ */}
+      {/* ── TICKER BAR ── */}
       <div
         style={{
           borderBottom: `1px solid ${tickerBorder}`,
@@ -155,21 +138,19 @@ const Hero: React.FC = () => {
         }}
       >
         <div style={{ display: "flex", gap: 48, animation: "ticker 30s linear infinite", whiteSpace: "nowrap" }}>
-          {[...TICKERS, ...TICKERS].map((t_, i) => (
-            <span key={i} style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, display: "inline-flex", alignItems: "center", gap: 6 }}>
-              <span style={{ color: textSecondary, fontWeight: 500 }}>{t_.sym}</span>
-              <span style={{ color: textPrimary }}>{t_.price}</span>
-              <span style={{ color: t_.chg.startsWith("+") ? green : "#f87171", fontSize: 10 }}>
-                {t_.chg.startsWith("+") ? "▲" : "▼"} {t_.pct}
+          {[...TICKERS, ...TICKERS].map((tk, i) => (
+            <span key={i} style={{ fontFamily: MONO, fontSize: 12, display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <span style={{ color: textSecondary, fontWeight: 500 }}>{tk.sym}</span>
+              <span style={{ color: textPrimary }}>{tk.price}</span>
+              <span style={{ color: tk.chg.startsWith("+") ? green : "#f87171", fontSize: 12 }}>
+                {tk.chg.startsWith("+") ? "▲" : "▼"} {tk.pct}
               </span>
             </span>
           ))}
         </div>
       </div>
 
-      {/* ════════════════════════════════
-          MAIN HERO CONTENT
-      ════════════════════════════════ */}
+      {/* ── MAIN CONTENT ── */}
       <div
         style={{
           maxWidth: 1280,
@@ -183,14 +164,13 @@ const Hero: React.FC = () => {
           zIndex: 2,
         }}
       >
-        {/* ── LEFT: HEADLINE ── */}
+        {/* LEFT: HEADLINE */}
         <div style={{ animation: "slide-in-left 0.8s cubic-bezier(0.16,1,0.3,1) both" }}>
+
           {/* Status badge */}
           <div
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
+              display: "inline-flex", alignItems: "center", gap: 8,
               background: greenBg,
               border: `1px solid ${greenBorder}`,
               borderRadius: 999,
@@ -200,16 +180,18 @@ const Hero: React.FC = () => {
             }}
           >
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: green, animation: "pulse-green 2s infinite", display: "inline-block" }} />
-            <span style={{ fontSize: 11, fontFamily: "'DM Mono', monospace", color: green, letterSpacing: "0.08em" }}>
+            <span style={{ fontSize: 12, fontFamily: MONO, color: green, letterSpacing: "0.08em" }}>
               MARKETS OPEN · NYSE · NASDAQ
             </span>
           </div>
 
+          {/* Headline — DM Mono, large */}
           <h1
             style={{
-              fontFamily: "'Instrument Serif', serif",
-              fontSize: "clamp(42px, 5vw, 66px)",
-              lineHeight: 1.08,
+              fontFamily: MONO,
+              fontWeight: 500,
+              fontSize: "clamp(36px, 4.5vw, 58px)",
+              lineHeight: 1.15,
               letterSpacing: "-0.03em",
               color: textPrimary,
               marginBottom: 24,
@@ -231,7 +213,7 @@ const Hero: React.FC = () => {
             not noise.
           </h1>
 
-          <p style={{ fontSize: 17, color: textSecondary, lineHeight: 1.75, maxWidth: 440, marginBottom: 40, fontWeight: 400, transition: "color 0.3s" }}>
+          <p style={{ fontSize: 14, fontFamily: MONO, color: textSecondary, lineHeight: 1.8, maxWidth: 440, marginBottom: 40, fontWeight: 400, transition: "color 0.3s" }}>
             Track real-time stock data, read signal-filtered news, share your
             positions, and discuss market moves — all without the noise of social media.
           </p>
@@ -244,11 +226,11 @@ const Hero: React.FC = () => {
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: "linear-gradient(135deg, #10b981, #059669)",
                 color: "white",
-                fontSize: 15, fontWeight: 700,
+                fontSize: 14, fontWeight: 500, fontFamily: MONO,
                 padding: "14px 28px",
                 borderRadius: 10,
                 textDecoration: "none",
-                letterSpacing: "-0.01em",
+                letterSpacing: "0.02em",
                 boxShadow: "0 4px 20px rgba(16,185,129,0.32)",
                 transition: "transform 0.2s, box-shadow 0.2s",
               }}
@@ -266,7 +248,7 @@ const Hero: React.FC = () => {
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
-            <span style={{ fontSize: 13, color: textMuted }}>No credit card · Free forever</span>
+            <span style={{ fontSize: 13, fontFamily: MONO, color: textMuted }}>No credit card · Free forever</span>
           </div>
 
           {/* Social proof */}
@@ -277,15 +259,16 @@ const Hero: React.FC = () => {
               { v: "99.8%", l: "Uptime SLA" },
             ].map(({ v, l }) => (
               <div key={l}>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 22, color: textPrimary, fontWeight: 500, transition: "color 0.3s" }}>{v}</div>
-                <div style={{ fontSize: 11, color: textMuted, marginTop: 3, transition: "color 0.3s" }}>{l}</div>
+                <div style={{ fontFamily: MONO, fontSize: 22, color: textPrimary, fontWeight: 500, transition: "color 0.3s" }}>{v}</div>
+                <div style={{ fontFamily: MONO, fontSize: 12, color: textMuted, marginTop: 3, transition: "color 0.3s" }}>{l}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── RIGHT: LIVE DASHBOARD CARD ── */}
+        {/* RIGHT: LIVE DASHBOARD CARD */}
         <div style={{ animation: "slide-in-right 0.8s cubic-bezier(0.16,1,0.3,1) both" }}>
+
           {/* Featured stock card */}
           <div
             style={{
@@ -301,7 +284,6 @@ const Hero: React.FC = () => {
               transition: "background 0.3s, border-color 0.3s, box-shadow 0.3s",
             }}
           >
-            {/* Scan line (dark only) */}
             {dark && (
               <div
                 style={{
@@ -316,19 +298,19 @@ const Hero: React.FC = () => {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-                  <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, background: greenBg, color: green, padding: "3px 10px", borderRadius: 4, border: `1px solid ${greenBorder}` }}>
+                  <span style={{ fontFamily: MONO, fontSize: 12, background: greenBg, color: green, padding: "3px 10px", borderRadius: 4, border: `1px solid ${greenBorder}` }}>
                     NVDA
                   </span>
-                  <span style={{ fontSize: 12, color: textMuted }}>NASDAQ</span>
+                  <span style={{ fontFamily: MONO, fontSize: 12, color: textMuted }}>NASDAQ</span>
                 </div>
-                <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: 13, color: textSecondary }}>NVIDIA Corporation</div>
+                <div style={{ fontFamily: MONO, fontSize: 13, color: textSecondary, fontWeight: 400 }}>NVIDIA Corporation</div>
               </div>
 
               <div style={{ textAlign: "right" }}>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 32, fontWeight: 500, color: textPrimary, transition: "color 0.3s", lineHeight: 1 }}>
+                <div style={{ fontFamily: MONO, fontSize: 32, fontWeight: 500, color: textPrimary, transition: "color 0.3s", lineHeight: 1 }}>
                   ${livePrice.toFixed(2)}
                 </div>
-                <div style={{ fontSize: 12, color: livePrice > 875.4 ? green : "#f87171", marginTop: 4, fontFamily: "'DM Mono', monospace" }}>
+                <div style={{ fontFamily: MONO, fontSize: 12, color: livePrice > 875.4 ? green : "#f87171", marginTop: 4 }}>
                   {livePrice > 875.4 ? "▲" : "▼"} {Math.abs(livePrice - 875.4).toFixed(2)} ({(((livePrice - 875.4) / 875.4) * 100).toFixed(2)}%)
                 </div>
               </div>
@@ -354,8 +336,8 @@ const Hero: React.FC = () => {
                 { l: "Vol (M)",    v: "42.3M"   },
               ].map(({ l, v }) => (
                 <div key={l} style={{ background: surface2, borderRadius: 10, padding: "10px 12px", border: `1px solid ${border2}`, transition: "background 0.3s" }}>
-                  <div style={{ fontSize: 10, color: textMuted, marginBottom: 4, letterSpacing: "0.06em" }}>{l.toUpperCase()}</div>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 14, color: textPrimary }}>{v}</div>
+                  <div style={{ fontFamily: MONO, fontSize: 10, color: textMuted, marginBottom: 4, letterSpacing: "0.06em" }}>{l.toUpperCase()}</div>
+                  <div style={{ fontFamily: MONO, fontSize: 14, color: textPrimary }}>{v}</div>
                 </div>
               ))}
             </div>
@@ -390,17 +372,15 @@ const Hero: React.FC = () => {
                 }}
               >
                 <div>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: textSecondary, fontWeight: 500 }}>{tk.sym}</div>
-                  <div style={{ fontSize: 15, color: textPrimary, marginTop: 2 }}>${tk.price}</div>
+                  <div style={{ fontFamily: MONO, fontSize: 12, color: textSecondary, fontWeight: 500 }}>{tk.sym}</div>
+                  <div style={{ fontFamily: MONO, fontSize: 14, color: textPrimary, marginTop: 2 }}>${tk.price}</div>
                 </div>
                 <span
                   style={{
-                    fontFamily: "'DM Mono', monospace",
-                    fontSize: 11,
+                    fontFamily: MONO,
+                    fontSize: 12,
                     color: tk.chg.startsWith("+") ? green : "#f87171",
-                    background: tk.chg.startsWith("+")
-                      ? "rgba(16,185,129,0.1)"
-                      : "rgba(248,113,113,0.1)",
+                    background: tk.chg.startsWith("+") ? "rgba(16,185,129,0.1)" : "rgba(248,113,113,0.1)",
                     padding: "4px 8px",
                     borderRadius: 4,
                   }}
@@ -413,7 +393,7 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Bottom gradient fade ── */}
+      {/* Bottom gradient fade */}
       <div
         style={{
           position: "absolute", bottom: 0, left: 0, right: 0, height: 100,
@@ -421,39 +401,27 @@ const Hero: React.FC = () => {
           pointerEvents: "none", transition: "background 0.3s",
         }}
       />
-            {/* ── Made with love credit ── */}
-            <div
+
+      {/* Made with love credit */}
+      <div
         style={{
-          position: "relative",
-          zIndex: 10,
+          position: "relative", zIndex: 10,
           textAlign: "center",
           padding: "20px 40px 32px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 8,
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
         }}
       >
-        <span style={{ fontSize: 13, color: textMuted, fontFamily: "'Plus Jakarta Sans', sans-serif", transition: "color 0.3s" }}>
-          Made with
-        </span>
+        <span style={{ fontFamily: MONO, fontSize: 13, color: textMuted, transition: "color 0.3s" }}>Made with</span>
         <span style={{ fontSize: 15, animation: "pulse-green 2s infinite" }}>❤️</span>
-        <span style={{ fontSize: 13, color: textMuted, fontFamily: "'Plus Jakarta Sans', sans-serif", transition: "color 0.3s" }}>
-          by
-        </span>
+        <span style={{ fontFamily: MONO, fontSize: 13, color: textMuted, transition: "color 0.3s" }}>by</span>
         <a
           href="https://github.com/nickonfix"
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            fontSize: 13,
-            fontWeight: 600,
-            color: green,
-            textDecoration: "none",
-            fontFamily: "'DM Mono', monospace",
+            display: "inline-flex", alignItems: "center", gap: 6,
+            fontFamily: MONO, fontSize: 13, fontWeight: 500,
+            color: green, textDecoration: "none",
             transition: "opacity 0.2s",
           }}
           onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = "0.75"; }}
