@@ -2,13 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../Context/useAuth";
 
-/* ══════════════════════════════════════════════════════════
-   FinArc — Aceternity Premium Navbar  v2
-   Dark-first glass floating nav · Bricolage Grotesque logo
-   Clean pill with solid active-slot · zero cheap animations
-   Accent: #22d3a5 teal-emerald  ·  Surface: #0b0f1a deep navy
-   ══════════════════════════════════════════════════════════ */
-
 const FONTS = `
   @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Outfit:wght@300;400;500;600&display=swap');
 `;
@@ -239,11 +232,21 @@ const Navbar: React.FC = () => {
 
       <header style={{
         position: "fixed", inset: "0 0 auto 0", zIndex: 100,
+
+
+        // background: dark
+        //   ? "#000000"
+        //   : scrolled ? L.bgScrolled : "rgba(248,250,252,0.85)",
+        // backdropFilter: dark ? "none" : "blur(20px) saturate(160%)",
+        // WebkitBackdropFilter: dark ? "none" : "blur(20px) saturate(160%)",
+
         background: dark
-          ? "#000000"
-          : scrolled ? L.bgScrolled : "rgba(248,250,252,0.85)",
-        backdropFilter: dark ? "none" : "blur(20px) saturate(160%)",
-        WebkitBackdropFilter: dark ? "none" : "blur(20px) saturate(160%)",
+         ? scrolled ? "rgba(6,8,15,0.6)" : "transparent"
+         : scrolled ? L.bgScrolled : "transparent",
+        backdropFilter: "blur(20px) saturate(160%)",
+        WebkitBackdropFilter: "blur(20px) saturate(160%)",
+
+
         borderBottom: `1px solid ${c.border}`,
         boxShadow: scrolled
           ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
@@ -502,7 +505,8 @@ const Navbar: React.FC = () => {
           overflow: "hidden",
           transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
           borderTop: menuOpen ? `1px solid ${c.border}` : "none",
-          background: dark ? "#000000" : "rgba(248,250,252,0.99)",
+          background: dark ? "rgba(6,8,15,0.85)" : "rgba(248,250,252,0.92)",
+          // background: dark ? "#000000" : "rgba(248,250,252,0.99)",
         }}>
           <div style={{ padding:"14px 18px 24px", display:"flex", flexDirection:"column", gap:2 }}>
             <span style={{
