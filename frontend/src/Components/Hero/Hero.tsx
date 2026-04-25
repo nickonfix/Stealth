@@ -60,22 +60,25 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener("finarc-theme-change", handler);
   }, []);
 
-  /* Inject keyframes once */
-  useEffect(() => {
-    if (!styleInjected.current) {
-      const el = document.createElement("style");
-      el.textContent = KEYFRAMES;
-      document.head.appendChild(el);
-      styleInjected.current = true;
-    }
-    document.body.style.background = dark ? "#070b0f" : "#f8fafc";
-    document.documentElement.style.background = dark ? "#070b0f" : "#f8fafc";
-    
-    const interval = setInterval(() => {
-      setLivePrice((p: number) => parseFloat((p + (Math.random() - 0.48) * 1.2).toFixed(2)));
-    }, 1800);
-    return () => clearInterval(interval);
-  }, []);
+/* Inject keyframes once */
+useEffect(() => {
+  if (!styleInjected.current) {
+    const el = document.createElement("style");
+    el.textContent = KEYFRAMES;
+    document.head.appendChild(el);
+    styleInjected.current = true;
+  }
+  const interval = setInterval(() => {
+    setLivePrice((p: number) => parseFloat((p + (Math.random() - 0.48) * 1.2).toFixed(2)));
+  }, 1800);
+  return () => clearInterval(interval);
+}, []);
+
+/* Sync body background with theme */
+useEffect(() => {
+  document.body.style.background = dark ? "#070b0f" : "#f8fafc";
+  document.documentElement.style.background = dark ? "#070b0f" : "#f8fafc";
+}, [dark]);
 
   /* ── Derived theme tokens ── */
   const bg         = t(dark, "#f8fafc",          "#070b0f");
