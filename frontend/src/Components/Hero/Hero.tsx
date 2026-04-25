@@ -83,7 +83,8 @@ const Hero: React.FC = () => {
   const textPrimary   = t(dark, "#0f172a", "#f1f5f9");
   const textSecondary = t(dark, "#475569", "#64748b");
   const textMuted     = t(dark, "#94a3b8", "#475569");
-  const tickerBg      = t(dark, "rgba(248,250,252,0.9)",  "rgba(0,0,0,0.4)");
+  const tickerBg = t(dark, "rgba(248,250,252,0.9)", "transparent");
+  //const tickerBg      = t(dark, "rgba(248,250,252,0.9)",  "rgba(0,0,0,0.4)");
   const tickerBorder  = t(dark, "rgba(15,23,42,0.09)",    "rgba(16,185,129,0.12)");
   const green         = "#10b981";
   const greenBg       = t(dark, "rgba(16,185,129,0.07)",  "rgba(16,185,129,0.08)");
@@ -144,7 +145,9 @@ const Hero: React.FC = () => {
       ════════════════════════════════ */}
       <div
         style={{
-          borderBottom: `1px solid ${tickerBorder}`,
+          borderBottom: dark ? "none" : `1px solid ${tickerBorder}`,
+          // borderBottom: dark && !scrolled ? "none" : `1px solid ${c.border}`,
+          // borderBottom: `1px solid ${tickerBorder}`,
           background: tickerBg,
           backdropFilter: "blur(8px)",
           overflow: "hidden",
