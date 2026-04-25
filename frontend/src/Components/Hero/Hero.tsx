@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
     document.documentElement.style.background = dark ? "#070b0f" : "#f8fafc";
     
     const interval = setInterval(() => {
-      setLivePrice((p) => parseFloat((p + (Math.random() - 0.48) * 1.2).toFixed(2)));
+      setLivePrice((p: number) => parseFloat((p + (Math.random() - 0.48) * 1.2).toFixed(2)));
     }, 1800);
     return () => clearInterval(interval);
   }, []);
