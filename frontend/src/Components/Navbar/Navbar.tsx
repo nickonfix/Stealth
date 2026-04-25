@@ -241,11 +241,15 @@ const Navbar: React.FC = () => {
         // WebkitBackdropFilter: dark ? "none" : "blur(20px) saturate(160%)",
 
         background: dark
-         ? scrolled ? "rgba(6,8,15,0.6)" : "transparent"
-         : scrolled ? L.bgScrolled : "transparent",
+        ? scrolled ? "rgba(7,11,15,0.95)" : "#070b0f"
+        : scrolled ? L.bgScrolled : "transparent",
+
+        // background: dark
+        //  ? scrolled ? "rgba(6,8,15,0.6)" : "transparent"
+        //  : scrolled ? L.bgScrolled : "transparent",
         backdropFilter: "blur(20px) saturate(160%)",
         WebkitBackdropFilter: "blur(20px) saturate(160%)",
-        borderBottom: dark && !scrolled ? "none" : `1px solid ${c.border}`,
+        borderBottom: dark ? "none" : scrolled ? `1px solid ${c.border}` : "none",
         //borderBottom: `1px solid ${c.border}`,
         boxShadow: scrolled
           ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
