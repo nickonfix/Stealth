@@ -183,8 +183,8 @@ useEffect(() => {
             // 1. Make background transparent in light mode
             background: dark ? tickerBg : "transparent", 
             // 2. Remove blur in light mode
-            backdropFilter: dark ? "blur(8px)" : "none",
-            WebkitBackdropFilter: dark ? "blur(8px)" : "none",
+            backdropFilter: dark ? "blur(1px)" : "none",
+            WebkitBackdropFilter: dark ? "blur(1px)" : "none",
             overflow: "hidden",
             height: 40,
             display: "flex",
