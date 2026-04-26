@@ -149,7 +149,7 @@ useEffect(() => {
       {/* ════════════════════════════════
           TICKER BAR
       ════════════════════════════════ */}
-      <div
+      {/* <div
         style={{
           borderBottom: dark ? "none" : `1px solid ${tickerBorder}`,
           // borderBottom: dark && !scrolled ? "none" : `1px solid ${c.border}`,
@@ -162,7 +162,19 @@ useEffect(() => {
           alignItems: "center",
           transition: "background 0.3s",
         }}
-      >
+      > */}
+        <div
+          style={{
+            borderBottom: "none", // This removes the line entirely in both modes
+            background: tickerBg,
+            backdropFilter: "blur(8px)",
+            height: 40,
+            display: "flex",
+            alignItems: "center",
+            transition: "background 0.3s",
+            overflow: "hidden",
+          }}
+        >
         <div style={{ display: "flex", gap: 48, animation: "ticker 30s linear infinite", whiteSpace: "nowrap" }}>
           {[...TICKERS, ...TICKERS].map((t_, i) => (
             <span key={i} style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, display: "inline-flex", alignItems: "center", gap: 6 }}>
