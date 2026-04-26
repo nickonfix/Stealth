@@ -522,7 +522,8 @@ const Navbar: React.FC = () => {
           borderTop: menuOpen ? `1px solid ${c.border}` : "none",
           background: dark ? "rgba(6,8,15,0.85)" : "rgba(248,250,252,0.92)",
           // background: dark ? "#000000" : "rgba(248,250,252,0.99)",
-        }}> */} */}
+        }}> */} 
+
         <div style={{
           maxHeight: menuOpen ? 560 : 0, opacity: menuOpen ? 1 : 0,
           overflow: "hidden",
