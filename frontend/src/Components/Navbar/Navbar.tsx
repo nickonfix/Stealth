@@ -232,6 +232,17 @@ const Navbar: React.FC = () => {
 
       <header style={{
         position: "fixed", inset: "0 0 auto 0", zIndex: 100,
+        background: "transparent",                                   
+        backdropFilter: scrolled ? "blur(16px)" : "none",          
+        WebkitBackdropFilter: scrolled ? "blur(16px)" : "none",
+        boxShadow: scrolled
+          ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
+          : "none",
+        transition: "background 0.3s, box-shadow 0.3s",
+      }}>
+
+      {/* <header style={{
+        position: "fixed", inset: "0 0 auto 0", zIndex: 100,
 
 
         // background: dark
@@ -255,7 +266,7 @@ const Navbar: React.FC = () => {
           ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
           : "none",
         transition: "background 0.3s, box-shadow 0.3s",
-      }}>
+      }}> */}
 
         {/* Single sharp accent rule */}
         <div style={{
@@ -504,14 +515,34 @@ const Navbar: React.FC = () => {
         </nav>
 
         {/* ══ MOBILE PANEL ══ */}
-        <div style={{
+        {/* {*<div style={{
           maxHeight: menuOpen ? 560 : 0, opacity: menuOpen ? 1 : 0,
           overflow: "hidden",
           transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
           borderTop: menuOpen ? `1px solid ${c.border}` : "none",
           background: dark ? "rgba(6,8,15,0.85)" : "rgba(248,250,252,0.92)",
           // background: dark ? "#000000" : "rgba(248,250,252,0.99)",
+        }}> */} */}
+        <div style={{
+          maxHeight: menuOpen ? 560 : 0, opacity: menuOpen ? 1 : 0,
+          overflow: "hidden",
+          transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
+          borderTop: menuOpen ? `1px solid ${c.border}` : "none",
+          background: dark ? "rgba(7,11,15,0.82)" : "rgba(248,250,252,0.88)",   // ← alpha, not solid
+          backdropFilter: "blur(20px)",                                           // ← frosted glass
+          WebkitBackdropFilter: "blur(20px)",
         }}>
+
+
+        <div style={{
+  maxHeight: menuOpen ? 560 : 0, opacity: menuOpen ? 1 : 0,
+  overflow: "hidden",
+  transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
+  borderTop: menuOpen ? `1px solid ${c.border}` : "none",
+  background: dark ? "rgba(7,11,15,0.82)" : "rgba(248,250,252,0.88)",   // ← alpha, not solid
+  backdropFilter: "blur(20px)",                                           // ← frosted glass
+  WebkitBackdropFilter: "blur(20px)",
+}}></div>
           <div style={{ padding:"14px 18px 24px", display:"flex", flexDirection:"column", gap:2 }}>
             <span style={{
               fontSize:9.5, fontWeight:600, letterSpacing:"0.1em",
