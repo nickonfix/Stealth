@@ -99,17 +99,30 @@ useEffect(() => {
   const cardShadowHover = t(dark, "0 4px 20px rgba(15,23,42,0.12)", "0 0 0 1px rgba(16,185,129,0.2)");
 
   return (
-    <section
-      style={{
-        background: bg,
-        minHeight: "100vh",
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-        color: textPrimary,
-        position: "relative",
-        overflow: "hidden",
-        transition: "background 0.3s ease, color 0.3s ease",
-      }}
-    >
+    // <section
+    //   style={{
+    //     background: bg,
+    //     minHeight: "100vh",
+    //     fontFamily: "'Plus Jakarta Sans', sans-serif",
+    //     color: textPrimary,
+    //     position: "relative",
+    //     overflow: "hidden",
+    //     transition: "background 0.3s ease, color 0.3s ease",
+    //   }}
+    // >
+
+      <section
+        style={{
+          background: bg,
+          height: "100vh",        // ← was minHeight, change to height
+          overflow: "hidden",     // ← add this
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          color: textPrimary,
+          position: "relative",
+          transition: "background 0.3s ease, color 0.3s ease",
+        }}
+      >
+  
       {/* ── Decorative background: light = soft grid, dark = green grid ── */}
       <div
         style={{
