@@ -163,16 +163,22 @@ useEffect(() => {
           transition: "background 0.3s",
         }}
       > */}
+
         <div
           style={{
-            borderBottom: "none", // This removes the line entirely in both modes
-            background: tickerBg,
-            backdropFilter: "blur(8px)",
+            borderBottom: "none",
+            // 1. Make background transparent in light mode
+            background: dark ? tickerBg : "transparent", 
+            // 2. Remove blur in light mode
+            backdropFilter: dark ? "blur(8px)" : "none",
+            WebkitBackdropFilter: dark ? "blur(8px)" : "none",
+            overflow: "hidden",
             height: 40,
             display: "flex",
             alignItems: "center",
             transition: "background 0.3s",
-            overflow: "hidden",
+            position: "relative",
+            zIndex: 1, // Keep it below the Navbar
           }}
         >
         <div style={{ display: "flex", gap: 48, animation: "ticker 30s linear infinite", whiteSpace: "nowrap" }}>
