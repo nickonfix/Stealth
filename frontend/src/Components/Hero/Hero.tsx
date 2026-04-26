@@ -22,18 +22,18 @@ const KEYFRAMES = `
 @keyframes badge-pop      { 0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1} }
 `;
 
-/* ── Data ── */
-const TICKERS = [
-  { sym: "AAPL",  price: "189.30", chg: "+1.24", pct: "+0.66%" },
-  { sym: "NVDA",  price: "234.40", chg: "+21.50", pct: "+2.52%" },
-  { sym: "TSLA",  price: "248.50", chg: "-3.20",  pct: "-1.27%" },
-  { sym: "MSFT",  price: "415.90", chg: "+4.10",  pct: "+0.99%" },
-  { sym: "AMZN",  price: "185.60", chg: "+2.75",  pct: "+1.50%" },
-  { sym: "GOOGL", price: "172.80", chg: "-0.90",  pct: "-0.52%" },
-  { sym: "META",  price: "527.40", chg: "+8.30",  pct: "+1.60%" },
-  { sym: "BRK.B", price: "402.10", chg: "+1.05",  pct: "+0.26%" },
-  { sym: "JPM",   price: "202.50", chg: "-1.40",  pct: "-0.69%" },
-];
+// /* ── Data ── */
+// const TICKERS = [
+//   { sym: "AAPL",  price: "189.30", chg: "+1.24", pct: "+0.66%" },
+//   { sym: "NVDA",  price: "234.40", chg: "+21.50", pct: "+2.52%" },
+//   { sym: "TSLA",  price: "248.50", chg: "-3.20",  pct: "-1.27%" },
+//   { sym: "MSFT",  price: "415.90", chg: "+4.10",  pct: "+0.99%" },
+//   { sym: "AMZN",  price: "185.60", chg: "+2.75",  pct: "+1.50%" },
+//   { sym: "GOOGL", price: "172.80", chg: "-0.90",  pct: "-0.52%" },
+//   { sym: "META",  price: "527.40", chg: "+8.30",  pct: "+1.60%" },
+//   { sym: "BRK.B", price: "402.10", chg: "+1.05",  pct: "+0.26%" },
+//   { sym: "JPM",   price: "202.50", chg: "-1.40",  pct: "-0.69%" },
+// ];
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Theme token helpers — returns correct value for light / dark
