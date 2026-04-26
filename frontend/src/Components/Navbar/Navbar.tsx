@@ -249,7 +249,7 @@ const Navbar: React.FC = () => {
         //  : scrolled ? L.bgScrolled : "transparent",
         backdropFilter: "blur(20px) saturate(160%)",
         WebkitBackdropFilter: "blur(20px) saturate(160%)",
-        borderBottom: dark ? "none" : scrolled ? `1px solid ${c.border}` : "none",
+        //borderBottom: dark ? "none" : scrolled ? `1px solid ${c.border}` : "none",
         //borderBottom: `1px solid ${c.border}`,
         boxShadow: scrolled
           ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
@@ -263,7 +263,8 @@ const Navbar: React.FC = () => {
           background: dark
             ? `linear-gradient(90deg,transparent 0%,${D.accent}55 25%,${D.accent}99 50%,${D.accent}55 75%,transparent 100%)`
             : `linear-gradient(90deg,transparent 0%,${L.accent}44 25%,${L.accent}88 50%,${L.accent}44 75%,transparent 100%)`,
-          opacity: 0.85,
+          //opacity: 0.85,
+          opacity: dark ? 0.85 : 0,
         }}/>
 
         <nav style={{
