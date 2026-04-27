@@ -229,15 +229,8 @@ const Navbar: React.FC = () => {
           transition:background 0.15s, color 0.15s;
         }
       `}</style>
-      <header style={{
-        position: "fixed", 
-        inset: "16px 0 auto 0", // Added a 16px top gap for a floating look
-        zIndex: 100,
-        background: "transparent", // No background strip
-        pointerEvents: "none",     // Allows clicking through empty space
-      }}></header>
 
-      {/* <header style={{
+      <header style={{
         position: "fixed", inset: "0 0 auto 0", zIndex: 100,
         background: "transparent",                                   
         backdropFilter: scrolled ? "blur(16px)" : "none",          
@@ -246,7 +239,7 @@ const Navbar: React.FC = () => {
           ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
           : "none",
         transition: "background 0.3s, box-shadow 0.3s",
-      }}> */}
+      }}>
 
       {/* <header style={{
         position: "fixed", inset: "0 0 auto 0", zIndex: 100,
