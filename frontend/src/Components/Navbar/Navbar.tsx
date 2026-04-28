@@ -233,7 +233,7 @@ const Navbar: React.FC = () => {
       <header style={{
         position: "fixed", inset: "0 0 auto 0", zIndex: 100,
         background: "transparent",                                   
-        backdropFilter: scrolled ? "blur(16px)" : "none",          
+        backdropFilter: scrolled ? "blur(16px)" : "none";          
         WebkitBackdropFilter: scrolled ? "blur(16px)" : "none",
         boxShadow: scrolled
           ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
