@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
             { path: "news", element: <ProtectedRoutes><MarketsPage /></ProtectedRoutes> },
             { path: "forgot-password", element: <ForgotPasswordPage /> },
             { path: "portfolio", element: <ProtectedRoutes><PortfolioPage /></ProtectedRoutes> },
-            //{ path: "screener", element: <PlaceholderPage title="Stock Screener" subtitle="Filter and discover stocks using custom criteria, fundamentals, and technical indicators." icon="🔍" /> },
+            { path: "screener", element: <PlaceholderPage title="Stock Screener" subtitle="Filter and discover stocks using custom criteria, fundamentals, and technical indicators." icon="🔍" /> },
             { path: "profile", element: <ProtectedRoutes><ProfilePage /></ProtectedRoutes> },
             { path: "settings", element: <ProtectedRoutes><SettingsPage /></ProtectedRoutes> },
             { path: "design-guide", element: <DesignPage /> },
