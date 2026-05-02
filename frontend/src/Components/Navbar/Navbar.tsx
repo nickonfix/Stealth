@@ -16,17 +16,17 @@ export const NAV_LINKS = [
 
 /* ─── Palette ─── */
 const D = {
-  bg:         "#06080f",
-  bgScrolled: "rgba(6,8,15,0.96)",
+  bg:         "#1f2228",
+  bgScrolled: "rgba(31,34,40,0.96)",
   surface:    "rgba(255,255,255,0.04)",
   surfaceHov: "rgba(255,255,255,0.07)",
-  border:     "rgba(255,255,255,0.07)",
-  borderHov:  "rgba(34,211,165,0.3)",
-  text:       "#e2e8f0",
-  muted:      "#4b5563",
-  accent:     "#22d3a5",
-  accentDim:  "rgba(34,211,165,0.1)",
-  accentGlow: "rgba(34,211,165,0.2)",
+  border:     "rgba(255,255,255,0.1)",
+  borderHov:  "rgba(255,255,255,0.2)",
+  text:       "#ffffff",
+  muted:      "rgba(255,255,255,0.5)",
+  accent:     "#ffffff",
+  accentDim:  "rgba(255,255,255,0.05)",
+  accentGlow: "rgba(255,255,255,0.1)",
 };
 const L = {
   bg:         "#f8fafc",
@@ -57,11 +57,10 @@ const NavLink = ({ to, label, c }: { to: string; label: string; c: typeof D }) =
       style={{
         position: "relative",
         display: "inline-flex", alignItems: "center",
-        padding: "6px 14px", borderRadius: 8,
-        fontFamily: "'Outfit', sans-serif",
-        fontSize: 13.5, fontWeight: active ? 600 : 400,
-        letterSpacing: "-0.01em",
-        color: active ? c.text : hov ? c.text : c.muted,
+        padding: "6px 14px", borderRadius: 0,
+        fontFamily: "'Geist Sans', sans-serif",
+        fontSize: 14, fontWeight: 400,
+        color: active ? c.text : hov ? "rgba(255,255,255,0.5)" : c.text,
         textDecoration: "none",
         transition: "color 0.15s",
         zIndex: 1,
@@ -69,14 +68,9 @@ const NavLink = ({ to, label, c }: { to: string; label: string; c: typeof D }) =
     >
       {active && (
         <span style={{
-          position: "absolute", inset: 0, borderRadius: 8,
-          background: isDark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.07)",
-          boxShadow: isDark
-            ? "inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.2)"
-            : "inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.05)",
-          border: isDark
-            ? "1px solid rgba(255,255,255,0.1)"
-            : "1px solid rgba(15,23,42,0.12)",
+          position: "absolute", inset: 0, borderRadius: 0,
+          background: "rgba(255,255,255,0.05)",
+          border: "1px solid rgba(255,255,255,0.1)",
         }} />
       )}
       {!active && hov && (
@@ -93,20 +87,13 @@ const NavLink = ({ to, label, c }: { to: string; label: string; c: typeof D }) =
 /* ─── Logo mark ─── */
 const LogoMark = ({ c }: { c: typeof D }) => (
   <div style={{
-    width: 32, height: 32, borderRadius: 9, flexShrink: 0,
-    background: c.accentDim,
-    border: `1px solid ${c === D ? "rgba(34,211,165,0.2)" : "rgba(5,150,105,0.25)"}`,
+    width: 32, height: 32, borderRadius: 0, flexShrink: 0,
+    background: "transparent",
+    border: `1px solid rgba(255,255,255,0.2)`,
     display: "flex", alignItems: "center", justifyContent: "center",
   }}>
-    <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
-      <polyline points="2,15 6.5,8.5 11,12.5 17,4"
-        stroke={c.accent} strokeWidth="2.2"
-        strokeLinecap="round" strokeLinejoin="round"/>
-      <circle cx="17" cy="4" r="2.3"
-        fill="none" stroke={c.accent} strokeWidth="1.8"/>
-      <line x1="17" y1="6.3" x2="17" y2="16"
-        stroke={c === D ? "rgba(34,211,165,0.25)" : "rgba(5,150,105,0.3)"}
-        strokeWidth="1.4" strokeLinecap="round" strokeDasharray="1 2"/>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
     </svg>
   </div>
 );
@@ -425,36 +412,33 @@ const Navbar: React.FC = () => {
             ) : (
               <div style={{ display:"flex", alignItems:"center", gap:7 }}>
                 <Link to="/login" style={{
-                  padding:"7px 17px", borderRadius:8,
-                  fontFamily:"'Outfit',sans-serif",
-                  fontSize:13.5, fontWeight:400, letterSpacing:"-0.01em",
-                  color: dark?"#94a3b8":"#475569",
+                  padding:"8px 20px", borderRadius:0,
+                  fontFamily:"'Geist Mono', monospace",
+                  fontSize:13, fontWeight:400, letterSpacing:"1.4px",
+                  color: "#ffffff",
                   textDecoration:"none",
-                  border:`1px solid ${c.border}`,
-                  background:c.surface, transition:"all 0.18s",
+                  border:`1px solid rgba(255,255,255,0.1)`,
+                  background:"transparent", transition:"all 0.18s",
+                  textTransform: "uppercase",
                 }}
-                onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.borderHov; el.style.color=c.text; el.style.background=c.accentDim; }}
-                onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.border; el.style.color=dark?"#94a3b8":"#475569"; el.style.background=c.surface; }}>
+                onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.background="rgba(255,255,255,0.05)"; el.style.color="rgba(255,255,255,0.5)"; }}
+                onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.background="transparent"; el.style.color="#ffffff"; }}>
                   Log in
                 </Link>
 
                 <Link to="/register" style={{
                   display:"inline-flex", alignItems:"center", gap:6,
-                  padding:"7px 18px", borderRadius:8,
-                  fontFamily:"'Outfit',sans-serif",
-                  fontSize:13.5, fontWeight:600, letterSpacing:"-0.01em",
-                  color: dark?"#052e16":"#ffffff",
+                  padding:"8px 22px", borderRadius:0,
+                  fontFamily:"'Geist Mono', monospace",
+                  fontSize:13, fontWeight:500, letterSpacing:"1.4px",
+                  color: "#1f2228",
                   textDecoration:"none",
-                  background: dark
-                    ? "linear-gradient(135deg,#22d3a5 0%,#0ea5e9 100%)"
-                    : "linear-gradient(135deg,#059669 0%,#0284c7 100%)",
-                  boxShadow: dark
-                    ? "0 1px 0 rgba(255,255,255,0.2) inset,0 4px 20px rgba(34,211,165,0.28)"
-                    : "0 1px 0 rgba(255,255,255,0.3) inset,0 4px 16px rgba(5,150,105,0.28)",
-                  transition:"transform 0.2s, box-shadow 0.2s",
+                  background: "#ffffff",
+                  transition:"opacity 0.2s",
+                  textTransform: "uppercase",
                 }}
-                onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.transform="translateY(-1px)"; el.style.boxShadow=dark?"0 1px 0 rgba(255,255,255,0.2) inset,0 8px 28px rgba(34,211,165,0.42)":"0 1px 0 rgba(255,255,255,0.3) inset,0 8px 24px rgba(5,150,105,0.38)"; }}
-                onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.transform="translateY(0)"; el.style.boxShadow=dark?"0 1px 0 rgba(255,255,255,0.2) inset,0 4px 20px rgba(34,211,165,0.28)":"0 1px 0 rgba(255,255,255,0.3) inset,0 4px 16px rgba(5,150,105,0.28)"; }}>
+                onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.opacity="0.9"; }}
+                onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.opacity="1"; }}>
                   Get started
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>

@@ -2,19 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins&family=Rubik&display=swap");
+@import url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css');
+@import url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/style.css');
 
 :root {
-  background-color: #06080f;
-  color: #e2e8f0;
+  background-color: #1f2228;
+  color: #ffffff;
+  font-family: 'Geist Sans', sans-serif;
 }
 
 html.dark {
-  background-color: #06080f;
-  color: #e2e8f0;
+  background-color: #1f2228;
+  color: #ffffff;
 }
 
+/* Override standard dark mode if any components use it, 
+   since xAI is dark-only for the hero/main theme */
 html:not(.dark) {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: #1f2228;
+  color: #ffffff;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #1f2228;
 }
