@@ -99,7 +99,7 @@ const Navbar: React.FC = () => {
 
   const dropRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
-  const c = dark ? D : L;
+  const c = D;
   const initial = user?.userName?.[0]?.toUpperCase() ?? "U";
 
   useEffect(() => {
