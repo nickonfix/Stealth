@@ -3,7 +3,6 @@ import React, { SyntheticEvent, useState } from "react";
 interface Props {
   onPortfolioDelete: (e: SyntheticEvent) => void;
   portfolioValue: string;
-  dark?: boolean;
 }
 
 const DeletePortfolio = ({ onPortfolioDelete, portfolioValue }: Props) => {

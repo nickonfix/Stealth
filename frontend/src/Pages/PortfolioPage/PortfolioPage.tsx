@@ -21,16 +21,10 @@ const INVESTMENTS = [
   { sym: "TSLA", name: "Tesla Inc",    shares: 15, avg: 210.0,  current: 248.5,  alloc: 13 },
 ];
 
-const SPARKLINES: Record<string, string> = {
-  NVDA: "M0,30 L8,28 L16,20 L24,22 L32,15 L40,10 L48,5",
-  AAPL: "M0,25 L8,22 L16,25 L24,18 L32,20 L40,16 L48,14",
-  MSFT: "M0,28 L8,26 L16,24 L24,20 L32,22 L40,18 L48,15",
-  TSLA: "M0,15 L8,20 L16,18 L24,25 L32,22 L40,28 L48,30",
-};
+
 
 const PortfolioPage: React.FC = () => {
   const { user } = useAuth();
-  const dark = true;
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 1280
   );
@@ -124,7 +118,7 @@ const PortfolioPage: React.FC = () => {
 
         {/* Watchlist Section */}
         <div style={{ marginBottom: 80, animation: "fe-fade-up 0.6s 0.2s both" }}>
-           <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={handlePortfolioDelete} dark={true} />
+           <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={handlePortfolioDelete} />
         </div>
 
         {/* Holdings Tracker */}

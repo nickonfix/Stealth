@@ -78,7 +78,6 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled]         = useState(false);
   const [menuOpen, setMenuOpen]         = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dark = true;
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 1280
   );
@@ -86,7 +85,6 @@ const Navbar: React.FC = () => {
   const dropRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
   const c = D;
-  const initial = user?.userName?.[0]?.toUpperCase() ?? "U";
 
   useEffect(() => {
     const root = document.documentElement;

@@ -48,7 +48,6 @@ const NEWS = [
 ];
 
 const MarketsPage: React.FC = () => {
-  const dark = true;
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 1280
   );

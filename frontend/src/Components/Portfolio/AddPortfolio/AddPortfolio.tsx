@@ -3,7 +3,6 @@ import React, { SyntheticEvent, useState } from "react";
 interface Props {
   onPortfolioCreate: (e: SyntheticEvent) => void;
   symbol: string;
-  dark?: boolean;
 }
 
 const AddPortfolio = ({ onPortfolioCreate, symbol }: Props) => {

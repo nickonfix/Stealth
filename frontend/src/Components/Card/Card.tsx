@@ -8,10 +8,9 @@ interface Props {
     id: string;
     searchResult: CompanySearch;
     onPortfolioCreate: (e: SyntheticEvent) => void;
-    dark?: boolean;
 }
 
-const Card: React.FC<Props> = ({ id, searchResult, onPortfolioCreate, dark = false }: Props): React.JSX.Element => {
+const Card: React.FC<Props> = ({ id, searchResult, onPortfolioCreate }: Props): React.JSX.Element => {
     return (
         <div
             className="grid grid-cols-1 md:grid-cols-12 items-center w-full p-6 mb-4 transition-all duration-200 border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] group"
@@ -56,7 +55,6 @@ const Card: React.FC<Props> = ({ id, searchResult, onPortfolioCreate, dark = fal
                 <AddPortfolio
                     onPortfolioCreate={onPortfolioCreate}
                     symbol={searchResult.symbol}
-                    dark={true}
                 />
             </div>
         </div>

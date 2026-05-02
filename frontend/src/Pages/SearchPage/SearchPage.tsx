@@ -17,7 +17,7 @@ const SearchPage = (props: Props) => {
     const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
     const [serverError, setServerError] = useState<string>("");
 
-    const dark = true;
+
 
     // Enforce dark mode globally
     useEffect(() => {
@@ -79,7 +79,7 @@ const SearchPage = (props: Props) => {
             <div className="max-w-[1280px] mx-auto px-6 md:px-10 pb-24 -mt-12 relative z-10">
                 {/* Watchlist Section */}
                 <div className="mb-12">
-                    <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={onPortfolioDelete} dark={true} />
+                    <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={onPortfolioDelete} />
                 </div>
 
                 {/* Search Results Section */}
@@ -92,7 +92,7 @@ const SearchPage = (props: Props) => {
                             {searchResult.length > 0 ? `${searchResult.length} Companies Found` : ""}
                         </span>
                     </div>
-                    <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} dark={true} />
+                    <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} />
                 </div>
 
                 {serverError && (

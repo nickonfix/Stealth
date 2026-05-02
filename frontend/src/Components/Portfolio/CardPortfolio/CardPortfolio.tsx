@@ -6,7 +6,6 @@ import { PortfolioGet } from "../../../Models/Portfolio";
 interface Props {
   portfolioValue: PortfolioGet;
   onPortfolioDelete: (e: SyntheticEvent) => void;
-  dark?: boolean;
   index?: number;
 }
 

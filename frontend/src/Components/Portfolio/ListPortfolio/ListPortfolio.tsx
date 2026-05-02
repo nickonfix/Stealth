@@ -5,7 +5,6 @@ import { PortfolioGet } from "../../../Models/Portfolio";
 interface Props {
   portfolioValues: PortfolioGet[];
   onPortfolioDelete: (e: SyntheticEvent) => void;
-  dark?: boolean;
 }
 
 const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
@@ -55,7 +54,6 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
               key={val.symbol}
               portfolioValue={val}
               onPortfolioDelete={onPortfolioDelete}
-              dark={true}
               index={i}
             />
           ))}

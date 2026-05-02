@@ -39,7 +39,6 @@ interface Props {
 }
 
 const Search: React.FC<Props> = ({ onSearchSubmit, search, handleSearchChange }) => {
-  const dark = true;
   const [focused, setFocused]           = useState(false);
   const [cursorPos, setCursorPos]       = useState({ x: 0, y: 0 });
   const [cursorVisible, setCursorVisible] = useState(false);
