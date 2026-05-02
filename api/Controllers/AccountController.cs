@@ -6,6 +6,7 @@ using api.Data;
 using api.Dtos.Account;
 using api.Interfaces;
 using api.Models;
+using api.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -88,6 +89,85 @@ namespace api.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+            if (user == null)
+            {
+                // To prevent email enumeration, we return Ok even if the user isn't found
+                return Ok("If an account exists with this email, the password has been reset.");
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, resetPasswordDto.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return Ok("Password reset successfully.");
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+        [HttpGet("profile")]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            var username = User.GetUsername();
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(new UserProfileDto
+            {
+                UserName = user.UserName,
+                Email = user.Email
+            });
+        }
+
+        [HttpPut("profile")]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        public async Task<IActionResult> UpdateProfile(UpdateProfileDto updateProfileDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var username = User.GetUsername();
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            user.UserName = updateProfileDto.UserName;
+            user.Email = updateProfileDto.Email;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return Ok(new UserProfileDto
+                {
+                    UserName = user.UserName,
+                    Email = user.Email
+                });
+            }
+
+            return BadRequest(result.Errors);
         }
     }
 }
