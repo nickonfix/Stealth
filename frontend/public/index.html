@@ -25,6 +25,19 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>FinArc</title>
+    <script>
+      (function() {
+        try {
+          var theme = localStorage.getItem('finarc-theme');
+          var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+          if (!theme && supportDarkMode) {
+            document.documentElement.classList.add('dark');
+          } else if (theme === 'dark' || !theme) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

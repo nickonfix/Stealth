@@ -3,3 +3,18 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins&family=Rubik&display=swap");
+
+:root {
+  background-color: #06080f;
+  color: #e2e8f0;
+}
+
+html.dark {
+  background-color: #06080f;
+  color: #e2e8f0;
+}
+
+html:not(.dark) {
+  background-color: #f8fafc;
+  color: #0f172a;
+}

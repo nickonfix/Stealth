@@ -86,14 +86,6 @@ const NavLink = ({ to, label, c }: { to: string; label: string; c: typeof D }) =
         }} />
       )}
       <span style={{ position: "relative" }}>{label}</span>
-      {active && (
-        <span style={{
-          position: "absolute", bottom: -1, left: "50%",
-          transform: "translateX(-50%)",
-          width: "60%", height: 1.5, borderRadius: 99,
-          background: `linear-gradient(90deg, transparent, ${c.accent}, transparent)`,
-        }} />
-      )}
     </Link>
   );
 };
@@ -233,7 +225,7 @@ const Navbar: React.FC = () => {
       <header style={{
         position: "fixed", inset: "0 0 auto 0", zIndex: 100,
         background: "transparent",                                   
-        backdropFilter: scrolled ? "blur(16px)" : "none";          
+        backdropFilter: scrolled ? "blur(16px)" : "none",
         WebkitBackdropFilter: scrolled ? "blur(16px)" : "none",
         boxShadow: scrolled
           ? dark ? "0 1px 48px rgba(0,0,0,0.6)" : "0 1px 24px rgba(15,23,42,0.08)"
@@ -268,15 +260,6 @@ const Navbar: React.FC = () => {
         transition: "background 0.3s, box-shadow 0.3s",
       }}> */}
 
-        {/* Single sharp accent rule */}
-        <div style={{
-          position: "absolute", top: 0, left: 0, right: 0, height: 1,
-          background: dark
-            ? `linear-gradient(90deg,transparent 0%,${D.accent}55 25%,${D.accent}99 50%,${D.accent}55 75%,transparent 100%)`
-            : `linear-gradient(90deg,transparent 0%,${L.accent}44 25%,${L.accent}88 50%,${L.accent}44 75%,transparent 100%)`,
-          //opacity: 0.85,
-          opacity: dark ? 0.85 : 0,
-        }}/>
 
         <nav style={{
           maxWidth: 1280, margin: "0 auto",
@@ -301,13 +284,8 @@ const Navbar: React.FC = () => {
           {/* ══ CENTER pill ══ */}
           <div className="fn2-desk" style={{ justifyContent: "center" }}>
             <div style={{
-              display: "flex", alignItems: "center", gap: 1,
-              padding: "3px 4px", borderRadius: 11,
-              background: dark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.7)",
-              border: `1px solid ${c.border}`,
-              boxShadow: dark
-                ? "0 1px 0 rgba(255,255,255,0.04) inset, 0 4px 16px rgba(0,0,0,0.3)"
-                : "0 1px 0 rgba(255,255,255,1) inset, 0 2px 8px rgba(15,23,42,0.06)",
+              display: "flex", alignItems: "center", gap: 8,
+              padding: "4px 8px",
             }}>
               {NAV_LINKS.map(({ to, label }) => (
                 <NavLink key={to} to={to} label={label} c={c} />
@@ -514,36 +492,14 @@ const Navbar: React.FC = () => {
           </div>
         </nav>
 
-        {/* ══ MOBILE PANEL ══ */}
-        {/* {*<div style={{
-          maxHeight: menuOpen ? 560 : 0, opacity: menuOpen ? 1 : 0,
-          overflow: "hidden",
-          transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
-          borderTop: menuOpen ? `1px solid ${c.border}` : "none",
-          background: dark ? "rgba(6,8,15,0.85)" : "rgba(248,250,252,0.92)",
-          // background: dark ? "#000000" : "rgba(248,250,252,0.99)",
-        }}> */} 
-
         <div style={{
           maxHeight: menuOpen ? 560 : 0, opacity: menuOpen ? 1 : 0,
           overflow: "hidden",
           transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
-          borderTop: menuOpen ? `1px solid ${c.border}` : "none",
-          background: dark ? "rgba(7,11,15,0.82)" : "rgba(248,250,252,0.88)",   // ← alpha, not solid
-          backdropFilter: "blur(20px)",                                           // ← frosted glass
+          background: dark ? "rgba(7,11,15,0.82)" : "rgba(248,250,252,0.88)",
+          backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
         }}>
-
-
-        <div style={{
-  maxHeight: menuOpen ? 560 : 0, opacity: menuOpen ? 1 : 0,
-  overflow: "hidden",
-  transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
-  borderTop: menuOpen ? `1px solid ${c.border}` : "none",
-  background: dark ? "rgba(7,11,15,0.82)" : "rgba(248,250,252,0.88)",   // ← alpha, not solid
-  backdropFilter: "blur(20px)",                                           // ← frosted glass
-  WebkitBackdropFilter: "blur(20px)",
-}}></div>
           <div style={{ padding:"14px 18px 24px", display:"flex", flexDirection:"column", gap:2 }}>
             <span style={{
               fontSize:9.5, fontWeight:600, letterSpacing:"0.1em",
