@@ -105,7 +105,6 @@ const CardPortfolio = ({ portfolioValue, onPortfolioDelete, index = 0 }: Props) 
         <DeletePortfolio
           portfolioValue={portfolioValue.symbol}
           onPortfolioDelete={onPortfolioDelete}
-          dark={true}
         />
       </div>
     </div>
