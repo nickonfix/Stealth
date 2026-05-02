@@ -8,16 +8,17 @@ import { UserProvider, useAuth } from './Context/useAuth';
 
 const ScrollLock = () => {
   const { isLoggedIn } = useAuth();
+  const loggedIn = isLoggedIn();
   
   useEffect(() => {
-    if (!isLoggedIn()) {
+    if (!loggedIn) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
       document.documentElement.style.overflow = 'unset';
     }
-  }, [isLoggedIn()]);
+  }, [loggedIn]);
 
   return null;
 };
