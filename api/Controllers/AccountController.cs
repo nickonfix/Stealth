@@ -38,8 +38,7 @@ namespace api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
-
+            var user = await _userManager.FindByNameAsync(loginDto.UserName);
             if (user == null) return Unauthorized("Invalid Username!");
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.PassWord, false);
 
@@ -153,8 +152,11 @@ namespace api.Controllers
                 return NotFound("User not found");
             }
 
-            user.UserName = updateProfileDto.UserName;
-            user.Email = updateProfileDto.Email;
+            var updateUserNameResult = await _userManager.SetUserNameAsync(user, updateProfileDto.UserName);
+            if (!updateUserNameResult.Succeeded) return BadRequest(updateUserNameResult.Errors);
+
+            var updateEmailResult = await _userManager.SetEmailAsync(user, updateProfileDto.Email);
+            if (!updateEmailResult.Succeeded) return BadRequest(updateEmailResult.Errors);
 
             var result = await _userManager.UpdateAsync(user);
 
