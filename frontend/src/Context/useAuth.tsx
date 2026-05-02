@@ -50,7 +50,7 @@ export const UserProvider = ({children}: Props)=>{
                 setUser(res.data);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
                 toast.success("Identity Verified / Access Granted", {
-                    icon: "✓",
+                    icon: <span>✓</span>,
                     style: {
                         borderRadius: 0,
                         background: "#1f2228",
@@ -90,7 +90,7 @@ export const UserProvider = ({children}: Props)=>{
                 setUser(res.data);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
                 toast.success("Protocol Accepted / session_start", {
-                    icon: "⚡",
+                    icon: <span>⚡</span>,
                     style: {
                         borderRadius: 0,
                         background: "#1f2228",

@@ -30,7 +30,7 @@ const ProfilePage = () => {
     
     if (res) {
       toast.success("Database Updated / Refreshing Session", {
-        icon: "💾",
+        icon: <span>💾</span>,
         style: {
           borderRadius: 0,
           background: "#1f2228",
