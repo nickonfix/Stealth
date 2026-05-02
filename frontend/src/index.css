@@ -28,4 +28,39 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #1f2228;
+  color: #ffffff;
+  font-family: 'Geist Sans', sans-serif;
+}
+
+/* ── Brutalist Global Overrides ── */
+* {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+button, input, select, textarea {
+  font-family: 'Geist Mono', monospace;
+}
+
+a {
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
+/* Custom scrollbar for terminal feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1f2228;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
 }

@@ -1,50 +1,47 @@
+import React from 'react'
 
 type Props = {
     config: any;
     data: any;
 }
 
-
 const Table = ({ config, data }: Props) => {
     const renderrows = data.map((company: any) => {
         return (
-            <tr key={company.cik}>
-                {config.map((val: any) => {
+            <tr key={company.cik} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                {config.map((val: any, idx: number) => {
                     return (
-                        <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900 dark:text-gray-100">
+                        <td key={idx} className="p-6 whitespace-nowrap font-mono text-[13px] font-light text-white/80 tracking-tight">
                             {val.render(company)}
                         </td>
                     )
                 })}
-
-
             </tr>
         )
-    }
-    )
+    })
 
     const renderedHeaders = config.map((config: any) => {
         return (
-            <th className="px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400" key={config.label} >
+            <th className="p-6 text-left text-[10px] font-mono font-medium text-white/30 uppercase tracking-[0.2em]" key={config.label} >
                 {config.label}
             </th>
         )
     })
+
     return (
-        <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 w-full dark:bg-zinc-950 dark:border dark:border-zinc-800 transition-colors duration-300" >
+        <div className="bg-white/[0.02] border border-white/10 w-full mb-8">
             <div className="overflow-x-auto">
                 <table className="min-w-full">
-                    <thead className="border-b border-gray-200 dark:border-zinc-800">
-                        <tr>
+                    <thead>
+                        <tr className="border-b border-white/10">
                             {renderedHeaders}
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-zinc-900">
+                    <tbody>
                         {renderrows}
                     </tbody>
                 </table>
             </div>
-
         </div>
     )
 }
