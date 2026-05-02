@@ -17,12 +17,7 @@ const SearchPage = (props: Props) => {
     const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
     const [serverError, setServerError] = useState<string>("");
 
-    const [dark, setDark] = useState<boolean>(() =>
-        typeof window !== "undefined"
-            ? localStorage.getItem("finarc-theme") === "dark" ||
-              document.documentElement.classList.contains("dark")
-            : false
-    );
+    const dark = true;
 
     useEffect(() => {
         const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
@@ -79,31 +74,31 @@ const SearchPage = (props: Props) => {
         }).catch(e => toast.warning("Coundn't delete stock from portfolio!"))
     };
     return (
-        <div style={{ background: dark ? "#070b0f" : "#f8fafc", minHeight: "100vh", transition: "background 0.3s" }}>
+        <div style={{ background: "#1f2228", minHeight: "100vh" }}>
             <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange} />
             
             <div className="max-w-[1280px] mx-auto px-6 md:px-10 pb-24 -mt-12 relative z-10">
-                {/* Watchlist Section - Prominent at top */}
+                {/* Watchlist Section */}
                 <div className="mb-12">
-                    <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={onPortfolioDelete} dark={dark} />
+                    <ListPortfolio portfolioValues={portfolioValues || []} onPortfolioDelete={onPortfolioDelete} dark={true} />
                 </div>
 
                 {/* Search Results Section */}
                 <div className="space-y-4">
-                    <div className="flex items-center justify-between mb-4 border-b border-gray-800/10 pb-2">
-                        <h2 className={`text-xl font-bold ${dark ? "text-white" : "text-gray-900"}`}>
+                    <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-2">
+                        <h2 className="text-xl font-mono font-light text-white uppercase tracking-tight">
                             {searchResult.length > 0 ? "Search Results" : ""}
                         </h2>
-                        <span className="text-xs text-gray-500 font-mono uppercase tracking-widest">
+                        <span className="text-[10px] text-white/40 font-mono uppercase tracking-[0.2em]">
                             {searchResult.length > 0 ? `${searchResult.length} Companies Found` : ""}
                         </span>
                     </div>
-                    <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} dark={dark} />
+                    <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} dark={true} />
                 </div>
 
                 {serverError && (
-                    <div className="mt-12 p-6 rounded-2xl bg-red-500/10 border border-red-500/20 text-center">
-                        <h1 className="text-red-500 font-semibold">{serverError}</h1>
+                    <div className="mt-12 p-6 bg-red-500/5 border border-red-500/20 text-center">
+                        <h1 className="text-red-500 font-mono text-sm uppercase tracking-wider">{serverError}</h1>
                     </div>
                 )}
             </div>

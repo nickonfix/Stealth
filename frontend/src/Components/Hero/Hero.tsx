@@ -90,7 +90,7 @@ const Hero: React.FC = () => {
             textTransform: "uppercase",
           }}
         >
-          STEALTH
+          FINARC
         </h1>
         
         <p

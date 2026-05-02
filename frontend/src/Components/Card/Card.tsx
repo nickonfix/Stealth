@@ -14,24 +14,21 @@ interface Props {
 const Card: React.FC<Props> = ({ id, searchResult, onPortfolioCreate, dark = false }: Props): React.JSX.Element => {
     return (
         <div
-            className={`grid grid-cols-1 md:grid-cols-12 items-center w-full p-4 mb-3 rounded-xl transition-all duration-200 border ${
-                dark 
-                ? "bg-[#0f172a] border-gray-800 hover:border-emerald-500/40 hover:bg-[#131c2c]" 
-                : "bg-white border-gray-200 shadow-sm hover:shadow-md hover:border-emerald-200"
-            }`}
+            className="grid grid-cols-1 md:grid-cols-12 items-center w-full p-6 mb-4 transition-all duration-200 border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] group"
             key={id}
             id={id}
+            style={{ borderRadius: 0 }}
         >
             {/* Column 1: Symbol & Name */}
             <div className="md:col-span-5 flex items-center gap-4">
-                <div className={`flex flex-col`}>
+                <div className="flex flex-col">
                     <Link 
                         to={`/company/${searchResult.symbol}/company-profile`} 
-                        className={`font-bold text-lg leading-tight transition-colors ${dark ? "text-white hover:text-emerald-400" : "text-gray-900 hover:text-emerald-600"}`}
+                        className="font-mono text-xl font-light text-white hover:text-white/70 transition-colors uppercase tracking-tight"
                     >
                         {searchResult.symbol}
                     </Link>
-                    <span className={`text-xs truncate max-w-[240px] ${dark ? "text-gray-500" : "text-gray-500"}`}>
+                    <span className="text-[11px] text-white/40 font-sans uppercase tracking-wider truncate max-w-[240px]">
                         {searchResult.name}
                     </span>
                 </div>
@@ -39,19 +36,17 @@ const Card: React.FC<Props> = ({ id, searchResult, onPortfolioCreate, dark = fal
 
             {/* Column 2: Currency */}
             <div className="md:col-span-2 hidden md:flex items-center">
-                <span className={`px-2 py-1 rounded text-[10px] font-bold tracking-wider ${
-                    dark ? "bg-gray-800 text-gray-400" : "bg-gray-100 text-gray-600"
-                }`}>
+                <span className="px-2 py-0.5 border border-white/20 text-[10px] font-mono text-white/50 uppercase tracking-widest">
                     {searchResult.currency}
                 </span>
             </div>
 
             {/* Column 3: Exchange */}
             <div className="md:col-span-3 hidden md:flex flex-col">
-                <span className={`text-xs font-semibold ${dark ? "text-gray-300" : "text-gray-700"}`}>
+                <span className="text-[11px] font-mono text-white/60 uppercase">
                     {searchResult.exchange}
                 </span>
-                <span className={`text-[10px] uppercase tracking-tighter ${dark ? "text-gray-500" : "text-gray-400"}`}>
+                <span className="text-[9px] text-white/30 uppercase tracking-[0.1em]">
                     {searchResult.exchangeFullName}
                 </span>
             </div>
@@ -61,7 +56,7 @@ const Card: React.FC<Props> = ({ id, searchResult, onPortfolioCreate, dark = fal
                 <AddPortfolio
                     onPortfolioCreate={onPortfolioCreate}
                     symbol={searchResult.symbol}
-                    dark={dark}
+                    dark={true}
                 />
             </div>
         </div>

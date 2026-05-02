@@ -30,17 +30,19 @@ const CompanyPage = (props: Props) => {
         <>
             {
                 company ? (
-                    <div className="w-full relative flex flex-col md:flex-row ct-docs-disable-sidebar-content overflow-x-hidden bg-gray-100 text-gray-900 dark:bg-black dark:text-zinc-100 transition-colors duration-300">
+                    <div className="w-full relative flex flex-col md:flex-row ct-docs-disable-sidebar-content overflow-x-hidden bg-[#1f2228] text-white">
                         <Sidebar />
                         <CompanyDashboard ticker={ticker!}>
-                            <Tile title="Company Name" subtitle={company.companyName} />
-                            <Tile title="Price" subtitle={"$" + company.price} />
-                            <Tile title="Exchange" subtitle={company.exchange} />
-                            <Tile title="Industry" subtitle={company.industry} />
-                            {/* <Tile title="Sector" subtitle={company.sector} /> */}
-                            <p className="bg-white text-gray-900 shadow rounded text-medium p-3 mt-1 m-4 text-justify text-justify-inter-word dark:bg-zinc-900/50 dark:text-zinc-300 dark:border dark:border-zinc-800 transition-colors duration-300">
-                                {company.description}
-                            </p>
+                            <Tile title="IDENTIFIER" subtitle={company.symbol} />
+                            <Tile title="VALUATION" subtitle={"$" + company.price} />
+                            <Tile title="EXCHANGE" subtitle={company.exchange} />
+                            <Tile title="VERTICAL" subtitle={company.industry} />
+                            
+                            <div className="w-full px-4 mt-6">
+                                <p className="bg-white/[0.02] text-white/60 border border-white/10 p-8 font-sans text-sm leading-relaxed text-justify">
+                                    {company.description}
+                                </p>
+                            </div>
                         </CompanyDashboard>
                     </div>
                 ) : (

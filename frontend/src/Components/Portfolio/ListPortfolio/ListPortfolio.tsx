@@ -8,57 +8,35 @@ interface Props {
   dark?: boolean;
 }
 
-const ListPortfolio = ({ portfolioValues, onPortfolioDelete, dark = false }: Props) => {
-  const textPrimary = dark ? "#f1f5f9"  : "#0f172a";
-  const textMuted   = dark ? "#475569"  : "#94a3b8";
-  const border      = dark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.07)";
-  const surface     = dark ? "#0f1520"  : "#ffffff";
-  const green       = "#10b981";
-  const greenBg     = dark ? "rgba(16,185,129,0.08)" : "rgba(16,185,129,0.06)";
-  const greenBorder = dark ? "rgba(16,185,129,0.2)"  : "rgba(16,185,129,0.18)";
-  const shadow      = dark ? "none" : "0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(15,23,42,0.06)";
+const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
+  const textPrimary = "#ffffff";
+  const textMuted   = "rgba(255,255,255,0.4)";
+  const border      = "rgba(255,255,255,0.1)";
 
   return (
     <div>
       {/* Section header */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div
-            style={{
-              width: 32, height: 32, borderRadius: 9,
-              background: greenBg, border: `1px solid ${greenBorder}`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          >
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M2 11L5 7l3 3 5-6" stroke={green} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${border}` }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 10, height: 10, background: "#ffffff", borderRadius: 0 }} />
           <div>
-            <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 22, color: textPrimary, letterSpacing: "-0.02em", lineHeight: 1, margin: 0 }}>
+            <h2 style={{ fontFamily: "'Geist Mono', monospace", fontWeight: 300, fontSize: 18, color: textPrimary, textTransform: "uppercase", letterSpacing: "1px", margin: 0 }}>
               Watchlist
             </h2>
-            <p style={{ fontSize: 11, color: textMuted, margin: "2px 0 0", fontFamily: "'DM Mono', monospace" }}>
-              {portfolioValues.length} {portfolioValues.length === 1 ? "company" : "companies"} tracked
-            </p>
           </div>
         </div>
 
-        {portfolioValues.length > 0 && (
-          <div
-            style={{
-              fontSize: 11,
-              fontFamily: "'DM Mono', monospace",
-              color: textMuted,
-              background: dark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.03)",
-              border: `1px solid ${border}`,
-              padding: "4px 12px",
-              borderRadius: 999,
-            }}
-          >
-            {portfolioValues.length} / 20 slots
-          </div>
-        )}
+        <div
+          style={{
+            fontSize: 10,
+            fontFamily: "'Geist Mono', monospace",
+            color: textMuted,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+          }}
+        >
+          {portfolioValues.length} / 20 ALLOCATED
+        </div>
       </div>
 
       {/* Grid or empty state */}
@@ -66,8 +44,10 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete, dark = false }: Pro
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-            gap: 14,
+            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+            gap: 1px,
+            background: border,
+            border: `1px solid ${border}`,
           }}
         >
           {portfolioValues.map((val, i) => (
@@ -75,7 +55,7 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete, dark = false }: Pro
               key={val.symbol}
               portfolioValue={val}
               onPortfolioDelete={onPortfolioDelete}
-              dark={dark}
+              dark={true}
               index={i}
             />
           ))}
@@ -84,86 +64,45 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete, dark = false }: Pro
         /* ── Empty state ── */
         <div
           style={{
-            background: surface,
-            border: `1.5px dashed ${border}`,
-            borderRadius: 18,
-            padding: "52px 32px",
+            background: "rgba(255,255,255,0.01)",
+            border: `1px dashed ${border}`,
+            padding: "80px 32px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 14,
-            boxShadow: shadow,
-            transition: "background 0.3s",
+            gap: 24,
           }}
         >
-          {/* Animated icon */}
-          <div style={{ position: "relative" }}>
-            <div
-              style={{
-                width: 56, height: 56, borderRadius: 16,
-                background: greenBg, border: `1px solid ${greenBorder}`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M3 17L8 11l4 4 9-10" stroke={green} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <div
-              style={{
-                position: "absolute",
-                inset: -4,
-                borderRadius: 20,
-                border: `1px solid ${greenBorder}`,
-                animation: "fe-pulse-ring 2.2s ease-out infinite",
-                pointerEvents: "none",
-              }}
-            />
-          </div>
-
           <div style={{ textAlign: "center" }}>
-            <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 20, color: textPrimary, margin: "0 0 6px", letterSpacing: "-0.02em" }}>
-              Your watchlist is empty
+            <p style={{ fontFamily: "'Geist Mono', monospace", fontSize: 14, color: textPrimary, margin: "0 0 8px", textTransform: "uppercase", letterSpacing: "1px" }}>
+              Terminal empty
             </p>
-            <p style={{ fontSize: 13, color: textMuted, margin: 0, lineHeight: 1.65, maxWidth: 320 }}>
-              Search for companies and add them to track their performance here.
+            <p style={{ fontSize: 12, color: textMuted, margin: 0, fontFamily: "'Geist Sans', sans-serif" }}>
+              No assets tracked in the current session.
             </p>
           </div>
 
           <a
             href="/search"
             style={{
-              marginTop: 4,
               display: "inline-flex",
               alignItems: "center",
-              gap: 6,
-              padding: "9px 20px",
-              borderRadius: 9,
-              background: "linear-gradient(135deg, #10b981, #059669)",
-              color: "white",
-              fontSize: 13,
-              fontWeight: 700,
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              gap: 8,
+              padding: "10px 24px",
+              background: "#ffffff",
+              color: "#1f2228",
+              fontSize: 12,
+              fontWeight: 500,
+              fontFamily: "'Geist Mono', monospace",
               textDecoration: "none",
-              boxShadow: "0 4px 14px rgba(16,185,129,0.28)",
-              transition: "transform 0.18s, box-shadow 0.18s",
+              textTransform: "uppercase",
+              letterSpacing: "1.4px",
+              transition: "opacity 0.2s",
             }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.transform = "translateY(-1px)";
-              el.style.boxShadow = "0 6px 20px rgba(16,185,129,0.38)";
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.transform = "translateY(0)";
-              el.style.boxShadow = "0 4px 14px rgba(16,185,129,0.28)";
-            }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
           >
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-              <circle cx="6" cy="6" r="4.5" stroke="white" strokeWidth="1.4" />
-              <path d="M9.5 9.5L12 12" stroke="white" strokeWidth="1.4" strokeLinecap="round" />
-            </svg>
-            Search companies
+            Initiate Search
           </a>
         </div>
       )}
