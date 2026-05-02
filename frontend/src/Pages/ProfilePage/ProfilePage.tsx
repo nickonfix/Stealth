@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { getProfileAPI, updateProfileAPI } from '../../Services/AuthService';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../Context/useAuth';
 
 const ProfilePage = () => {
+  const { logout, user } = useAuth();
   const [profile, setProfile] = useState({ userName: '', email: '' });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -22,9 +24,32 @@ const ProfilePage = () => {
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+    
+    const oldUsername = user?.userName;
     const res = await updateProfileAPI(profile.userName, profile.email);
+    
     if (res) {
-      toast.success("Profile updated successfully.");
+      toast.success("Database Updated / Refreshing Session", {
+        icon: "💾",
+        style: {
+          borderRadius: 0,
+          background: "#1f2228",
+          color: "#ffffff",
+          border: "1px solid rgba(255,255,255,0.1)",
+          fontFamily: "'Geist Mono', monospace",
+          fontSize: "12px",
+          textTransform: "uppercase",
+          letterSpacing: "1px"
+        }
+      });
+
+      // If the username changed, the current token is invalid for the new identity.
+      // We must force a relogin as requested by the user.
+      if (oldUsername !== profile.userName) {
+        setTimeout(() => {
+          logout();
+        }, 2000);
+      }
     }
     setSaving(false);
   };

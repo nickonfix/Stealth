@@ -49,10 +49,32 @@ export const UserProvider = ({children}: Props)=>{
                 setToken(res?.data.token!);
                 setUser(res.data);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
-                toast.success("Registered Successfully");
+                toast.success("Identity Verified / Access Granted", {
+                    icon: "✓",
+                    style: {
+                        borderRadius: 0,
+                        background: "#1f2228",
+                        color: "#ffffff",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        fontFamily: "'Geist Mono', monospace",
+                        fontSize: "12px",
+                        textTransform: "uppercase",
+                        letterSpacing: "1px"
+                    }
+                });
                 navigate("/search", { replace: true });  
             }
-        }).catch(e=> toast.warning("Server Error Occured!"))
+        }).catch(e=> toast.error("Verification Failed / Server Error", {
+            style: {
+                borderRadius: 0,
+                background: "#1f2228",
+                color: "#ef4444",
+                border: "1px solid rgba(239,68,68,0.2)",
+                fontFamily: "'Geist Mono', monospace",
+                fontSize: "12px",
+                textTransform: "uppercase"
+            }
+        }))
     }
 
     const loginUser = async (username: string, password: string) => {
@@ -67,10 +89,32 @@ export const UserProvider = ({children}: Props)=>{
                 setToken(res?.data.token!);
                 setUser(res.data);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
-                toast.success("Login Successfully");
+                toast.success("Protocol Accepted / session_start", {
+                    icon: "⚡",
+                    style: {
+                        borderRadius: 0,
+                        background: "#1f2228",
+                        color: "#ffffff",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        fontFamily: "'Geist Mono', monospace",
+                        fontSize: "12px",
+                        textTransform: "uppercase",
+                        letterSpacing: "1px"
+                    }
+                });
                 navigate("/search", { replace: true });
             }
-        }).catch(e => toast.warning("Server Error Occured!"))
+        }).catch(e => toast.error("Invalid Credentials / access_denied", {
+            style: {
+                borderRadius: 0,
+                background: "#1f2228",
+                color: "#ef4444",
+                border: "1px solid rgba(239,68,68,0.2)",
+                fontFamily: "'Geist Mono', monospace",
+                fontSize: "12px",
+                textTransform: "uppercase"
+            }
+        }))
     }
 
     const isLoggedIn = () => {
