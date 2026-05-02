@@ -133,11 +133,19 @@ const LoginPage = () => {
             </div>
 
             <div style={{ marginBottom: '40px' }}>
-              <label style={{ 
-                display: 'block', fontSize: '10px', color: 'rgba(255,255,255,0.4)', 
-                marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.1em',
-                fontFamily: "'Geist Sans', sans-serif"
-              }} htmlFor="password">Passcode</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <label style={{ 
+                  fontSize: '10px', color: 'rgba(255,255,255,0.4)', 
+                  textTransform: 'uppercase', letterSpacing: '0.1em',
+                  fontFamily: "'Geist Sans', sans-serif"
+                }} htmlFor="password">Passcode</label>
+                <Link to="/forgot-password" style={{ 
+                  fontSize: '9px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none',
+                  fontFamily: "'Geist Mono', monospace", textTransform: 'uppercase', letterSpacing: '0.05em'
+                }} onMouseEnter={e=>e.currentTarget.style.color='#ffffff'} onMouseLeave={e=>e.currentTarget.style.color='rgba(255,255,255,0.3)'}>
+                  Forgot?
+                </Link>
+              </div>
               <GlowInput
                 id="password" type="password" placeholder="••••••••"
                 hasError={!!errors.password} reg={register("password")}
