@@ -19,10 +19,9 @@ const SearchPage = (props: Props) => {
 
     const dark = true;
 
+    // Enforce dark mode globally
     useEffect(() => {
-        const handler = (e: Event) => setDark((e as CustomEvent).detail.dark);
-        window.addEventListener("finarc-theme-change", handler);
-        return () => window.removeEventListener("finarc-theme-change", handler);
+        document.documentElement.classList.add("dark");
     }, []);
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {

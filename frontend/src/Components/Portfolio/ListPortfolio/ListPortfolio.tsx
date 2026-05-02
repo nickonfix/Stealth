@@ -45,7 +45,7 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-            gap: 1px,
+            gap: 1,
             background: border,
             border: `1px solid ${border}`,
           }}
