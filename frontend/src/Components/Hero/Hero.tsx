@@ -160,6 +160,22 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
+      {/* Attribution */}
+      <div style={{
+        position: "absolute",
+        bottom: 32,
+        left: 0,
+        right: 0,
+        fontFamily: "'Geist Mono', monospace",
+        fontSize: "11px",
+        color: "rgba(255, 255, 255, 0.3)",
+        textTransform: "uppercase",
+        letterSpacing: "1px",
+        zIndex: 1,
+      }}>
+        made with &lt;3 by <a href="https://github.com/nickonfix" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.1)" }} onMouseEnter={e => e.currentTarget.style.color = "#ffffff"} onMouseLeave={e => e.currentTarget.style.color = "inherit"}>https://github.com/nickonfix</a>
+      </div>
+
       {/* Global Animations */}
       <style>{`
         @keyframes xai-fade-in {
