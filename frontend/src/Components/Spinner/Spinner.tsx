@@ -7,13 +7,14 @@ type Props = {
 const Spinner = ({ isLoading = true }: Props) => {
     return (
         <>
-            <div id="loading-spinner">
-                <ClipLoader color='#36d7b7'
+            <div id="loading-spinner" className="flex flex-col items-center gap-4">
+                <ClipLoader color='#ffffff'
                     loading={isLoading}
                     size={30}
                     aria-label='Loading Spinner'
                     data-testid='loader'
                 />
+                <span className="font-mono text-[10px] text-white/30 uppercase tracking-[0.2em]">Synchronizing...</span>
             </div>
 
         </>
