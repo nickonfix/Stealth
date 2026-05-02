@@ -292,7 +292,7 @@ const Navbar: React.FC = () => {
         </div>
       </header>
 
-      <div style={{ height: 72 }} />
+      {pathname !== "/" && <div style={{ height: 72 }} />}
       <style>{`
         @keyframes fn2-drop { from { opacity:0; transform:translateY(-10px) } to { opacity:1; transform:translateY(0) } }
       `}</style>

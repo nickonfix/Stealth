@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FaGithub, FaHeart } from "react-icons/fa";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    xAI Inspired StarField Background
@@ -58,7 +59,7 @@ const Hero: React.FC = () => {
       style={{
         backgroundColor: "#1f2228",
         color: "#ffffff",
-        minHeight: "100vh",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -92,7 +93,7 @@ const Hero: React.FC = () => {
         >
           FINARC
         </h1>
-        
+
         <p
           style={{
             fontSize: "clamp(16px, 2vw, 20px)",
@@ -103,7 +104,7 @@ const Hero: React.FC = () => {
             fontWeight: 400,
           }}
         >
-          The ultimate platform for professional investors. 
+          The ultimate platform for professional investors.
           Real-time intelligence, filtered for clarity.
         </p>
 
@@ -129,7 +130,7 @@ const Hero: React.FC = () => {
           >
             Get Started
           </Link>
-          
+
           <Link
             to="/search"
             style={{
@@ -146,12 +147,12 @@ const Hero: React.FC = () => {
               borderRadius: "0px",
               transition: "all 0.2s",
             }}
-            onMouseEnter={(e) => { 
-              (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(255, 255, 255, 0.05)"; 
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(255, 255, 255, 0.05)";
               (e.currentTarget as HTMLElement).style.color = "rgba(255, 255, 255, 0.5)";
             }}
-            onMouseLeave={(e) => { 
-              (e.currentTarget as HTMLElement).style.backgroundColor = "transparent"; 
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
               (e.currentTarget as HTMLElement).style.color = "#ffffff";
             }}
           >
@@ -167,13 +168,39 @@ const Hero: React.FC = () => {
         left: 0,
         right: 0,
         fontFamily: "'Geist Mono', monospace",
-        fontSize: "11px",
-        color: "rgba(255, 255, 255, 0.3)",
+        fontSize: "10px",
+        color: "rgba(255, 255, 255, 0.4)",
         textTransform: "uppercase",
-        letterSpacing: "1px",
+        letterSpacing: "2px",
         zIndex: 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "12px"
       }}>
-        made with &lt;3 by <a href="https://github.com/nickonfix" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.1)" }} onMouseEnter={e => e.currentTarget.style.color = "#ffffff"} onMouseLeave={e => e.currentTarget.style.color = "inherit"}>https://github.com/nickonfix</a>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <span>MADE WITH</span>
+          <FaHeart style={{ fontSize: "10px", color: "#ffffff" }} />
+        </div>
+        <div style={{ width: "1px", height: "10px", background: "rgba(255,255,255,0.1)" }} />
+        <a 
+          href="https://github.com/nickonfix" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: "8px", 
+            color: "inherit", 
+            textDecoration: "none",
+            transition: "color 0.2s"
+          }} 
+          onMouseEnter={e => e.currentTarget.style.color = "#ffffff"} 
+          onMouseLeave={e => e.currentTarget.style.color = "inherit"}
+        >
+          <FaGithub style={{ fontSize: "14px" }} />
+          <span>NICKONFIX</span>
+        </a>
       </div>
 
       {/* Global Animations */}
