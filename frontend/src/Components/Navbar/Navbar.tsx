@@ -34,7 +34,6 @@ const NavLink = ({ to, label, c }: { to: string; label: string; c: typeof D }) =
   const { pathname } = useLocation();
   const active = pathname === to;
   const [hov, setHov] = useState(false);
-  const isDark = c === D;
 
   return (
     <Link
@@ -92,7 +91,7 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled]         = useState(false);
   const [menuOpen, setMenuOpen]         = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [dark, setDark] = useState<boolean>(true);
+  const dark = true;
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 1280
   );
