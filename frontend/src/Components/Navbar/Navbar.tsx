@@ -28,19 +28,6 @@ const D = {
   accentDim:  "rgba(255,255,255,0.05)",
   accentGlow: "rgba(255,255,255,0.1)",
 };
-const L = {
-  bg:         "#f8fafc",
-  bgScrolled: "rgba(248,250,252,0.96)",
-  surface:    "rgba(15,23,42,0.04)",
-  surfaceHov: "rgba(15,23,42,0.07)",
-  border:     "rgba(15,23,42,0.1)",
-  borderHov:  "rgba(16,185,129,0.35)",
-  text:       "#0f172a",
-  muted:      "#94a3b8",
-  accent:     "#059669",
-  accentDim:  "rgba(5,150,105,0.1)",
-  accentGlow: "rgba(5,150,105,0.2)",
-};
 
 /* ─── NavLink with solid active slot ─── */
 const NavLink = ({ to, label, c }: { to: string; label: string; c: typeof D }) => {
@@ -98,31 +85,14 @@ const LogoMark = ({ c }: { c: typeof D }) => (
   </div>
 );
 
-const SunIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-    <circle cx="12" cy="12" r="4"/>
-    <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-  </svg>
-);
-const MoonIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-  </svg>
-);
-
 /* ══════════════════════ MAIN ══════════════════════ */
 const Navbar: React.FC = () => {
+
   const { isLoggedIn, user, logout } = useAuth();
   const [scrolled, setScrolled]         = useState(false);
   const [menuOpen, setMenuOpen]         = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [dark, setDark] = useState<boolean>(() => {
-    if (typeof window !== "undefined")
-      return localStorage.getItem("finarc-theme") !== "light";
-    return true;
-  });
+  const [dark, setDark] = useState<boolean>(true);
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 1280
   );
@@ -283,28 +253,6 @@ const Navbar: React.FC = () => {
           {/* ══ RIGHT ══ */}
           <div className="fn2-desk" style={{ alignItems:"center", gap:8, flexShrink:0, justifySelf:"end" }}>
 
-            <button
-              onClick={() => setDark(v => !v)}
-              title={dark ? "Light mode" : "Dark mode"}
-              style={iconBtnStyle({ color: dark ? "#f59e0b" : "#64748b" })}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = c.borderHov;
-                el.style.background = c.accentDim;
-                el.style.color = c.accent;
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = c.border;
-                el.style.background = c.surface;
-                el.style.color = dark ? "#f59e0b" : "#64748b";
-              }}
-            >
-              <span key={dark ? "sun" : "moon"}
-                style={{ animation: "fn2-icon 0.22s ease both", display:"flex" }}>
-                {dark ? <SunIcon /> : <MoonIcon />}
-              </span>
-            </button>
 
             <div style={{ width:1, height:20, background:c.border }}/>
 
@@ -450,14 +398,6 @@ const Navbar: React.FC = () => {
 
           {/* ══ MOBILE ══ */}
           <div className="fn2-mob" style={{ alignItems:"center", gap:7, justifySelf:"end", gridColumn: viewportWidth <= 1023 ? "2" : undefined }}>
-            <button onClick={() => setDark(v => !v)}
-              style={iconBtnStyle({ color:dark?"#f59e0b":"#64748b" })}
-              onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.borderHov; el.style.background=c.accentDim; el.style.color=c.accent; }}
-              onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor=c.border; el.style.background=c.surface; el.style.color=dark?"#f59e0b":"#64748b"; }}>
-              <span key={dark?"sun":"moon"} style={{ animation:"fn2-icon 0.22s ease both", display:"flex" }}>
-                {dark ? <SunIcon /> : <MoonIcon />}
-              </span>
-            </button>
 
             <button onClick={() => setMenuOpen(v => !v)}
               style={iconBtnStyle({
