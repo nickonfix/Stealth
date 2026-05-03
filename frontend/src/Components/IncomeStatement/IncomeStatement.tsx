@@ -84,22 +84,32 @@ const configs = [
 const IncomeStatement = (props: Props) => {
     const ticker = useOutletContext<string>();
     const [incomeStatement, setIncomeStatement] = useState<CompanyIncomeStatement[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchIncomeStatement = async () => {
             const result = await getIncomeStatement(ticker);
             if (typeof result === "string") {
-                console.log("Error:", result);
-            } else if (result) {
+                setError(result);
+            } else if (Array.isArray(result) && result.length > 0) {
                 setIncomeStatement(result);
+                setError(null);
+            } else {
+                setError("No data available.");
             }
         };
         fetchIncomeStatement();
     }, [ticker]);
+
     return (
         <div className="w-full px-4 sm:px-0">
-            {incomeStatement.length > 0 ? <> <Table config={configs} data={incomeStatement} />
-            </> : <> <Spinner /> </>}
-
+            {error ? (
+                <div className="w-full text-center mt-10 text-white"><h2>{error}</h2></div>
+            ) : incomeStatement.length > 0 ? (
+                <Table config={configs} data={incomeStatement} />
+            ) : (
+                <Spinner />
+            )}
         </div>
     )
 }

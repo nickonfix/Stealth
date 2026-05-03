@@ -74,23 +74,33 @@ const config = [
 const CashFlowStatement = (props: Props) => {
     const ticker = useOutletContext<string>();
     const [cashFlowData, setCashFlowData] = useState<CompanyCashFlow[]>();
+    const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchCashFlow = async () => {
             const result = await getCashFlowStatement(ticker);
             if (typeof result === "string") {
-                console.log(result);
-            } else {
+                setError(result);
+            } else if (Array.isArray(result) && result.length > 0) {
                 setCashFlowData(result);
+                setError(null);
+            } else {
+                setError("No data available.");
             }
         };
         fetchCashFlow();
     }, [ticker]);
-    return cashFlowData ? (
+
+    return (
         <div className="w-full px-4 sm:px-0">
-            <Table config={config} data={cashFlowData}></Table>
+            {error ? (
+                <div className="w-full text-center mt-10 text-white"><h2>{error}</h2></div>
+            ) : cashFlowData && cashFlowData.length > 0 ? (
+                <Table config={config} data={cashFlowData}></Table>
+            ) : (
+                <Spinner />
+            )}
         </div>
-    ) : (
-        <Spinner />
     );
 };
 

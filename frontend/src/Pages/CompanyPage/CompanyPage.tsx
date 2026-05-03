@@ -13,13 +13,16 @@ const CompanyPage = (props: Props) => {
     //https:localhost:3000/company
     let { ticker } = useParams();
     const [company, setCompany] = useState<CompanyProfile>();
+    const [error, setError] = useState<string | null>(null);
 
 
     useEffect(() => {
         const getProfileInit = async () => {
             const result = await getCompanyProfile(ticker!);
-            if (typeof result !== "string" && result) {
+            if (typeof result !== "string" && result?.length > 0) {
                 setCompany(result[0]);
+            } else {
+                setError("Company not found.");
             }
         }
         getProfileInit();
@@ -29,7 +32,11 @@ const CompanyPage = (props: Props) => {
     return (
         <>
             {
-                company ? (
+                error ? (
+                    <div className="w-full text-center mt-10 text-white">
+                        <h2>{error}</h2>
+                    </div>
+                ) : company ? (
                     <div className="w-full relative flex flex-col md:flex-row ct-docs-disable-sidebar-content overflow-x-hidden bg-[#1f2228] text-white">
                         <Sidebar />
                         <CompanyDashboard ticker={ticker!}>

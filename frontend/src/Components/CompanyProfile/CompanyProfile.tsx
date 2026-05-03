@@ -54,25 +54,33 @@ const tableConfig = [
 const CompanyProfile = (props: Props) => {
     const ticker = useOutletContext<string>();
     const [companyData, setcompanyData] = useState<CompanyKeyMetrics>();
+    const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         const getCompanyKeyMetrics = async () => {
             const value = await getKeyMetrics(ticker);
-            //setcompanyData(value?.data[0]);
-            setcompanyData(Array.isArray(value) ? value[0] : undefined);
+            if (typeof value !== "string" && Array.isArray(value) && value.length > 0) {
+                setcompanyData(value[0]);
+                setError(null);
+            } else {
+                setError("No data available.");
+            }
         }
         getCompanyKeyMetrics();
     }, [ticker])
 
-
     return (
-        <>{companyData ? (
-            <>
-                <RatioList config={tableConfig} data={companyData} />
-                <StockComment stockSymbol =  {ticker}/>
-            </>
-        ) : (
-            <Spinner />
-        )}
+        <>
+            {error ? (
+                <div className="w-full text-center mt-10 text-white"><h2>{error}</h2></div>
+            ) : companyData ? (
+                <>
+                    <RatioList config={tableConfig} data={companyData} />
+                    <StockComment stockSymbol =  {ticker}/>
+                </>
+            ) : (
+                <Spinner />
+            )}
         </>
     )
 }

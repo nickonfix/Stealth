@@ -101,20 +101,28 @@ const config = [
 const BalanceSheet = (props: Props) => {
     const ticker = useOutletContext<string>();
     const [balanceSheet, setBalanceSheet] = useState<CompanyBalanceSheet>();
+    const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchBalanceSheet = async () => {
             const result = await getBalanceSheet(ticker);
             if (typeof result === "string") {
-                console.log("Error:", result);
-            } else if (result && result.length > 0) {
+                setError(result);
+            } else if (Array.isArray(result) && result.length > 0) {
                 setBalanceSheet(result[0]);
+                setError(null);
+            } else {
+                setError("No data available.");
             }
         };
         fetchBalanceSheet();
     }, [ticker]);
+
     return (
         <>
-            {balanceSheet ? (
+            {error ? (
+                <div className="w-full text-center mt-10 text-white"><h2>{error}</h2></div>
+            ) : balanceSheet ? (
                 <RatioList config={config} data={balanceSheet} />
             ) : (
                 <Spinner />
