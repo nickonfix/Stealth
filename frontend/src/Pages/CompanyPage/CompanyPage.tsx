@@ -19,8 +19,9 @@ const CompanyPage = (props: Props) => {
     useEffect(() => {
         const getProfileInit = async () => {
             const result = await getCompanyProfile(ticker!);
-            if (typeof result !== "string" && result?.length > 0) {
+            if (typeof result !== "string" && Array.isArray(result) && result.length > 0 && result[0] && Object.keys(result[0]).length > 0) {
                 setCompany(result[0]);
+                setError(null);
             } else {
                 setError("Company not found.");
             }

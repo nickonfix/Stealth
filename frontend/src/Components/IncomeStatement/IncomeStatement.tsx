@@ -91,7 +91,7 @@ const IncomeStatement = (props: Props) => {
             const result = await getIncomeStatement(ticker);
             if (typeof result === "string") {
                 setError(result);
-            } else if (Array.isArray(result) && result.length > 0) {
+            } else if (Array.isArray(result) && result.length > 0 && result[0] && Object.keys(result[0]).length > 0) {
                 setIncomeStatement(result);
                 setError(null);
             } else {

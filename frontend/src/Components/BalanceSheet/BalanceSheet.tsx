@@ -108,7 +108,7 @@ const BalanceSheet = (props: Props) => {
             const result = await getBalanceSheet(ticker);
             if (typeof result === "string") {
                 setError(result);
-            } else if (Array.isArray(result) && result.length > 0) {
+            } else if (Array.isArray(result) && result.length > 0 && result[0] && Object.keys(result[0]).length > 0) {
                 setBalanceSheet(result[0]);
                 setError(null);
             } else {
