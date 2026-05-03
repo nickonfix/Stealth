@@ -7,6 +7,8 @@ export type PortfolioGet = {
     Industry: string;
     marketcap: number;
     comment: any;
+    quantity: number;
+    purchasePrice: number;
 }
 
 export type portfolioPost = {
@@ -17,4 +19,6 @@ export type portfolioPost = {
     Industry: string;
     marketcap: number;
     comment: any;
+    quantity?: number;
+    purchasePrice?: number;
 }

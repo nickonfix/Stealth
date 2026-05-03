@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using api.Data;
 using api.Interfaces;
 using api.Models;
+using api.Dtos.Portfolio;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Repository
@@ -16,10 +17,10 @@ namespace api.Repository
         {
             _context = context;
         }
-        public async Task<List<Stock>> GetUserPortfolio(AppUser user)
+        public async Task<List<PortfolioDto>> GetUserPortfolio(AppUser user)
         {
             return await _context.Portfolios.Where(u => u.AppUserId == user.Id)
-            .Select(stock => new Stock
+            .Select(stock => new PortfolioDto
             {
                 Id = stock.StockId,
                 Symbol = stock.Stock.Symbol,
@@ -29,7 +30,9 @@ namespace api.Repository
                 AnnualDiv = stock.Stock.AnnualDiv,
                 Yield = stock.Stock.Yield,
                 MarketCap = stock.Stock.MarketCap,
-                Industry = stock.Stock.Industry
+                Industry = stock.Stock.Industry,
+                Quantity = stock.Quantity,
+                PurchasePrice = stock.PurchasePrice
             }).ToListAsync();
         }
 
@@ -50,6 +53,22 @@ namespace api.Repository
             }
 
             _context.Portfolios.Remove(portfolioModel);
+            await _context.SaveChangesAsync();
+            return portfolioModel;
+        }
+
+        public async Task<Portfolio?> UpdateAsync(AppUser appUser, string symbol, int quantity, decimal purchasePrice)
+        {
+            var portfolioModel = await _context.Portfolios.FirstOrDefaultAsync(x => x.AppUserId == appUser.Id && x.Stock.Symbol.ToLower() == symbol.ToLower());
+
+            if (portfolioModel == null)
+            {
+                return null;
+            }
+
+            portfolioModel.Quantity = quantity;
+            portfolioModel.PurchasePrice = purchasePrice;
+
             await _context.SaveChangesAsync();
             return portfolioModel;
         }

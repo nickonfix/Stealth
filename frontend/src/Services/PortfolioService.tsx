@@ -65,6 +65,16 @@ export const portfolioDeleteAPI = async (symbol: string) => {
     }
 }
 
+export const portfolioUpdateAPI = async (symbol: string, quantity: number, purchasePrice: number) => {
+    try {
+        const data = await axios.put<portfolioPost>(api + `?symbol=${symbol}&quantity=${quantity}&purchasePrice=${purchasePrice}`);
+        clearPortfolioCache();
+        return data;
+    } catch (error) {
+        handleError(error);
+    }
+};
+
 export const portfolioGetAPI = async () => {
     try{
         const cachedData = readPortfolioCache();

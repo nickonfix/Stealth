@@ -277,6 +277,12 @@ namespace api.Migrations
                     b.Property<int>("StockId")
                         .HasColumnType("integer");
 
+                    b.Property<decimal>("PurchasePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
                     b.HasKey("AppUserId", "StockId");
 
                     b.HasIndex("StockId");
@@ -307,7 +313,7 @@ namespace api.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("MarketCap")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Purchase")
                         .HasColumnType("decimal(18,2)");

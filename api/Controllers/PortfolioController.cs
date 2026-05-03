@@ -10,6 +10,7 @@ using api.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using api.Dtos.Portfolio;
 
 namespace api.Controllers
 {
@@ -122,6 +123,26 @@ namespace api.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> UpdatePortfolio(string symbol, int quantity, decimal purchasePrice)
+        {
+            var username = User.GetUsername();
+            if (string.IsNullOrEmpty(username)) return Unauthorized();
+
+            var appUser = await _userManager.FindByNameAsync(username);
+            if (appUser == null) return NotFound("User not found");
+
+            var portfolio = await _portfolioRepository.UpdateAsync(appUser, symbol, quantity, purchasePrice);
+
+            if (portfolio == null)
+            {
+                return NotFound("Stock not in your portfolio");
+            }
+
+            return Ok(portfolio);
         }
 
     }
