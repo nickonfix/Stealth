@@ -4,7 +4,3 @@ Built with a C# (.NET) backend, React frontend, and Supabase database. The proje
 api/ – contains controllers and backend services
 frontend/ – contains the complete React application
 
-If you want something even tighter:
-
-Full-Stack SaaS (C# .NET + React + Supabase)
-Modular structure with api/ for backend (controllers, services) and frontend/ for the React client.
