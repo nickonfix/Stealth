@@ -1,8 +1,6 @@
-# Finarc 🌌
-
+# Finarc 
 **Finarc** is a high-performance financial analysis dashboard and portfolio tracking platform. Built with a bold **Brutalist Design System**, it provides investors with deep insights into market data, financial statements, and real-time portfolio performance.
 
----
 
 ## ✨ Features
 
