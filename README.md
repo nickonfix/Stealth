@@ -4,13 +4,10 @@
 
 ## ✨ Features
 
-- **🔍 Advanced Search**: Instant access to thousands of stocks via the Financial Modeling Prep API.
 - **📊 Financial Analytics**: Comprehensive views for Income Statements, Balance Sheets, and Cash Flow.
 - **💼 Portfolio Management**: Real-time tracking of holdings, cost basis, and profit/loss metrics.
 - **👤 Secure Authentication**: Robust JWT-based identity system for personalized portfolio tracking.
 - **💬 Social Interaction**: Commenting system for individual stock analysis and community insights.
-- **🎨 Brutalist UI**: A unique, high-contrast interface designed for clarity and speed.
-
 ---
 
 ## 🛠️ Tech Stack
